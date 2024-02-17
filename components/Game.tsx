@@ -1,4 +1,4 @@
-import {Game as PhaserGame } from "phaser";
+import Phaser from "phaser";
 import {useEffect, useRef, useState} from "react";
 
 export default function Game() {
@@ -34,7 +34,7 @@ export default function Game() {
   }
 
   const parentEl = useRef<HTMLDivElement>(null);
-  let [game, setGame] = useState<PhaserGame | null>(null);
+  let [game, setGame] = useState<Phaser.Game | null>(null);
 
   useEffect(() => {
     import('phaser').then(Phaser => {
