@@ -14,9 +14,10 @@ export default function Game() {
       const config: GameConfig = {
         type: Phaser.CANVAS,
         scene: MainMenu,
-        width: viewport.width,
-        height: viewport.stableHeight,
-        parent: "app"
+        width: viewport.width - 10,
+        height: viewport.stableHeight - 10,
+        parent: "app",
+        autoRound: true,
       };
 
       const newGame = new Phaser.Game(config);
