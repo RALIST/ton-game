@@ -33,27 +33,32 @@ export default function Game() {
     }
   }
 
-  const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    scene: Example,
-    physics: {
-      default: 'arcade',
-      arcade: {
-        gravity: { y: 200 }
-      }
-    }
-  };
   const parentEl = useRef<HTMLDivElement>(null);
-
   let [game, setGame] = useState<PhaserGame | null>(null);
 
   useEffect(() => {
-    if (!parentEl.current) return;
+    import('phaser').then(Phaser => {
+      if (!parentEl.current) return;
 
-    const newGame = new PhaserGame({ ...config, parent: parentEl.current, width: parentEl.current.offsetWidth, height: parentEl.current.offsetHeight });
-    setGame(newGame);
+      const config = {
+        type: Phaser.AUTO,
+        scene: Example,
+        physics: {
+          default: 'arcade',
+          arcade: {
+            gravity: { y: 200 }
+          }
+        }
+      };
+
+      const newGame = new Phaser.Game({ ...config, parent: parentEl.current, width: parentEl.current.offsetWidth, height: parentEl.current.offsetHeight });
+      setGame(newGame);
+
+      return () => {
+        newGame?.destroy(true, true);
+        console.log("🐲 DESTROY 🐲");
+      };
+    });
   }, []);
 
   return (
