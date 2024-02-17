@@ -54,11 +54,6 @@ export default function Game() {
 
     const newGame = new PhaserGame({ ...config, parent: parentEl.current, width: parentEl.current.offsetWidth, height: parentEl.current.offsetHeight });
     setGame(newGame);
-
-    return () => {
-      newGame?.destroy(true, true);
-      console.log("🐲 DESTROY 🐲");
-    };
   }, []);
 
   return (
