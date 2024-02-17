@@ -17,12 +17,12 @@ export default class MainMenu extends Phaser.Scene
 
     this.add.text(10, 10, "Survivors", {
       fontSize: 32,
-      color: "#000000"
+      color: "#ffffff"
     });
 
     const startButton = this.add.text(0, centerY, "Create character", {
       fontSize: 24,
-      color: "#000000",
+      color: "#ffffff",
       padding: {left: 10, right: 10, top: 10, bottom: 10}
     });
     startButton.setX(centerX - startButton.width / 2)
@@ -33,7 +33,7 @@ export default class MainMenu extends Phaser.Scene
 
     const settingsButton = this.add.text(0, centerY + 50, "Connect wallet", {
       fontSize: 24,
-      color: "#000000",
+      color: "#ffffff",
       padding: {left: 10, right: 10, top: 10, bottom: 10}
     });
     settingsButton.setX(centerX - settingsButton.width / 2)
