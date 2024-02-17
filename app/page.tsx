@@ -9,7 +9,6 @@ const GameNoSSR = dynamic(
 );
 
 function Init() {
-    const init = useInitData();
     const viewport = useViewport();
     const app = useMiniApp();
 
@@ -17,7 +16,6 @@ function Init() {
     if (!viewport.isExpanded){
       viewport.expand();
     }
-    app.setBackgroundColor("#000000");
 
   }, [app, viewport]);
 

@@ -19,8 +19,7 @@ export default function Game() {
         width: viewport.width || 350,
         height: viewport.height || 700,
         parent: parentEl.current,
-        antialias: false,
-        backgroundColor: "#212121"
+        antialias: false
       };
 
       const newGame = new Phaser.Game(config);
