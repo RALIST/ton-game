@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useBackButton, useInitData, useMainButton } from '@tma.js/sdk-react';
+import {useBackButton, useInitData, useMainButton, useViewport} from '@tma.js/sdk-react';
 
 function MainButtonTest() {
   const mainButton = useMainButton();
   const backButton = useBackButton();
+  const viewport = useViewport();
 
   const [count, setCount] = useState(0);
 
@@ -13,6 +14,7 @@ function MainButtonTest() {
     const onMainButtonClick = () => setCount((prevCount) => prevCount + 1);
     const onBackButtonClick = () => setCount((prevCount) => prevCount - 1);
 
+    viewport.expand();
     mainButton.enable().show();
     mainButton.on('click', onMainButtonClick);
     backButton.on('click', onBackButtonClick);
