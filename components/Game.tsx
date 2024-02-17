@@ -14,10 +14,11 @@ export default function Game() {
       const config: GameConfig = {
         type: Phaser.CANVAS,
         scene: MainMenu,
-        width: viewport.width - 10,
-        height: viewport.stableHeight - 10,
+        width: viewport.width,
+        height: viewport.stableHeight,
+        min: {width: viewport.width, height: viewport.stableHeight},
         parent: "app",
-        autoRound: true,
+        autoRound: true
       };
 
       const newGame = new Phaser.Game(config);
@@ -29,7 +30,7 @@ export default function Game() {
         newGame?.destroy(true, true);
         console.log("🐲 DESTROY 🐲");
       };
-  }, []);
+  }, [app, viewport]);
 
   return null;
 }
