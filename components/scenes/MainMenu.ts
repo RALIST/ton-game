@@ -15,18 +15,14 @@ export default class MainMenu extends Phaser.Scene
     const centerX = this.cameras.main.centerX;
     const centerY = this.cameras.main.centerY;
 
-    const bg = this.add.image(centerX, centerY, 'bg');
-    bg.scale = 0.7;
-    const rect = this.add.rectangle(centerX, centerY, screen.width, screen.height, 0x000000, 0.3);
-
     this.add.text(10, 10, "Survivors", {
       fontSize: 32,
-      color: "#ffffff"
+      color: "#000000"
     });
 
     const startButton = this.add.text(0, centerY, "Create character", {
       fontSize: 24,
-      color: "#ffffff",
+      color: "#000000",
       padding: {left: 10, right: 10, top: 10, bottom: 10}
     });
     startButton.setX(centerX - startButton.width / 2)
@@ -37,7 +33,7 @@ export default class MainMenu extends Phaser.Scene
 
     const settingsButton = this.add.text(0, centerY + 50, "Connect wallet", {
       fontSize: 24,
-      color: "#ffffff",
+      color: "#000000",
       padding: {left: 10, right: 10, top: 10, bottom: 10}
     });
     settingsButton.setX(centerX - settingsButton.width / 2)
