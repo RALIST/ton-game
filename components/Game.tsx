@@ -43,8 +43,8 @@ export default function Game() {
       const config = {
         type: Phaser.AUTO,
         scene: Example,
-        width: 400,
-        height: 400,
+        width: parentEl.current.offsetWidth,
+        height: 300,
         physics: {
           default: 'arcade',
           arcade: {
