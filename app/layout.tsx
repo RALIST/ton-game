@@ -17,9 +17,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TmaSDKLoader>
-          {children}
-        </TmaSDKLoader>
+        <div id="app">
+          <TmaSDKLoader>
+            {children}
+          </TmaSDKLoader>
+        </div>
       </body>
     </html>
   );

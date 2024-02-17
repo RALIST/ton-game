@@ -7,9 +7,13 @@ body {
 
   background: var(--tg-theme-secondary-background-color, white);
   color: var(--tg-theme-text-color, black);
-  height: var(--tg-viewport-stable-height, 100%);
+  height: var(--tg-viewport-stable-height, 100vh);
   padding: 0;
   margin: 0;
+}
+
+#app {
+  width: 100vw;
 }
 
 blockquote {
