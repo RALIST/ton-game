@@ -75,7 +75,7 @@ function InitData() {
   return (
     <div>
       <h3>Welcome, {initData?.user?.firstName} {initData?.user?.lastName}</h3>
-      <GameNoSSR name={initData?.user?.firstName}/>
+
       <pre>
         <code>
           {initDataJson}
@@ -85,13 +85,12 @@ function InitData() {
   );
 }
 
-
-
 export default function Home() {
   return (
     <>
-      <MainButtonTest/>
-      <InitData/>
+      <GameNoSSR/>
+      {/*<MainButtonTest/>*/}
+      {/*<InitData/>*/}
     </>
   );
 }
