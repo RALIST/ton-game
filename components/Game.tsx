@@ -2,12 +2,13 @@ import Phaser from "phaser";
 import {useEffect, useRef, useState} from "react";
 
 import MainMenu from "@/components/scenes/MainMenu";
-import {useViewport} from "@tma.js/sdk-react";
+import {useMiniApp, useViewport} from "@tma.js/sdk-react";
 
 export default function Game() {
   const parentEl = useRef<HTMLDivElement>(null);
-  let [game, setGame] = useState<Phaser.Game | null>(null);
+  let [_, setGame] = useState<Phaser.Game | null>(null);
   const viewport = useViewport();
+  const app = useMiniApp();
 
   useEffect(() => {
       if (!parentEl.current) return;
@@ -23,6 +24,8 @@ export default function Game() {
 
       const newGame = new Phaser.Game(config);
       setGame(newGame);
+
+      app.ready();
 
       return () => {
         newGame?.destroy(true, true);

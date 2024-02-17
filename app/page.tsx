@@ -1,6 +1,6 @@
 'use client';
 import dynamic from "next/dynamic";
-import {useInitData, useViewport} from "@tma.js/sdk-react";
+import {useInitData, useMiniApp, useViewport} from "@tma.js/sdk-react";
 import {useEffect} from "react";
 
 const GameNoSSR = dynamic(
@@ -11,10 +11,15 @@ const GameNoSSR = dynamic(
 function Init() {
     const init = useInitData();
     const viewport = useViewport();
+    const app = useMiniApp();
 
   useEffect(() => {
-    viewport.expand();
-  }, []);
+    if (!viewport.isExpanded){
+      viewport.expand();
+    }
+    app.setBackgroundColor("#000000");
+
+  }, [app, viewport]);
 
   return null;
 }
