@@ -13,8 +13,8 @@ export default function Game() {
       const config = {
         type: Phaser.CANVAS,
         scene: MainMenu,
-        width: 350,
-        height: 700,
+        width: screen.width,
+        height: screen.height,
         parent: parentEl.current,
         antialias: false
       };
