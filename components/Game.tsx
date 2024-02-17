@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import {useEffect, useRef, useState} from "react";
 
 import MainMenu from "@/components/scenes/MainMenu";
-import {useInitData, useViewport} from "@tma.js/sdk-react";
+import {useViewport} from "@tma.js/sdk-react";
 
 export default function Game() {
   const parentEl = useRef<HTMLDivElement>(null);

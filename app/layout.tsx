@@ -16,12 +16,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-    <body className={inter.className}>
-      {children}
-      {/*<TmaSDKLoader>*/}
-      {/*  {children}*/}
-      {/*</TmaSDKLoader>*/}
-    </body>
+      <body className={inter.className}>
+        <TmaSDKLoader>
+          {children}
+        </TmaSDKLoader>
+      </body>
     </html>
   );
 }
