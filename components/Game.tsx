@@ -16,10 +16,7 @@ export default function Game() {
       const config = {
         type: Phaser.CANVAS,
         scene: MainMenu,
-        width: viewport.width || 350,
-        height: viewport.height || 700,
-        parent: parentEl.current,
-        antialias: false
+        parent: parentEl.current
       };
 
       const newGame = new Phaser.Game(config);
