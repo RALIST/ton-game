@@ -10,8 +10,6 @@ export default function Game() {
   const viewport = useViewport();
 
   useEffect(() => {
-      viewport.expand();
-
       if (!parentEl.current) return;
 
       const config = {
