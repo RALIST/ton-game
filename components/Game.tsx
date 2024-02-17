@@ -1,9 +1,21 @@
 import Phaser from "phaser";
 import {useEffect, useRef, useState} from "react";
 
-export default function Game() {
+type GameProps = {
+  name: string | undefined;
+}
+
+export default function Game(props: GameProps)
+{
+  const name = props.name || ""
+
   class Example extends Phaser.Scene
   {
+
+    constructor() {
+      super();
+    }
+
     preload ()
     {
       this.load.setBaseURL('https://labs.phaser.io');
@@ -23,16 +35,30 @@ export default function Game() {
         blendMode: 'ADD'
       });
 
-      const logo = this.physics.add.image(400, 100, 'logo');
+      let text = this.add.text(20, 50, name);
+      text.setBlendMode(Phaser.BlendModes.ADD);
 
-      logo.setVelocity(100, 200);
-      logo.setBounce(1, 1);
-      logo.setCollideWorldBounds(true);
+      this.tweens.add({
+        targets: text,
+        duration: 4000,
+        scaleX: 4,
+        ease: 'Quad.easeInOut',
+        repeat: -1,
+        yoyo: true
+      });
 
-      particles.startFollow(logo);
+      this.tweens.add({
+        targets: text,
+        duration: 3000,
+        scaleY: 8,
+        ease: 'Cubic.easeInOut',
+        repeat: -1,
+        yoyo: true
+      });
+
+      particles.startFollow(text);
     }
   }
-
   const parentEl = useRef<HTMLDivElement>(null);
   let [game, setGame] = useState<Phaser.Game | null>(null);
 
