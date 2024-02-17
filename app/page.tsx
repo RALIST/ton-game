@@ -67,11 +67,14 @@ function InitData() {
   }, [initData]);
 
   return (
-    <pre>
-      <code>
-        {initDataJson}
-      </code>
-    </pre>
+    <div>
+      <h3>Welcome, {initData?.user?.firstName} {initData?.user?.lastName}</h3>
+      <pre>
+        <code>
+          {initDataJson}
+        </code>
+      </pre>
+    </div>
   );
 }
 
