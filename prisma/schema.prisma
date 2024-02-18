@@ -10,9 +10,9 @@ datasource db {
 
 model User {
   id            BigInt       @default(autoincrement()) @id
-  telegram_id   String       @unique
-  first_name    String
-  last_name     String
+  telegram_id   BigInt       @unique
+  first_name    String?
+  last_name     String?
   username      String?      @unique
   createdAt     DateTime     @default(now()) @map(name: "created_at")
   updatedAt     DateTime     @updatedAt @map(name: "updated_at")
