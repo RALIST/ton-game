@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import {useInitData, useViewport} from "@tma.js/sdk-react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {upsertUser} from "@/app/actions";
 
 const GameNoSSR = dynamic(
@@ -10,27 +10,32 @@ const GameNoSSR = dynamic(
   { ssr: false }
 );
 
-async function Init() {
+export type AppUser = {
+  id: bigint,
+  telegramId: bigint,
+  firstName: string | null,
+  lastName: string | null,
+  username: string | null,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+export default function Home() {
   const viewport = useViewport();
   const initData = useInitData();
-  const userData = initData?.user
-  const userId = userData?.id
 
-  const user = await upsertUser(initData?.user)
+  const [user, setUser] = useState<AppUser | null>(null)
 
   useEffect(() => {
     if (!viewport.isExpanded){
       viewport.expand();
     }
-  }, [viewport]);
 
-  return null;
-}
+    upsertUser(initData?.user).then(r => setUser(r))
+  }, [initData?.user, viewport]);
 
-export default function Home() {
   return (
     <>
-      <Init/>
       <GameNoSSR/>
     </>
   );
