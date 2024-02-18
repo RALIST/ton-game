@@ -32,8 +32,10 @@ export default function Home() {
     if (!viewport.isExpanded){
       viewport.expand();
     }
-    upsertUser(initData?.user).then(r => setUser(r))
-    app.ready();
+    upsertUser(initData?.user).then((r) => {
+        setUser(r)
+        app.ready();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

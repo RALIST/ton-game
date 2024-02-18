@@ -1,5 +1,6 @@
 html {
-  background-color: black;
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -14,10 +15,6 @@ body {
   height: var(--tg-viewport-stable-height, 100vh);
   padding: 0;
   margin: 0;
-}
-
-#app {
-  width: 100vw;
 }
 
 blockquote {
