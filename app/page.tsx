@@ -30,9 +30,9 @@ function Init() {
     const user = prisma.user.upsert({
       create: {
         telegram_id: userId,
-        first_name: userData?.firstName,
-        last_name: userData?.lastName,
-        username: userData?.username
+        first_name: userData.firstName,
+        last_name: userData.lastName,
+        username: userData.username
       },
       update: {},
       where: { telegram_id: userId}
