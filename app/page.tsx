@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from "next/dynamic";
-import {useInitData, useViewport} from "@tma.js/sdk-react";
+import {useInitData, useMiniApp, useViewport} from "@tma.js/sdk-react";
 import {useEffect, useState} from "react";
 import {upsertUser} from "@/app/actions";
 
@@ -23,6 +23,7 @@ export type AppUser = {
 export default function Home() {
   const viewport = useViewport();
   const initData = useInitData();
+  const app = useMiniApp();
 
   const [user, setUser] = useState<AppUser | null>(null)
 
@@ -30,9 +31,10 @@ export default function Home() {
     if (!viewport.isExpanded){
       viewport.expand();
     }
-
     upsertUser(initData?.user).then(r => setUser(r))
-  }, [initData?.user, viewport]);
+    app.ready();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
