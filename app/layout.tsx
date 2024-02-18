@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import { Inter } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
-
 import { TmaSDKLoader } from '@/components/TmaSDKLoader';
-
-import './global.css';
+import {Analytics} from "@vercel/analytics/next";
+import '../assets/global.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,12 +16,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div id="app">
-          <TmaSDKLoader>
-            {children}
-            <Analytics/>
-          </TmaSDKLoader>
-        </div>
+        <TmaSDKLoader>
+          {children}
+        </TmaSDKLoader>
+        <Analytics/>
       </body>
     </html>
   );
