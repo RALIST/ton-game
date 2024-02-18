@@ -20,7 +20,7 @@ export default class MainMenu extends Phaser.Scene
       color: "#ffffff"
     });
 
-    const startButton = this.add.text(0, centerY, "Create character", {
+    const startButton = this.add.text(0, centerY, "Create wallet", {
       fontSize: 24,
       color: "#ffffff",
       padding: {left: 10, right: 10, top: 10, bottom: 10}
@@ -31,7 +31,7 @@ export default class MainMenu extends Phaser.Scene
       // console.log(pointer, localX, localY, event)
     });
 
-    const settingsButton = this.add.text(0, centerY + 50, "Connect wallet", {
+    const settingsButton = this.add.text(0, centerY + 50, "Import wallet", {
       fontSize: 24,
       color: "#ffffff",
       padding: {left: 10, right: 10, top: 10, bottom: 10}

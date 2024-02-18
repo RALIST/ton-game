@@ -16,4 +16,6 @@ model User {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   telegramId BigInt   @unique @map("telegram_id")
+
+  @@map("users")
 }

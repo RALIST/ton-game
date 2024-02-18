@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {useInitData, useMiniApp, useViewport} from "@tma.js/sdk-react";
 import {useEffect, useState} from "react";
 import {upsertUser} from "@/app/actions";
+import MainMenu from "@/components/MainMenu";
 
 const GameNoSSR = dynamic(
   () => import('@/components/Game'),
@@ -36,9 +37,5 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>
-      <GameNoSSR/>
-    </>
-  );
+  return <MainMenu user={user}/>
 };
