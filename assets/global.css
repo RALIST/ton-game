@@ -31,7 +31,11 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #efefef;
-  padding-top: 60px;
+  -ms-overflow-style: none;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 .screen {
