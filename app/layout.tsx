@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
 
 import { TmaSDKLoader } from '@/components/TmaSDKLoader';
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <div id="app">
           <TmaSDKLoader>
             {children}
+            <Analytics/>
           </TmaSDKLoader>
         </div>
       </body>

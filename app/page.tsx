@@ -10,14 +10,12 @@ const GameNoSSR = dynamic(
 
 function Init() {
     const viewport = useViewport();
-    const app = useMiniApp();
 
   useEffect(() => {
     if (!viewport.isExpanded){
       viewport.expand();
     }
-
-  }, [app, viewport]);
+  }, [viewport]);
 
   return null;
 }
