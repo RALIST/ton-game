@@ -1,37 +1,24 @@
 'use client';
-import {useInitData, useMiniApp, useViewport} from "@tma.js/sdk-react";
 import {useEffect, useState} from "react";
-import {upsertUser} from "@/app/actions";
-import MainMenu from "@/components/MainMenu";
-
-export type AppUser = {
-  id: bigint,
-  telegramId: bigint,
-  firstName: string | null,
-  lastName: string | null,
-  username: string | null,
-  createdAt: Date,
-  updatedAt: Date
-}
+import {Character} from "@/lib/Character";
+import {Gameplay} from "@/lib/Gameplay";
+import {useDispatch} from "react-redux";
 
 export default function Home() {
-  const viewport = useViewport();
-  const initData = useInitData();
-  const app = useMiniApp();
+  const [game, setGame] = useState<Gameplay>()
+  const dispatch = useDispatch();
+  // const initData = useInitData();
 
-  const [user, setUser] = useState<AppUser | null>(null)
-
+  // const userId = initData?.user?.id // get telegram id
+  const userId = 1
   useEffect(() => {
-    if (!viewport.isExpanded){
-      viewport.expand();
-    }
+    if (!userId) return
 
-    upsertUser(initData?.user).then((r) => {
-        setUser(r)
-        app.ready();
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const character = new Character(userId, dispatch).init()
+    const gameplay = new Gameplay(character)
+
+    setGame(gameplay)
   }, []);
 
-  return <MainMenu user={user}/>
+  return game?.draw()
 };

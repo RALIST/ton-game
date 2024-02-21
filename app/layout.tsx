@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { TmaSDKLoader } from '@/components/TmaSDKLoader';
 import {Analytics} from "@vercel/analytics/next";
 import '../assets/global.css';
+import {AppStoreProvider} from "@/components/AppStoreProvider";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,11 +17,15 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className={"app"}>
-          <TmaSDKLoader>
+      {/* eslint-disable-next-line react/jsx-no-undef */}
+        <AppStoreProvider>
+          <div className={"app"}>
             {children}
-          </TmaSDKLoader>
-        </div>
+            {/*<TmaSDKLoader>*/}
+            {/*  */}
+            {/*</TmaSDKLoader>*/}
+          </div>
+        </AppStoreProvider>
         <Analytics/>
       </body>
     </html>
