@@ -1,9 +1,6 @@
-import {Dispatch} from "redux";
 
-export type Action = {
-  name: string,
-  callback: () => void,
-}
+
+import characterData from "./data/character.json"
 
 export class Character {
   userId: number;
@@ -12,40 +9,21 @@ export class Character {
   endurance!: number;
   balance!: number;
   location!: string
-  availableActions!: Action[];
-  dispatch: Dispatch
 
-  constructor(id: number, dispatch: Dispatch) {
+  constructor(id: number) {
     this.userId = id
-    this.dispatch = dispatch
   }
 
-  move() {
-    this.dispatch({type: "Moved"})
-  }
-
-  look() {
-    this.dispatch({type: "Looked"})
-  }
-
-  init(): this {
+  async init(): Promise<this> {
     // find character in DB and return initiated class
     // prisma.character.findUniq({where: userId: this.userId})
-    this.name = "Best character"
-    this.health = [100, 400]
-    this.endurance = 100
-    this.balance = 100_000
-    this.location = "Пустынные пустоши!"
-    this.availableActions = [
-      {
-        name: "Идти дальше",
-        callback: () => this.move()
-      },
-      {
-        name: "Осмотрется",
-        callback: () => this.look()
-      }
-    ]
+
+    this.name = characterData.name
+    this.balance = characterData.balance
+    this.health = characterData.health
+    this.location = characterData.location
+    this.endurance = characterData.endurance
+
     return this
   }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "Character 1",
+  "health": [100, 600],
+  "endurance": 1000,
+  "balance": 1000,
+  "location": "Пустоши"
+}
