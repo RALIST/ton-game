@@ -4,7 +4,7 @@ import {Gameplay} from "@/lib/Gameplay";
 
 export default function Home() {
   const [game, setGame] = useState<Gameplay>()
-  const [time, setTime] = useState(Date.now())
+  const [, setTime] = useState(Date.now())
 
   // const initData = useInitData();
   // const userId = initData?.user?.id // get telegram id
@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     if (!userId) return
 
-    const interval = setInterval(() => setTime(Date.now), 1000 / 60)
+    const interval = setInterval(() => setTime(Date.now), 1000 / 60) // 60 FPS
     const gameplay = new Gameplay(userId);
     gameplay.load().then(() => setGame(gameplay));
 
@@ -22,5 +22,5 @@ export default function Home() {
     }
   }, []);
 
-  return game?.draw()
+  return game?.drawScene()
 };

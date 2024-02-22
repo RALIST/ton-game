@@ -4,6 +4,13 @@ import locationsData from "./data/locations.json"
 
 export class GameMap {
   locations!: GameLocation[];
+  width!: number;
+  height!: number;
+
+  constructor() {
+    this.width = 5
+    this.height = 5
+  }
 
   async load(): Promise<this> {
     await this.loadLocations();

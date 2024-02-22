@@ -17,6 +17,11 @@ body {
   color: steelblue;
 }
 
+a {
+  text-decoration: none;
+  color: orange;
+}
+
 .button {
   display: flex;
   width: 100%;
@@ -156,4 +161,24 @@ pre {
 
 h2 {
   margin: 0;
+}
+
+.map {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .location {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw / 5);
+    height: calc(100vh / 5);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
 }
