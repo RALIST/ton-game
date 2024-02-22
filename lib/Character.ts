@@ -15,7 +15,7 @@ export class Character {
   constructor(id: number) {
     this.userId = id
     this.maxEndurance = 100
-    this.enduranceRecoverySpeed = 5 // minutes to recover 1 endurance
+    this.enduranceRecoverySpeed = 0.1// minutes to recover 1 endurance
   }
 
   // find character in DB and return initiated class
@@ -36,6 +36,6 @@ export class Character {
       if (this.endurance < this.maxEndurance) {
         this.endurance = this.endurance + 1
       }
-    }, 1000 * 5 * 60)
+    }, 1000 * this.enduranceRecoverySpeed * 60)
   }
 }
