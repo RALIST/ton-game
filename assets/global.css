@@ -170,6 +170,13 @@ h2 {
   flex-direction: row;
   flex-wrap: wrap;
 
+  a {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+  }
+
   .location {
     font-size: 12px;
     display: flex;
