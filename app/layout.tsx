@@ -20,10 +20,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       {/* eslint-disable-next-line react/jsx-no-undef */}
         <AppStoreProvider>
           <div className={"app"}>
-            {children}
-            {/*<TmaSDKLoader>*/}
-            {/*  */}
-            {/*</TmaSDKLoader>*/}
+            <TmaSDKLoader>
+              {children}
+            </TmaSDKLoader>
           </div>
         </AppStoreProvider>
         <Analytics/>
