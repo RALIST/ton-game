@@ -162,6 +162,10 @@ export class Gameplay {
           {
             name: "Осмотрется",
             callback: () => this.look()
+          },
+          {
+            name: "Вернуться на базу",
+            callback: () => this.move(0)
           }
         ]
       }

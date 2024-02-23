@@ -36,8 +36,10 @@ export default function MainScreen({character, location, availableActions, state
           <div>🌡️ {character.endurance}</div>
         </div>
         <div className={"gameScreen"}>
-          <div style={{textAlign: "center", fontWeight: "bold"}}>{location.name}</div>
-          <div style={{textAlign: "justify"}}>{location.desc}</div>
+          <div className={"currentLocation"}>
+            <div className={"locationHeader"}>{location.name}</div>
+            <div className={"locationDesc"}>{location.desc}</div>
+          </div>
           <div className={"scene"}>
             <div>
               {log.toReversed().map(event => {

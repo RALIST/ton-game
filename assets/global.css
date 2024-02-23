@@ -24,13 +24,13 @@ a {
 
 .button {
   display: flex;
-  width: 100%;
   justify-content: center;
-  padding: 4px 0;
+  padding: 4px 10px;
   border: 1px solid grey;
   border-radius: 10px;
   background: rgba(106, 90, 205, 0.5);
   color: orange;
+  min-width: 40%;
 }
 
 .app {
@@ -50,6 +50,7 @@ a {
 .screen {
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: column;
   flex-wrap: wrap;
   background-image: url("../assets/sky.png");
@@ -66,6 +67,7 @@ a {
   background: rgba(0, 0, 0, 0.5);
   -ms-overflow-style: none;
   scrollbar-width: none;
+  flex-grow: 4;
 
   .log {
     .info {
@@ -82,7 +84,8 @@ a {
 
 .actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-content: center;
   align-items: center;
   justify-content: center;
@@ -90,6 +93,7 @@ a {
   padding: 0 10px;
   z-index: 1;
   height: 10vh;
+  flex-grow: 2;
 }
 
 .gameHeader {
@@ -108,9 +112,9 @@ a {
   justify-content: flex-start;
   border-bottom: gray 1px solid;
   flex-grow: 1;
-  gap: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .gameFooter {
@@ -121,14 +125,15 @@ a {
   z-index: 1;
   padding: 10px 10px;
   gap: 6px;
+
+  .button {
+    width: 100%;
+    min-width: initial;
+  }
 }
 
 pre {
   margin: 0;
-}
-
-.gameText {
-
 }
 
 .commonActions {
@@ -199,5 +204,20 @@ h2 {
     justify-content: center;
     text-align: center;
     overflow: hidden;
+  }
+}
+
+.currentLocation {
+  padding: 4px 10px;
+  display: flex;
+  flex-grow: 0;
+  flex-direction: column;
+  .locationHeader {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .locationDesc {
+    font-size: 14px;
   }
 }
