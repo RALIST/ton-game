@@ -53,6 +53,7 @@ export class Gameplay {
       this.currentScene = MainScreen
       this.state.location = this.state.location || this.map.locations[0]
       this.character.recoverEndurance(); // TODO: move to async backend timer
+      this.character.recoverHealth(); // TODO: move to async backend timer
     } else {
       this.currentScene = CreateCharacterScreen
     }

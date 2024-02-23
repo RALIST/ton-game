@@ -49,7 +49,6 @@ a {
 
 .screen {
   display: flex;
-  min-height: 100%;
   width: 100%;
   flex-direction: column;
   flex-wrap: wrap;
@@ -65,8 +64,8 @@ a {
   padding: 0 10px;
   position: relative;
   background: rgba(0, 0, 0, 0.5);
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   .log {
     .info {
@@ -90,6 +89,7 @@ a {
   gap: 10px;
   padding: 0 10px;
   z-index: 1;
+  height: 10vh;
 }
 
 .gameHeader {
