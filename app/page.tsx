@@ -6,14 +6,14 @@ import {useViewport} from "@tma.js/sdk-react";
 export default function Home() {
   const [game, setGame] = useState<Gameplay>()
   const [, setTime] = useState(Date.now())
-  const layout = useViewport();
+  // const layout = useViewport();
 
   // const initData = useInitData();
   // const userId = initData?.user?.id // get telegram id
 
   const userId = 1
   useEffect(() => {
-    layout.expand();
+    // layout.expand();
 
     const interval = setInterval(() => setTime(Date.now), 1000 / 60) // 60 FPS
     const gameplay = new Gameplay(userId);

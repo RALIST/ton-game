@@ -1,7 +1,7 @@
 import Image from "next/image";
 import footerImage from "../assets/floor.png"
 import bgImage from "../assets/houses.png"
-import {Action} from "@/lib/Gameplay";
+import {Action, LogEntry} from "@/lib/Gameplay";
 import {GameLocation} from "@/lib/GameLocation";
 import {Character} from "@/lib/Character";
 import {GameplayState} from "@/lib/GameplayState";
@@ -18,12 +18,13 @@ function Timer({time}: {time: number | null}) {
   }
 }
 
-export default function MainScreen({character, location, availableActions, state}:
+export default function MainScreen({character, location, availableActions, state, log}:
   {
     character: Character,
     location: GameLocation,
     availableActions: Action[],
-    state: GameplayState
+    state: GameplayState,
+    log: LogEntry[]
   })
 {
   return (
@@ -35,19 +36,27 @@ export default function MainScreen({character, location, availableActions, state
           <div>🌡️ {character.endurance}</div>
         </div>
         <div className={"gameScreen"}>
+          <div style={{textAlign: "center", fontWeight: "bold"}}>{location.name}</div>
+          <div style={{textAlign: "justify"}}>{location.desc}</div>
           <div className={"scene"}>
-            <h2>{location.name}</h2>
             <div>
-              <p style={{textAlign: "justify"}}>{location.desc}</p>
-              <div style={{textAlign: "center"}}>
-                <div>{state.status}</div>
-                <Timer time={state.timeToNextAction}/>
-              </div>
+              {log.toReversed().map(event => {
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <div className={"log"}>
+                    <span className={event.type}>{event.message}</span>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className={"actions"}>
+            <div style={{textAlign: "center"}}>
+              <div>{state.status}</div>
+              <Timer time={state.timeToNextAction}/>
+            </div>
             {availableActions.map(action => {
-                return(<div key={action.name} onClick={action.callback} className={"button"}>{action.name}</div>)
+                return (<div key={action.name} onClick={action.callback} className={"button"}>{action.name}</div>)
               }
             )}
           </div>

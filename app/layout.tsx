@@ -17,12 +17,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={inter.className}>
-      {/* eslint-disable-next-line react/jsx-no-undef */}
         <AppStoreProvider>
           <div className={"app"}>
-            <TmaSDKLoader>
+            {/*<TmaSDKLoader>*/}
               {children}
-            </TmaSDKLoader>
+            {/*</TmaSDKLoader>*/}
           </div>
         </AppStoreProvider>
         <Analytics/>

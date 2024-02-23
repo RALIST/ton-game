@@ -6,7 +6,7 @@ import initialState from "./data/initialState.json"
 export class GameplayState {
   timeToNextAction!: number
   defaultActionTimeout!: number;
-  status!: "idle" | "moving" | "moved" | "in_battle" | "looking" | string
+  status!: "idle" | "moving" | "moved" | "in_battle" | "looking" | "attacking"| "running" | string
   location!: GameLocation | null;
 
   constructor() {

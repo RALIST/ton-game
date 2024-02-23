@@ -61,12 +61,19 @@ a {
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  max-height: 70vh;
+  height: 40vh;
   padding: 0 10px;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
   position: relative;
+  background: rgba(0, 0, 0, 0.5);
+
+  .log {
+    .info {
+      color: orange;
+    }
+    .alert {
+      color: crimson;
+    }
+  }
 }
 
 .actions {
