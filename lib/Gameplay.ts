@@ -1,13 +1,9 @@
 import {Character} from "@/lib/Character";
 import MainScreen from "@/components/MainScreen";
-import {Dispatch} from "redux";
-import {useDispatch} from "react-redux";
 import {GameMap} from "@/lib/GameMap";
-import {GameLocation} from "@/lib/GameLocation";
 import {GameplayState} from "@/lib/GameplayState";
 import CreateCharacterScreen from "@/components/CreateCharacterScreen";
-import {JsonConvertible} from "@prisma/client/runtime/binary";
-import React, {JSXElementConstructor} from "react";
+import {JSXElementConstructor} from "react";
 
 export type Action = {
   name: string,
@@ -148,7 +144,9 @@ export class Gameplay {
   }
 
   setNextLocation(locationId: number) {
+
     this.state.location = this.map.locations.find(location => location.id == locationId) || this.map.locations[0]
+    this.info("-----------------------------------")
     this.info(`Вы перешли в локацию ${this.state.location.name}`)
   }
 
