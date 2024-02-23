@@ -52,7 +52,6 @@ export default function MainScreen({character, location, availableActions, state
           </div>
           <div className={"actions"}>
             <div style={{textAlign: "center"}}>
-              <div>{state.status}</div>
               <Timer time={state.timeToNextAction}/>
             </div>
             {availableActions.map(action => {

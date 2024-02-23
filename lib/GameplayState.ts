@@ -11,7 +11,7 @@ export class GameplayState {
 
   constructor() {
     // default configs
-    this.defaultActionTimeout = 1 // seconds
+    this.defaultActionTimeout = 5 // seconds
     this.timeToNextAction = 0
   }
 

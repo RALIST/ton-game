@@ -65,6 +65,8 @@ a {
   padding: 0 10px;
   position: relative;
   background: rgba(0, 0, 0, 0.5);
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 
   .log {
     .info {
