@@ -73,6 +73,9 @@ a {
     .alert {
       color: crimson;
     }
+    .success {
+      color: forestgreen;
+    }
   }
 }
 

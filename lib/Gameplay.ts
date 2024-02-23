@@ -44,6 +44,10 @@ export class Gameplay {
     this.logEvent(message, "alert")
   }
 
+  success(message: string) {
+    this.logEvent(message, "success")
+  }
+
   async load() {
     this.character = await new Character(this.userId).load()
     this.map = await new GameMap().load();
@@ -99,7 +103,7 @@ export class Gameplay {
       this.state.timeToNextAction--
       if (this.state.timeToNextAction == 0) {
         clearInterval(interval);
-        this.info("Вы пошарились по локации и нашли 100 монет")
+        this.success("Вы пошарились по локации и нашли 100 монет")
         this.character.balance = this.character.balance + 100
         this.state.status = "idle"
         this.state.timeToNextAction = 0
@@ -116,8 +120,10 @@ export class Gameplay {
 
       if (this.state.timeToNextAction == 0) {
         this.alert("Рейдеры успели дать в ответочку, вы потеряли 10 здоровья!")
+        this.success("На трупах вы нашли 100 монет!")
         this.info("Вы победили в схватке! Рейдеры получили по щщам")
         this.character.currentHealth = this.character.currentHealth - 10
+        this.character.balance = this.character.balance + 100
         this.state.status = "idle";
         clearInterval(interval);
       }
