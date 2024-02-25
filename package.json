@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npx next-ws-cli@latest patch && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,14 +16,19 @@
     "@ton/core": "^0.55.0",
     "@ton/crypto": "^3.2.0",
     "@ton/ton": "^13.10.0",
+    "@types/ws": "^8.5.10",
     "@vercel/analytics": "^1.2.0",
+    "@vercel/kv": "^1.0.1",
     "@vercel/postgres": "^0.7.2",
     "buffer": "^6.0.3",
     "next": "13.5.6",
+    "next-ws": "^1.0.1",
     "prisma": "^5.9.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "redis": "^4.6.13",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -34,7 +39,6 @@
     "eslint-config-next": "13.5.6",
     "postcss": "^8",
     "redux-devtools-extension": "^2.13.9",
-    "tailwindcss": "^3",
     "typescript": "^5"
   }
 }

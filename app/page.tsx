@@ -1,28 +1,39 @@
 'use client';
-import {useEffect, useState} from "react";
+
+import {useContext, useEffect, useState} from "react";
+import MainScreen from "@/components/MainScreen";
 import {Gameplay} from "@/lib/Gameplay";
-import {useViewport} from "@tma.js/sdk-react";
+import {WsContext} from "@/app/layout";
+import {useInitData, useViewport} from "@tma.js/sdk-react";
 
 export default function Home() {
-  const [game, setGame] = useState<Gameplay>()
-  const [, setTime] = useState(Date.now())
-  // const layout = useViewport();
+  const [game, setGame] = useState<Gameplay | null>(null)
+  const ws = useContext(WsContext)
 
-  // const initData = useInitData();
-  // const userId = initData?.user?.id // get telegram id
+  const layout = useViewport();
+  const initData = useInitData();
+  const userId = initData?.user?.id // get telegram id
 
-  const userId = 1
   useEffect(() => {
-    // layout.expand();
+    layout.expand()
 
-    const interval = setInterval(() => setTime(Date.now), 1000 / 60) // 60 FPS
-    const gameplay = new Gameplay(userId);
-    gameplay.load().then(() => setGame(gameplay));
-
-    return () => {
-      clearInterval(interval)
+    if (ws.readyState === 1) {
+      ws.send(JSON.stringify({action: "init", userId: userId}))
     }
+
+    ws.addEventListener("message", (event) => {
+      const data: Gameplay = JSON.parse(event.data)
+      setGame(data)
+    })
   }, []);
 
-  return game?.drawScene()
+  if (!game) {
+    return <div>Loading...</div>
+  } else {
+    return <MainScreen character={game.character}
+                       availableActions={game.availableActions}
+                       state={game.state}
+                       log={game.log}/>
+  }
+
 };

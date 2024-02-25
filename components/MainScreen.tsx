@@ -1,11 +1,11 @@
 import Image from "next/image";
 import footerImage from "../assets/floor.png"
 import bgImage from "../assets/houses.png"
-import {Action, LogEntry} from "@/lib/Gameplay";
-import {GameLocation} from "@/lib/GameLocation";
+import {LogEntry} from "@/lib/Gameplay";
 import {Character} from "@/lib/Character";
 import {GameplayState} from "@/lib/GameplayState";
 import Link from "next/link";
+import ActionList from "@/components/ActionList";
 
 function Timer({time}: {time: number | null}) {
   if (time) {
@@ -18,11 +18,10 @@ function Timer({time}: {time: number | null}) {
   }
 }
 
-export default function MainScreen({character, location, availableActions, state, log}:
+export default function MainScreen({character, availableActions, state, log}:
   {
     character: Character,
-    location: GameLocation,
-    availableActions: Action[],
+    availableActions: string[],
     state: GameplayState,
     log: LogEntry[]
   })
@@ -37,15 +36,15 @@ export default function MainScreen({character, location, availableActions, state
         </div>
         <div className={"gameScreen"}>
           <div className={"currentLocation"}>
-            <div className={"locationHeader"}>{location.name}</div>
-            <div className={"locationDesc"}>{location.desc}</div>
+            <div className={"locationHeader"}>{state?.location?.name}</div>
+            <div className={"locationDesc"}>{state?.location?.desc}</div>
           </div>
           <div className={"scene"}>
             <div>
-              {log.toReversed().map(event => {
+              {log.toReversed().map((event, index) => {
                 return (
                   // eslint-disable-next-line react/jsx-key
-                  <div className={"log"}>
+                  <div className={"log"} key={index}>
                     <span className={event.type}>{event.message}</span>
                   </div>
                 )
@@ -56,10 +55,7 @@ export default function MainScreen({character, location, availableActions, state
             <div style={{textAlign: "center"}}>
               <Timer time={state.timeToNextAction}/>
             </div>
-            {availableActions.map(action => {
-                return (<div key={action.name} onClick={action.callback} className={"button"}>{action.name}</div>)
-              }
-            )}
+            <ActionList actions={availableActions}/>
           </div>
         </div>
         <div className={"gameFooter"}>

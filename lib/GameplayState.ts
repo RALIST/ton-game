@@ -17,8 +17,8 @@ export class GameplayState {
 
   // loads game state from storage or event log
   async load(): Promise<this> {
-    this.status = initialState.status
-    const loadedLocation = locationsData[1]
+    this.status = this.status || initialState.status
+    const loadedLocation = locationsData[0]
     this.location = new GameLocation(loadedLocation.id, loadedLocation.name, loadedLocation.desc)
 
     return this
