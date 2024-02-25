@@ -14,7 +14,7 @@ export function WebSocketProvider({children}: {
       return null;
     }
 
-    const url = `ws://${window?.location?.hostname}:3000/api/socket`
+    const url = `wss://${window?.location?.hostname}:3000/api/socket`
     return new WebSocket(url);
   }, [isBrowser])
 
