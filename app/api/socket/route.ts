@@ -4,7 +4,6 @@ import {Gameplay} from "@/lib/Gameplay";
 
 const gameplay = new Gameplay()
 
-export function GET(_req: Request, _res: Response) {}
 export function SOCKET(client: WebSocket, _request: IncomingMessage, _server: WebSocketServer,) {
   console.log("A client connected!")
 

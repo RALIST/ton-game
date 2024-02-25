@@ -1,9 +1,8 @@
-import {useContext} from "react";
-import {WsContext} from "@/app/layout";
+import {useWebSocket} from "@/components/WebSocketContext";
 
 export default function Action({type}: {type: string}){
-  const ws = useContext(WsContext)
-  const callback = () => { ws.send(JSON.stringify({action: type}))}
+  const ws = useWebSocket()
+  const callback = () => { ws?.send(JSON.stringify({action: type}))}
   function buildAction() {
     switch (type) {
       case "move": {
