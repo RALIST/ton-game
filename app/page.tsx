@@ -3,7 +3,7 @@
 import {useContext, useEffect, useState} from "react";
 import MainScreen from "@/components/MainScreen";
 import {Gameplay} from "@/lib/Gameplay";
-import {WsContext} from "@/app/layout";
+import {WsContext} from "@/lib/utils/WsContext";
 import {useInitData, useViewport} from "@tma.js/sdk-react";
 
 export default function Home() {

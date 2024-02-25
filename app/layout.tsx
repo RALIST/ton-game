@@ -1,10 +1,11 @@
 "use client"
 
-import {createContext, PropsWithChildren} from 'react';
+import {PropsWithChildren} from 'react';
 import { Inter } from 'next/font/google';
 import { TmaSDKLoader } from '@/components/TmaSDKLoader';
 import {Analytics} from "@vercel/analytics/next";
 import {AppStoreProvider} from "@/components/AppStoreProvider";
+import { ws, WsContext} from "@/lib/utils/WsContext";
 
 import '../assets/global.css';
 const inter = Inter({ subsets: ['latin'] });
@@ -27,7 +28,3 @@ export default function RootLayout({ children }: PropsWithChildren) {
     </html>
   );
 }
-
-const ws = new WebSocket(`ws://localhost:3000/api/socket`)
-const WsContext = createContext(ws)
-export { WsContext }
