@@ -1,7 +1,7 @@
 {
   "name": "Character 1",
-  "health": [100, 600],
-  "endurance": 80,
-  "balance": 1000,
+  "health": [100, 100],
+  "endurance": 100,
+  "balance": 0,
   "location": "Пустоши"
 }

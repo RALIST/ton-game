@@ -1,24 +1,31 @@
 import {IncomingMessage} from "node:http";
 import {WebSocket, WebSocketServer} from "ws";
 import {Gameplay} from "@/lib/Gameplay";
+import {startGameplayService} from "@/lib/services/gameplayService";
 
-const gameplay = new Gameplay()
+let CLIENTS = new Map()
 
-export function SOCKET(client: WebSocket, _request: IncomingMessage, _server: WebSocketServer,) {
+startGameplayService()
+
+export function SOCKET(client: WebSocket, request: IncomingMessage, server: WebSocketServer,) {
   console.log("A client connected!")
+  const gameplay = new Gameplay()
 
   client.on('message', async (message) => {
+    console.log(message.toString())
     const data = JSON.parse(message.toString())
     switch (data.action) {
       case "init": {
         await gameplay.load(data.userId)
-        client.send(JSON.stringify({...gameplay, availableActions: gameplay.getAvailableAction()}))
+        const gdata = await gameplay.toJson()
+        client.send(JSON.stringify(gdata))
         break;
       }
       default: {
-        gameplay.performAction(data.action).then(_ => {
-          client.send(JSON.stringify({...gameplay, availableActions: gameplay.getAvailableAction()}))
-        });
+        await gameplay.performAction(data.action, data.payload)
+        const gdata = await gameplay.toJson()
+        client.send(JSON.stringify(gdata))
+
         break;
       }
     }
@@ -26,6 +33,5 @@ export function SOCKET(client: WebSocket, _request: IncomingMessage, _server: We
 
   client.on('close', async () => {
     console.log('A client disconnected!');
-    await gameplay.dump().then(() => { gameplay.unload() })
   });
 }

@@ -1,23 +1,25 @@
 import {useWebSocket} from "@/components/WebSocketContext";
+import {GameCommands} from "@/lib/utils/enums";
 
 export default function Action({type}: {type: string}){
   const ws = useWebSocket()
   const callback = () => { ws?.send(JSON.stringify({action: type}))}
+
   function buildAction() {
     switch (type) {
-      case "move": {
+      case GameCommands.MOVE: {
         return <div className={"button"} onClick={callback}>Идти дальше</div>
       }
-      case "look": {
+      case GameCommands.LOOK: {
         return <div className={"button"} onClick={callback}>Осмотреться</div>
       }
-      case "back": {
+      case GameCommands.BACK: {
         return <div className={"button"} onClick={callback}>Вернуться на базу</div>
       }
-      case "attack": {
+      case GameCommands.ATTACK: {
         return <div className={"button"} onClick={callback}>Атаковать</div>
       }
-      case "run": {
+      case GameCommands.RUN: {
         return <div className={"button"} onClick={callback}>Убежать</div>
       }
       default:

@@ -28,6 +28,7 @@
     "react-dom": "^18",
     "react-redux": "^9.1.0",
     "redis": "^4.6.13",
+    "swr": "^2.2.5",
     "ws": "^8.16.0"
   },
   "devDependencies": {

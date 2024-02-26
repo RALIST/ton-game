@@ -28,7 +28,7 @@ a {
   padding: 4px 10px;
   border: 1px solid grey;
   border-radius: 10px;
-  background: rgba(106, 90, 205, 0.5);
+  background: rgba(106, 90, 205, 0.8);
   color: orange;
   min-width: 40%;
 }
@@ -68,8 +68,10 @@ a {
   -ms-overflow-style: none;
   scrollbar-width: none;
   flex-grow: 4;
+  gap: 8px;
 
   .log {
+    display: flex;
     .info {
       color: orange;
     }
@@ -205,6 +207,19 @@ h2 {
     text-align: center;
     overflow: hidden;
   }
+
+  .currentLocation {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw / 5);
+    height: calc(100vh / 5);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: rgba(106, 90, 205, 0.8);
+  }
 }
 
 .currentLocation {
@@ -215,6 +230,8 @@ h2 {
   .locationHeader {
     text-align: center;
     font-weight: bold;
+    color: orange;
+    font-size: 18px;
   }
 
   .locationDesc {

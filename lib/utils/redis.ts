@@ -1,3 +1,4 @@
-// TODO: make redis client singleton
-import { createClient, RedisClientType } from "redis"
-import kv from "@vercel/kv"
+import {createClient} from "redis"
+
+export const redis = createClient()
+await redis.connect()

@@ -15,9 +15,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className={inter.className}>
         <WebSocketProvider>
           <div className={"app"}>
-            <TmaSDKLoader>
+            {/*<TmaSDKLoader>*/}
               {children}
-            </TmaSDKLoader>
+            {/*</TmaSDKLoader>*/}
           </div>
         </WebSocketProvider>
         <Analytics/>

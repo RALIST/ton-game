@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import {Gameplay} from "@/lib/Gameplay";
 import {GameMap} from "@/lib/GameMap";
-import MapScreen from "@/components/MapScreen";
+import MapScreen from "@/components/scenes/MapScreen";
 
 export default function Home() {
   const [map, setMap] = useState<GameMap|null>(null)
