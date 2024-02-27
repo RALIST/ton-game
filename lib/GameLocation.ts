@@ -5,7 +5,7 @@ export class GameLocation {
 
   constructor(id: number, name: string, desc: string) {
     this.name = name
-    this.id = id
+    this.id = id as number
     this.desc = desc
   }
 }

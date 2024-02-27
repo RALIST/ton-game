@@ -1,34 +1,52 @@
-import {redis} from "@/lib/utils/redis";
 import {GameLocation} from "@/lib/GameLocation";
 import {CharacterEvents, GameplayEvent, MapEvents} from "@/lib/utils/enums";
 import emitEvent from "@/lib/utils/events";
 import {GameMap} from "@/lib/GameMap";
+import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 
-export class GameplayState {
+export class GameplayState implements WithRedisStorage{
   timeToNextAction!: number
   defaultActionTimeout!: number;
   status!: "idle" | "inBattle" | "onBase" | "inAction"
   userId: number
   currentScene!: string;
-  currentLocation!: GameLocation
+  currentLocationId!: number
+  storage!: RedisStorage
 
   constructor(userId: number) {
-    // default configs
     this.defaultActionTimeout = 5 // seconds
     this.timeToNextAction = 0
     this.userId = userId
     this.currentScene = "main"
+    this.storage = new RedisStorage(`gamestate:${this.userId}`)
+  }
+
+  async currentLocation(): Promise<GameLocation> {
+    const map = await new GameMap().load()
+    const location =  map.locations.find((location) => location.id === this.currentLocationId)
+    return location || map.locations[0]
   }
 
   async load() {
-    const map = await new GameMap().load()
-    const data = JSON.parse(await redis.get(`gamestate:${this.userId}`) || "{}")
-    this.status = data?.status || "idle"
+    const data = await this.storage.load()
+
+    this.status = data.status ?? "idle"
     this.currentScene = data.currentScene || "main"
-    const locationId = data?.currentLocation?.id
-    this.currentLocation = map.locations.find((location) => location.id === locationId) || map.locations[0]
+    this.currentLocationId = data.currentLocationId ?? 1
 
     return this
+  }
+
+  async dump () {
+    await this.storage.dump(this.toJson())
+  }
+
+  toJson(){
+    const {
+      storage:_,
+      ...props} = this
+
+    return props
   }
 
   getAvailableAction(): string[] {
@@ -72,16 +90,8 @@ export class GameplayState {
   async changeLocation() {
     const map = await new GameMap().load()
 
-    let nextLocationId = (this.currentLocation.id + 1) % (map.locations.length + 1)
+    let nextLocationId = (this.currentLocationId + 1) % (map.locations.length + 1)
     if (nextLocationId == 0) nextLocationId = 1
-
-    const nextLocation = map.locations.find((location) => location.id === nextLocationId)
-    if (nextLocation) {
-      this.currentLocation = nextLocation
-    }
-  }
-
-  async dump () {
-    await redis.set(`gamestate:${this.userId}`, JSON.stringify(this))
+    this.currentLocationId = nextLocationId
   }
 }

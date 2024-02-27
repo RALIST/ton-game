@@ -10,7 +10,6 @@ export function WebSocketProvider({children}: {
   const isBrowser = typeof window !== 'undefined';
   const instance = useMemo(() => {
     if (!isBrowser) {
-      console.log("WS not in browser");
       return null;
     }
 

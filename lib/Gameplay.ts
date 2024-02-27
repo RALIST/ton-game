@@ -1,34 +1,22 @@
 import {Character} from "@/lib/Character";
 import {GameMap} from "@/lib/GameMap";
 import {GameplayState} from "@/lib/GameplayState";
-import {GameLogger} from "@/lib/GameLogger";
-import {EventStore} from "@/lib/EventStore";
+import {GameLogger, LogEntry} from "@/lib/GameLogger";
 import {GameCommands, GameplayEvent, MapEvents} from "@/lib/utils/enums";
 import emitEvent from "@/lib/utils/events";
+import {GameLocation} from "@/lib/GameLocation";
 
 export class Gameplay {
-  userId!: number;
-  character!: Character;
+  userId: number;
   map!: GameMap;
-  state!: GameplayState;
   logger!: GameLogger;
-  eventStore!: EventStore
   pushStream!: string;
   availableActions!: string[]
 
-  constructor() {
+  constructor(userId: number) {
     this.pushStream = "gameplay"
-  }
-
-  async load(userId: number) {
     this.userId = userId
-    this.map = await new GameMap().load();
     this.logger = new GameLogger();
-    this.eventStore = await new EventStore(userId).load();
-    this.character = await new Character(userId).load()
-    this.state = await new GameplayState(userId).load()
-
-    return this
   }
 
   async handleEvent(event: string, payload: any) {
@@ -88,17 +76,32 @@ export class Gameplay {
     }
   }
 
-  async toJson(includeGlobalLogs = false){
+  async toJson(includeGlobalLogs = false): Promise<GameplayData> {
     const state = await new GameplayState(this.userId).load()
     const character = await new Character(this.userId).load()
     this.availableActions = state.getAvailableAction()
+    const location = await state.currentLocation()
 
     return {
       logger: this.logger.toJson(includeGlobalLogs),
       character: character ,
       state: state,
+      currentLocation: location,
       availableActions: state.getAvailableAction(),
-      currentScene: state.currentScene
+      currentScene: state.currentScene,
+      error: ""
     }
   }
+}
+
+export type GameplayData = {
+  logger: {
+    currentLogs: LogEntry[]
+  },
+  character: Character,
+  state: GameplayState,
+  availableActions: string[],
+  currentScene: string,
+  currentLocation: GameLocation
+  error: string
 }

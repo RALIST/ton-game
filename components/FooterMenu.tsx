@@ -5,7 +5,7 @@ export default function FooterMenu(){
 
   function setScene(scene: string) {
     return () => {
-      ws?.send(JSON.stringify({action: "changeScreen", payload: {scene: scene}}))
+      ws?.send(JSON.stringify({action: "changeScreen", payload: {scene: scene, userId: 1}}))
     }
   }
 

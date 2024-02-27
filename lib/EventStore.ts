@@ -1,5 +1,5 @@
-import {redis} from "@/lib/utils/redis";
 import {publishToStream} from "@/lib/streams/main";
+import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 
 export type GameEvent = {
   id: number,
@@ -7,24 +7,35 @@ export type GameEvent = {
   payload: any
 }
 
-export class EventStore {
+export class EventStore implements WithRedisStorage{
   records!: GameEvent[];
   userId: number;
+  storage!: RedisStorage
 
 
   constructor(userId: number) {
     this.records = []
     this.userId = userId
+    this.storage = new RedisStorage(`eventstore:${this.userId}`)
   }
 
   async load() {
-    await redis.get(`eventStore:${this.userId}`)
+    const data = await this.storage.load()
+    this.records = data.records ?? []
 
     return this
   }
 
   async dump() {
-    await redis.set(`eventStore:${this.userId}`, JSON.stringify(this))
+    await this.storage.dump(this.toJson())
+  }
+
+  toJson(){
+    const {
+      storage:_,
+      ...props} = this
+
+    return props
   }
 
   getNextId(): number {
@@ -37,6 +48,6 @@ export class EventStore {
     this.records.push({id: id, event: event, payload: payload})
     await publishToStream(stream, { event: event, payload: payload})
 
-    await this.dump()
+    // await this.dump()
   }
 }

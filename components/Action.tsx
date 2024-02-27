@@ -3,7 +3,7 @@ import {GameCommands} from "@/lib/utils/enums";
 
 export default function Action({type}: {type: string}){
   const ws = useWebSocket()
-  const callback = () => { ws?.send(JSON.stringify({action: type}))}
+  const callback = () => { ws?.send(JSON.stringify({action: type, userId: 1}))}
 
   function buildAction() {
     switch (type) {
