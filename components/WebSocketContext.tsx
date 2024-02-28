@@ -4,8 +4,9 @@ import {createContext, ReactNode, useContext, useEffect, useMemo} from "react";
 
 export const WebSocketContext = createContext<WebSocket| null>(null)
 
-export function WebSocketProvider({children}: {
+export function WebSocketProvider({url, children}: {
   children: ReactNode;
+  url: string
 }) {
   const isBrowser = typeof window !== 'undefined';
   const instance = useMemo(() => {
@@ -13,9 +14,8 @@ export function WebSocketProvider({children}: {
       return null;
     }
 
-    const url = `ws://${window?.location?.hostname}:3000/api/socket`
     return new WebSocket(url);
-  }, [isBrowser])
+  }, [isBrowser, url])
 
   useEffect(() => {
     if (instance?.readyState !== WebSocket.OPEN) {

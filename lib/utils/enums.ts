@@ -3,29 +3,65 @@ export enum GameCommands {
   LOOK = "look",
   ATTACK = "attack",
   RUN = "run",
-  BACK = "back"
+  REST = "rest"
 }
 
-export enum GameplayEvents {
-  // character events
-  CHARACTER_CREATED = "character_created",
-  CHARACTER_TIRED = "character_tired",
-  CHARACTER_DEAD = "character_dead",
-  CHARACTER_ATTRIBUTES_CHANGED = "character_attributes_changed",
-  CHARACTER_MOVED = "character_moved",
-  CHARACTER_MAX_HEALTH_REACHED = "character_max_health_reached",
-  CHARACTER_MAX_ENDURANCE_REACHED = "character_max_endurance_reached",
-  // locations events
-  LOCATION_CHANGED = "location_changed",
-  // commands events
+export enum CharacterEvents {
   MOVE_STARTED = "move_started",
   LOOK_STARTED = "look_started",
   ATTACK_STARTED = "attack_started",
-  RUN_STARTED = "run_started",
-  BACK_STARTED = "back_started",
+  ENEMIES_FOUND = "enemies_found",
+  CHARACTER_ATTRIBUTES_CHANGED = "character_attributes_changed",
+  GLOBAL_CHARACTER_ATTRIBUTES_CHANGED = "global_character_attributes_changed",
   MOVE_COMPLETED = "move_completed",
-  LOOK_COMPLETED = "look_completed",
+  REST_STARTED = "rest_started",
+  REST_COMPLETED = "rest_completed"
+}
+export type CharacterEvent = typeof CharacterEvents
+
+export enum GeneratorEvents {
+  CHARACTER_MOVED = "character_moved",
+}
+export type GeneratorEvent = typeof GeneratorEvents
+
+export enum LoggerEvents {
+  MOVE_STARTED = "move_started",
+  CHARACTER_TIRED = "character_tired",
+  ITEMS_FOUND = "items_found",
+  RANDOM_EVENT_FOUND = "random_event_found",
+  CHARACTER_ATTRIBUTES_CHANGED = "character_attributes_changed",
   ATTACK_COMPLETED = "attack_completed",
+  ENEMIES_FOUND = "enemies_found",
+  REST_COMPLETED = "rest_completed"
+}
+export type LoggerEvent = typeof LoggerEvents
+
+export enum RendererEvents {
+  GAME_INIT = "game_init",
+  GLOBAL_CHARACTER_ATTRIBUTES_CHANGED = "global_character_attributes_changed",
+  MOVE_COMPLETED = "move_completed",
+  ATTACK_COMPLETED = "attack_completed",
+  LOOK_COMPLETED = "look_completed",
   RUN_COMPLETED = "attack_completed",
-  BACK_COMPLETED = "attack_completed",
+  REST_COMPLETED = "rest_completed"
+}
+export type RendererEvent = typeof RendererEvents
+
+export enum OtherEvents {
+  GAME_INIT = "game_init",
+  GAME_QUITED = "game_quited",
+  CHARACTER_CREATED = "character_created",
+  CHARACTER_TIRED = "character_tired",
+  CHARACTER_DEAD = "character_dead",
+  CHARACTER_MAX_HEALTH_REACHED = "character_max_health_reached",
+  CHARACTER_MAX_ENDURANCE_REACHED = "character_max_endurance_reached",
+  RUN_STARTED = "run_started",
+}
+
+export const GameplayEvents = {
+  ...OtherEvents,
+  ...CharacterEvents,
+  ...GeneratorEvents,
+  ...LoggerEvents,
+  ...RendererEvents
 }

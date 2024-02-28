@@ -1,6 +1,7 @@
 import {EventStore} from "@/lib/EventStore";
+import StreamEvent from "@/lib/streams/StreamEvent";
 
-export default async function emitEvent(event: string, payload: any, stream: string) {
-  const eventStore = await new EventStore(payload.userId).load();
-  await eventStore.emitEvent(event, payload, stream)
+export default async function emitEvent(data: StreamEvent, stream: string) {
+  const eventStore = new EventStore(data.userId)
+  await eventStore.emitEvent(data, stream)
 }

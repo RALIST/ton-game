@@ -3,7 +3,6 @@ require('next-ws/server').verifyPatch();
 
 const nextConfig = {
     experimental: {
-        serverActions: true,
         instrumentationHook: true,
     },
     reactStrictMode: false,

@@ -1,14 +1,9 @@
-import {publishToStream} from "@/lib/streams/main";
+import {publishToStream} from "@/lib/streams/utils";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
-
-export type GameEvent = {
-  id: number,
-  event: string,
-  payload: any
-}
+import StreamEvent from "@/lib/streams/StreamEvent";
 
 export class EventStore implements WithRedisStorage{
-  records!: GameEvent[];
+  records!: StreamEvent[];
   userId: number;
   storage!: RedisStorage
 
@@ -42,12 +37,10 @@ export class EventStore implements WithRedisStorage{
     return this.records.length + 1
   }
 
-  async emitEvent(event: string, payload: any, stream: string) {
-    console.log("EventStore received event:", event)
-    const id = this.getNextId();
-    this.records.push({id: id, event: event, payload: payload})
-    await publishToStream(stream, { event: event, payload: payload})
-
+  async emitEvent(data: StreamEvent, stream: string) {
+    data.id =  this.getNextId();
+    this.records.push(data)
+    await publishToStream(stream, data)
     // await this.dump()
   }
 }

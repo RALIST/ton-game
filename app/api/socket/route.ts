@@ -1,43 +1,31 @@
 import {IncomingMessage} from "node:http";
 import {WebSocket, WebSocketServer} from "ws";
-import {Gameplay} from "@/lib/Gameplay";
+import {publishToStream} from "@/lib/streams/utils";
+import GamePerformer from "@/lib/GamePerformer";
+import StreamEvent from "@/lib/streams/StreamEvent";
 
-export function SOCKET(client: WebSocket, _request: IncomingMessage, _server: WebSocketServer,) {
-  console.log("A client connected!")
+export async function SOCKET(client: WebSocket, request: IncomingMessage, server: WebSocketServer,) {
+  const query = new URLSearchParams(request.url!.split("?")[1]);
+  client["id"] = query.get("userId") ?? "Unknown";
+  (global as any)["wsServer"] = server;
 
-  // TODO: find a way to send changes separatly (e.g. for character status, game status etc)
+  await publishToStream(
+    "gameplay",
+    new StreamEvent().gameInit(parseInt(client.id), {})
+  )
+
   client.on('message', async (message) => {
     const data = JSON.parse(message.toString())
-
     if (data && data.userId) {
-      const gameplay = new Gameplay(data.userId)
-
-      switch (data.action) {
-        case "init": {
-          const gdata = await gameplay.toJson()
-          client.send(JSON.stringify(gdata))
-          break;
-        }
-        default: {
-          await gameplay.performAction(data.action, data.payload)
-          const gdata = await gameplay.toJson()
-          client.send(JSON.stringify(gdata))
-
-          setTimeout(async () => {
-            const gdata = await gameplay.toJson()
-            client.send(JSON.stringify(gdata))
-          }, 1000)
-
-          break;
-        }
-      }
-    } else {
-      client.send(JSON.stringify({error: "Incorrect user id"}))
-      client.close()
+      const performer = new GamePerformer(data.userId)
+      await performer.performAction(data.action, data.payload)
     }
   });
 
   client.on('close', async () => {
-    console.log('A client disconnected!');
+    await publishToStream(
+      "gameplay",
+      new StreamEvent().gameQuited(parseInt(client.id), {})
+    )
   });
 }

@@ -13,8 +13,8 @@ export default function Action({type}: {type: string}){
       case GameCommands.LOOK: {
         return <div className={"button"} onClick={callback}>Осмотреться</div>
       }
-      case GameCommands.BACK: {
-        return <div className={"button"} onClick={callback}>Вернуться на базу</div>
+      case GameCommands.REST: {
+        return <div className={"button"} onClick={callback}>Разбить лагерь</div>
       }
       case GameCommands.ATTACK: {
         return <div className={"button"} onClick={callback}>Атаковать</div>

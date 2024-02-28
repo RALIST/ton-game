@@ -1,6 +1,7 @@
 // Below is some code for how you would use Redis to listen for the stream events:
 import {redis} from "@/lib/utils/redis";
 import {createClient} from "redis";
+import StreamEvent from "@/lib/streams/StreamEvent";
 
 export async function listenToStream (
   onMessage: (message: any, messageId: any) => Promise<void>,
@@ -29,10 +30,9 @@ export async function listenToStream (
         }
       }
     })
-  }, 10)
+  }, 100)
 }
 
-export async function publishToStream(stream: string, data: any) {
-  console.log("Event was published to redis stream:", stream)
+export async function publishToStream(stream: string, data: StreamEvent) {
   await redis.xAdd(stream, `*`, {message: JSON.stringify(data)})
 }

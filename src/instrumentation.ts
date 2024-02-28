@@ -2,6 +2,6 @@
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
-    import("@/lib/services/gameplayService");
+    import("@/lib/streams/gameplayConsumer");
   }
 }

@@ -81,6 +81,20 @@ a {
     .success {
       color: forestgreen;
     }
+
+    .enemy {
+      padding: 10px 10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: darkorange;
+    }
+
+    .item {
+      padding: 10px 10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: gold;
+    }
   }
 }
 

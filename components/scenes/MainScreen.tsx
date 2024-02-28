@@ -4,7 +4,7 @@ import HeaderMenu from "@/components/HeaderMenu";
 import CurrentLocation from "@/components/CurrentLocation";
 import Scene from "@/components/Scene";
 import ScreenBackground from "@/components/ScreenBackgound";
-import {GameplayData} from "@/lib/Gameplay";
+import {GameplayData} from "@/lib/SceneRenderer";
 
 function Timer() {
   return (<div>
@@ -14,7 +14,7 @@ function Timer() {
 
 export default function MainScreen({game}: { game: GameplayData }) {
   let actions;
-  if (game.state.status !== "inAction") {
+  if (game.character.status !== "inAction") {
     actions = <ActionList actions={game.availableActions}/>
   } else {
     actions = <Timer/>
@@ -24,7 +24,7 @@ export default function MainScreen({game}: { game: GameplayData }) {
       <HeaderMenu character={game.character}/>
       <div className={"gameScreen"}>
         <CurrentLocation location={game.currentLocation}/>
-        <Scene log={game.logger.currentLogs}/>
+        <Scene log={game.currentLogs}/>
         {actions}
       </div>
       <FooterMenu/>
