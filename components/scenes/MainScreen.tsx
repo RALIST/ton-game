@@ -6,18 +6,26 @@ import Scene from "@/components/Scene";
 import ScreenBackground from "@/components/ScreenBackgound";
 import {GameplayData} from "@/lib/Gameplay";
 
-export default function MainScreen({game}:
-  {
-    game: GameplayData
-  })
-{
+function Timer() {
+  return (<div>
+
+  </div>)
+}
+
+export default function MainScreen({game}: { game: GameplayData }) {
+  let actions;
+  if (game.state.status !== "inAction") {
+    actions = <ActionList actions={game.availableActions}/>
+  } else {
+    actions = <Timer/>
+  }
   return (
     <div className={"screen"}>
       <HeaderMenu character={game.character}/>
       <div className={"gameScreen"}>
         <CurrentLocation location={game.currentLocation}/>
         <Scene log={game.logger.currentLogs}/>
-        <ActionList actions={game.availableActions}/>
+        {actions}
       </div>
       <FooterMenu/>
       <ScreenBackground/>

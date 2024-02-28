@@ -1,5 +1,5 @@
 import {GameLocation} from "@/lib/GameLocation";
-import {CharacterEvents, GameplayEvent, MapEvents} from "@/lib/utils/enums";
+import {GameplayEvents} from "@/lib/utils/enums";
 import emitEvent from "@/lib/utils/events";
 import {GameMap} from "@/lib/GameMap";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
@@ -68,16 +68,16 @@ export class GameplayState implements WithRedisStorage{
 
   async handleEvent(event: string, payload: any){
     switch (event) {
-      case GameplayEvent.MOVE_STARTED: {
+      case GameplayEvents.MOVE_STARTED: {
         this.status = "inAction"
         break;
       }
-      case CharacterEvents.ENDURANCE_CHANGED: {
+      case GameplayEvents.CHARACTER_MOVED: {
         await this.changeLocation()
-        await emitEvent(MapEvents.LOCATION_CHANGED, payload, "gameplay")
+        await emitEvent(GameplayEvents.LOCATION_CHANGED, payload, "gameplay")
         break;
       }
-      case GameplayEvent.MOVE_COMPLETED: {
+      case GameplayEvents.MOVE_COMPLETED: {
         this.status = "idle"
         break;
       }
@@ -85,6 +85,8 @@ export class GameplayState implements WithRedisStorage{
         return
       }
     }
+
+    await this.dump()
   }
 
   async changeLocation() {

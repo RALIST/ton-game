@@ -5,6 +5,7 @@ import {Gameplay} from "@/lib/Gameplay";
 export function SOCKET(client: WebSocket, _request: IncomingMessage, _server: WebSocketServer,) {
   console.log("A client connected!")
 
+  // TODO: find a way to send changes separatly (e.g. for character status, game status etc)
   client.on('message', async (message) => {
     const data = JSON.parse(message.toString())
 
@@ -21,6 +22,12 @@ export function SOCKET(client: WebSocket, _request: IncomingMessage, _server: We
           await gameplay.performAction(data.action, data.payload)
           const gdata = await gameplay.toJson()
           client.send(JSON.stringify(gdata))
+
+          setTimeout(async () => {
+            const gdata = await gameplay.toJson()
+            client.send(JSON.stringify(gdata))
+          }, 1000)
+
           break;
         }
       }

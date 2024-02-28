@@ -2,7 +2,7 @@ import {Character} from "@/lib/Character";
 import {GameMap} from "@/lib/GameMap";
 import {GameplayState} from "@/lib/GameplayState";
 import {GameLogger, LogEntry} from "@/lib/GameLogger";
-import {GameCommands, GameplayEvent, MapEvents} from "@/lib/utils/enums";
+import {GameCommands, GameplayEvents} from "@/lib/utils/enums";
 import emitEvent from "@/lib/utils/events";
 import {GameLocation} from "@/lib/GameLocation";
 
@@ -21,8 +21,8 @@ export class Gameplay {
 
   async handleEvent(event: string, payload: any) {
     switch (event) {
-      case MapEvents.LOCATION_CHANGED: {
-        await emitEvent(GameplayEvent.MOVE_COMPLETED, payload, "gameplay")
+      case GameplayEvents.LOCATION_CHANGED: {
+        await emitEvent(GameplayEvents.MOVE_COMPLETED, payload, "gameplay")
       }
     }
   }
@@ -38,35 +38,35 @@ export class Gameplay {
     switch (action) {
       case GameCommands.MOVE: {
         await emitEvent(
-          GameplayEvent.MOVE_STARTED,
+          GameplayEvents.MOVE_STARTED,
           {userId: this.userId},
           this.pushStream)
         break
       }
       case GameCommands.ATTACK: {
         await emitEvent(
-          GameplayEvent.ATTACK_STARTED,
+          GameplayEvents.ATTACK_STARTED,
           {userId: this.userId},
           this.pushStream)
         break
       }
       case GameCommands.RUN: {
         await emitEvent(
-          GameplayEvent.RUN_STARTED,
+          GameplayEvents.RUN_STARTED,
           {userId: this.userId},
           this.pushStream)
         break
       }
       case GameCommands.LOOK: {
         await emitEvent(
-          GameplayEvent.LOOK_STARTED,
+          GameplayEvents.LOOK_STARTED,
           {userId: this.userId},
           this.pushStream)
         break
       }
       case GameCommands.BACK: {
         await emitEvent(
-          GameplayEvent.BACK_STARTED,
+          GameplayEvents.BACK_STARTED,
           {userId: this.userId},
           this.pushStream
         )
