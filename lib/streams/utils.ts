@@ -1,38 +1,46 @@
 // Below is some code for how you would use Redis to listen for the stream events:
-import {redis} from "@/lib/utils/redis";
 import {createClient} from "redis";
 import StreamEvent from "@/lib/streams/StreamEvent";
+import RedisSingleton from "@/lib/storages/RedisSingleton";
 
 export async function listenToStream (
   onMessage: (message: any, messageId: any) => Promise<void>,
   streams: string[],
 ) {
-  const redis = createClient();
+  const streamRedis = createClient();
+  await streamRedis.connect()
+
+  const clientId=  await streamRedis.sendCommand([
+      "CLIENT",
+      "ID",
+    ])
+
+  console.log(`✅ Consumer connected to Redis with ID: ${clientId}`);
+
   const readMaxCount = 1;
   let streamNames: {key: string, id: string}[] = []
 
-  await redis.connect()
   for (let stream of streams) {
     streamNames.push({key: stream, id: '$'})
   }
 
   // setup a loop to listen for stream events
-  setInterval(() => {
-    redis.xRead(
+  setInterval(async () => {
+    const dataArr = await streamRedis.xRead(
       streamNames,
       {COUNT: readMaxCount, BLOCK: 1000},
-    ).then(dataArr => {
-      if(!dataArr) return
+    )
+    if(!dataArr) return
 
-      for (let data of dataArr) {
-        for (let messageItem of data.messages) {
-          onMessage(messageItem.message, messageItem.id)
-        }
+    for (let data of dataArr) {
+      for (let messageItem of data.messages) {
+        await onMessage(messageItem.message, messageItem.id)
       }
-    })
-  }, 100)
+    }
+  }, 10)
 }
 
 export async function publishToStream(stream: string, data: StreamEvent) {
-  await redis.xAdd(stream, `*`, {message: JSON.stringify(data)})
+  const publishRedis = await (await RedisSingleton.getInstance()).getClient()
+  await publishRedis.xAdd(stream, `*`, {message: JSON.stringify(data)})
 }

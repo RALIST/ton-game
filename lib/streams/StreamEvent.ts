@@ -1,4 +1,5 @@
 import {GameplayEvents} from "@/lib/utils/enums";
+import {EventStore} from "@/lib/EventStore";
 
 export default class StreamEvent {
   userId!: number
@@ -10,6 +11,15 @@ export default class StreamEvent {
     if(userId) this.userId = userId
     if(event) this.event = event
     if(payload) this.payload = payload
+  }
+
+  async send() {
+    if (!this.userId && !this.event) throw "Provide userId and event to send!"
+
+    console.log("Sending event", this.event)
+
+    const eventStore = new EventStore(this.userId)
+    await eventStore.emitEvent(this, "gameplay")
   }
 
   moveStarted(userId: number, payload: any) {
@@ -158,5 +168,19 @@ export default class StreamEvent {
     this.event = GameplayEvents.REST_COMPLETED
     this.payload = payload
     return this;
+  }
+
+  nothingFound(userId: number, payload: any) {
+    this.userId = userId
+    this.event = GameplayEvents.NOTHING_FOUND
+    this.payload = payload
+    return this
+  }
+
+  actionCompleted(userId: number, payload: any) {
+    this.userId = userId
+    this.payload = payload
+    this.event = GameplayEvents.ACTION_COMPLETED
+    return this
   }
 }

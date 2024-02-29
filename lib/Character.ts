@@ -1,5 +1,4 @@
 import characterData from "./data/character.json"
-import emitEvent from "@/lib/utils/events";
 import {GameplayEvents} from "@/lib/utils/enums";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 import {applyOperation} from "@/lib/utils/helpers";
@@ -18,7 +17,7 @@ export class Character implements WithRedisStorage{
   enduranceRecoverySpeed!: number
   healthRecoverySpeed!: number;
   currentLocationId!: number
-  status!: "idle" | "inBattle" | "inAction" | "tired"
+  status!: "idle" | "inBattle" | "inAction" | "tired" | "looked" | "dead"
   storage!: RedisStorage
 
   constructor(id: number) {
@@ -32,14 +31,13 @@ export class Character implements WithRedisStorage{
   // find character in DB and return initiated class
   async load(): Promise<this> {
     const data = await this.storage.load()
-
-    this.currentHealth = data.currentHealth ?? characterData.health[0]
-    this.endurance = data.endurance ?? characterData.endurance
-    this.maxHealth = data.maxHealth ?? characterData.health[1]
-    this.balance = data.balance ?? characterData.balance
-    this.name = data.name ?? characterData.name
-    this.currentLocationId = data.currentLocationId ?? 1
-    this.status = data.status ?? "idle"
+    this.currentHealth = data?.currentHealth ?? characterData.health[0]
+    this.endurance = data?.endurance ?? characterData.endurance
+    this.maxHealth = data?.maxHealth ?? characterData.health[1]
+    this.balance = data?.balance ?? characterData.balance
+    this.name = data?.name ?? characterData.name
+    this.currentLocationId = data?.currentLocationId ?? 1
+    this.status = data?.status ?? "idle"
 
     return this
   }
@@ -48,53 +46,56 @@ export class Character implements WithRedisStorage{
     await this.storage.dump(this.toJson())
   }
 
+  async update(data: any) {
+    await this.storage.update(data)
+  }
+
   async handleEvent(event: string, payload: any) {
     switch (event) {
       case GameplayEvents.MOVE_STARTED: {
         await this.handleMoveStarted(payload)
         break;
       }
-      case GameplayEvents.ENEMIES_FOUND: {
-        await this.handleEnemiesFound(payload)
-        break;
-      }
       case GameplayEvents.ATTACK_STARTED: {
         await this.handleAttackStarted(payload)
         break;
       }
-      case GameplayEvents.GLOBAL_CHARACTER_ATTRIBUTES_CHANGED:
+      case GameplayEvents.ENEMIES_FOUND: {
+        await this.handleEnemiesFound(payload)
+        break;
+      }
+      case GameplayEvents.RANDOM_EVENT_FOUND: {
+        await new StreamEvent().actionCompleted(this.userId, {status: "idle"}).send()
+        break;
+      }
       case GameplayEvents.CHARACTER_ATTRIBUTES_CHANGED: {
         await this.handleAttributesChange(payload)
         break;
       }
-      case GameplayEvents.REST_COMPLETED:
-      case GameplayEvents.MOVE_COMPLETED: {
-        await this.handleMoveCompleted(payload)
+      case GameplayEvents.REST_STARTED: {
+        await this.update({currentHealth: this.maxHealth, endurance: this.maxEndurance})
+        await new StreamEvent().restCompleted(this.userId, payload).send()
+        await new StreamEvent().actionCompleted(this.userId, payload).send()
         break;
       }
-      case GameplayEvents.REST_STARTED: {
-        this.endurance = this.maxEndurance
-        this.status = "idle"
-        await emitEvent(new StreamEvent().restCompleted(this.userId, payload), "gameplay")
-        break
+      case GameplayEvents.ACTION_COMPLETED: {
+        await this.handleActionCompleted(payload)
+        break;
       }
       default: { return }
     }
-
-    await this.dump()
   }
 
   async handleMoveStarted(payload: any) {
     const streamEvent = new StreamEvent()
     if (this.endurance > 0) {
       const newPayload = { ...payload, endurance: { type: "subtract", value: 1 } }
-      await emitEvent(streamEvent.characterAttributesChanged(this.userId, newPayload), "gameplay")
+      await streamEvent.characterAttributesChanged(this.userId, newPayload).send()
       await this.changeLocation()
-      await emitEvent(streamEvent.characterMoved(this.userId, payload), "gameplay")
+      await streamEvent.characterMoved(this.userId, payload).send()
     } else {
-      this.status = "tired"
-      await emitEvent(streamEvent.characterTired(this.userId, payload), "gameplay")
-      await emitEvent(streamEvent.moveCompleted(this.userId, payload), "gameplay")
+      await streamEvent.characterTired(this.userId, payload).send()
+      await streamEvent.actionCompleted(this.userId, {status: "tired"}).send()
     }
   }
 
@@ -109,6 +110,12 @@ export class Character implements WithRedisStorage{
       case "tired": {
         return ["rest"]
       }
+      case "dead": {
+        return ["rest"]
+      }
+      case "looked": {
+        return ["move"]
+      }
       default: {
         return []
       }
@@ -120,7 +127,7 @@ export class Character implements WithRedisStorage{
 
     let nextLocationId = (this.currentLocationId + 1) % (map.locations.length + 1)
     if (nextLocationId == 0) nextLocationId = 1
-    this.currentLocationId = nextLocationId
+    await this.update({currentLocationId: nextLocationId})
   }
 
   async currentLocation(): Promise<GameLocation> {
@@ -143,15 +150,17 @@ export class Character implements WithRedisStorage{
         const newValue = applyOperation(this.currentHealth, value, type)
         if (newValue >= this.maxHealth) {
           this.currentHealth = this.maxHealth
-          await emitEvent(streamEvent.characterMaxHealthReached(this.userId, payload),  "gameplay")
+          await streamEvent.characterMaxHealthReached(this.userId, payload).send()
         } else if (newValue < 0) {
           this.currentHealth = 0
-          await emitEvent(streamEvent.characterDied(this.userId, payload), "gameplay" )
+          await streamEvent.characterDied(this.userId, payload).send()
+          await streamEvent.actionCompleted(this.userId, {status: "dead"}).send()
         } else {
           this.currentHealth = newValue
         }
       }
-      await this.dump();
+
+      await this.update({currentHealth: this.currentHealth})
     }
 
     if (endurance) {
@@ -162,7 +171,7 @@ export class Character implements WithRedisStorage{
         const newValue = applyOperation(this.endurance, value, type)
         if (newValue >= this.maxEndurance) {
           this.endurance = this.maxEndurance
-          await emitEvent(streamEvent.characterMaxEnduranceReached(this.userId, payload), "gameplay")
+          await streamEvent.characterMaxEnduranceReached(this.userId, payload).send()
         } else if (newValue < 0) {
           this.endurance = 0
         } else {
@@ -170,7 +179,7 @@ export class Character implements WithRedisStorage{
         }
       }
 
-      await this.dump();
+      await this.update({endurance: this.endurance})
     }
   }
 
@@ -182,21 +191,20 @@ export class Character implements WithRedisStorage{
     return props
   }
 
-  private async handleEnemiesFound(payload: any) {
-    this.status = "inBattle";
-    await emitEvent(new StreamEvent().moveCompleted(this.userId, payload), "gameplay");
+  private async handleEnemiesFound(_payload: any) {
+    await new StreamEvent().actionCompleted(this.userId, {status: "inBattle"}).send()
   }
 
   private async handleAttackStarted(payload: any) {
     const streamEvent = new StreamEvent()
     const newPayload = { ...payload, health: { type: "subtract", value: 1 } };
-    await emitEvent(streamEvent.characterAttributesChanged(this.userId, newPayload), "gameplay");
-    this.status = "idle"
-    await emitEvent(streamEvent.attackCompleted(this.userId, payload), "gameplay")
+    await streamEvent.characterAttributesChanged(this.userId, newPayload).send()
+    await streamEvent.attackCompleted(this.userId, payload).send()
+    await streamEvent.actionCompleted(this.userId, {status: "idle"}).send()
   }
 
-  private async handleMoveCompleted(_payload: any) {
-    if(this.status === "inAction") this.status = "idle"
-    await this.dump()
+  private async handleActionCompleted(payload: any) {
+    this.status = payload?.status ?? "idle"
+    await this.update({status: this.status})
   }
 }

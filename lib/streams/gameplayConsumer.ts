@@ -1,13 +1,12 @@
-import {listenToStream, publishToStream} from "@/lib/streams/utils";
+import {listenToStream} from "@/lib/streams/utils";
 import {Character} from "@/lib/Character";
-import {redis} from "@/lib/utils/redis";
 import {CharacterEvents, GeneratorEvents, LoggerEvents, RendererEvents} from "@/lib/utils/enums";
 import SceneRenderer from "@/lib/SceneRenderer";
 import {GameLogger} from "@/lib/GameLogger";
 import {EventGenerator} from "@/lib/EventGenerator";
 import StreamEvent from "@/lib/streams/StreamEvent";
-
 const listenStreams = ["gameplay"]
+
 
 // check to avoid incorrect events
 function isValid(data: StreamEvent, includedIn: any): boolean {
@@ -57,28 +56,11 @@ async function eventGeneratorConsumer() {
   }, listenStreams)
 }
 
-// TODO: it's fucking bullshit, find a better way
-function startCharactersRegen() {
-  setInterval(async () => {
-      const charKeys = await redis.scan(0, { MATCH: "character:*" })
-      charKeys.keys.forEach((key) => {
-        const userId = key.split(":")[1]
-        const payload = {
-          endurance: { type: "add", value: 1 },
-          health: { type: "add", value: 1 }
-        }
-        const data = new StreamEvent().globalCharacterAttributesChanged(parseInt(userId), payload)
-        publishToStream("gameplay", data)
-      })
-  }, 10000)
-}
-
 export async function startGameplayService() {
-  await rendererConsumer();
   await characterConsumer();
-  await loggerConsumer();
   await eventGeneratorConsumer();
-  // startCharactersRegen();
+  await loggerConsumer();
+  await rendererConsumer();
 
   console.log("Gameplay service started!")
 }

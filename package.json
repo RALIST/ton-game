@@ -7,25 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate && npx next-ws-cli@latest patch"
+    "postinstall": "npx next-ws-cli@latest patch"
   },
   "dependencies": {
-    "@prisma/client": "5.9.1",
-    "@reduxjs/toolkit": "^2.2.1",
     "@tma.js/sdk-react": "^1.1.0",
-    "@ton/core": "^0.55.0",
-    "@ton/crypto": "^3.2.0",
-    "@ton/ton": "^13.10.0",
     "@types/ws": "^8.5.10",
     "buffer": "^6.0.3",
     "next": "^14",
     "next-ws": "^1.0.1",
-    "prisma": "^5.9.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-redux": "^9.1.0",
     "redis": "^4.6.13",
-    "swr": "^2.2.5",
     "ws": "^8.16.0"
   },
   "devDependencies": {
@@ -36,7 +28,6 @@
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
     "postcss": "^8",
-    "redux-devtools-extension": "^2.13.9",
     "typescript": "^5"
   }
 }

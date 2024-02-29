@@ -1,5 +1,4 @@
-import {redis} from "@/lib/utils/redis";
-import {createClient, RedisClientType} from "redis";
+import RedisSingleton from "@/lib/storages/RedisSingleton";
 
 export interface IStorage {
   model: string;
@@ -7,28 +6,32 @@ export interface IStorage {
   dump(data: any): void
 }
 
+const redis = await (await RedisSingleton.getInstance()).getClient()
+
 export interface WithRedisStorage {
   storage: RedisStorage
 }
 
 export class RedisStorage implements IStorage {
   model: string
-  redis!: RedisClientType
 
   constructor(model: string) {
     this.model = model
-    this.redis = createClient()
   }
 
   async dump(data: any)  {
-    if (!this.redis.isOpen) await this.redis.connect()
-    await redis.set(this.model, JSON.stringify(data))
+    await redis.json.set(this.model, "$", data)
   }
 
   async load(): Promise<any> {
-    if (!this.redis.isOpen) await this.redis.connect()
+    return await redis.json.get(this.model)
+  }
 
-    const data = await redis.get(this.model)
-    return JSON.parse(data || "{}")
+  async update(data: any) {
+    await redis.json.merge(this.model, "$", data)
+  }
+
+  async append(arr: string, item: any) {
+    await redis.json.arrAppend(this.model, `$.${arr}`, item)
   }
 }

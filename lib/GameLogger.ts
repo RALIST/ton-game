@@ -25,58 +25,62 @@ export class GameLogger implements WithRedisStorage{
   async handleEvent(event: string, payload: any) {
     switch (event) {
       case GameplayEvents.MOVE_STARTED: {
-        this.clearLogs()
-        await this.dump()
+        await this.clearLogs()
         break;
       }
       case GameplayEvents.CHARACTER_TIRED: {
-        this.alert("Ты очень устал! Отдохни немного!")
-        await this.dump()
+        await this.alert("Ты очень устал! Отдохни немного!")
+        break;
+      }
+      case GameplayEvents.CHARACTER_DEAD: {
+        await this.alert("Ты умер. Соболезную.")
         break;
       }
       case GameplayEvents.ENEMIES_FOUND: {
         const {id, name, attack, defence } = payload.enemy as Enemy
-        this.alert(`Ты встретил врага!`)
-        this.enemy(`${name} (⚔️${attack} 🛡${defence})`)
-        this.alert("Кажется, тебе конец...")
-        await this.dump()
+        await this.alert(`Ты встретил врага!`)
+        await this.enemy(`${name} (⚔️${attack} 🛡${defence})`)
+        await this.alert("Кажется, тебе конец...")
         break;
       }
       case GameplayEvents.ITEMS_FOUND: {
         const {id, name, itemType, description, rarity } = payload.item as Item
-        this.success(`Ты обнаружил предмет!`)
-        this.item(`${name} (${rarity}/${itemType})`)
-        await this.dump()
+        await this.success(`Ты обнаружил предмет!`)
+        await this.item(`${name} (${rarity}/${itemType})`)
         break;
       }
       case GameplayEvents.RANDOM_EVENT_FOUND: {
         const {id, name,description} = payload.event as RandomEvent
-        this.info(`Опс, а что это: ${name}`)
-        this.info(description)
-        await this.dump()
+        await this.info(`Опс, а что это: ${name}`)
+        await this.info(description)
         break;
       }
       case GameplayEvents.CHARACTER_ATTRIBUTES_CHANGED: {
         const { health, endurance} = payload
         if (health) {
           const {type, value} = health
-          if (type === "subtract") this.alert(`Ты потерял ${value} здоровья!`); await this.dump()
+          if (type === "subtract")
+            await this.alert(`Ты потерял ${value} здоровья!`);
         }
 
         if (endurance) {
           const {type, value} = endurance
-          if (type === "subtract") this.info(`Ты потратил ${value} выносливости за этот переход!`); await this.dump()
+          if (type === "subtract")
+            await this.info(`Ты потратил ${value} выносливости за этот переход!`);
         }
+
         break;
       }
       case GameplayEvents.REST_COMPLETED: {
-        this.success("Ты хорошо отдохнул, пора в путь!")
-        await this.dump();
+        await this.success("Ты хорошо отдохнул, пора в путь!")
         break
       }
       case GameplayEvents.ATTACK_COMPLETED: {
-        this.success("Кажется, тебе удалось выжить в этой бойне. Едем дальше.")
-        await this.dump();
+        await this.success("Кажется, тебе удалось выжить в этой бойне. Едем дальше.")
+        break;
+      }
+      case GameplayEvents.NOTHING_FOUND: {
+        await this.info("До тебя здесь побывало куча людей, даже дырявого мешка не найти.")
       }
     }
   }
@@ -85,56 +89,52 @@ export class GameLogger implements WithRedisStorage{
     await this.storage.dump(this.toJson())
   }
 
+  async append(arr: string, item: any) {
+    await this.storage.append(arr, item)
+  }
+
   async load() {
     const data = await this.storage.load()
-
-    this.currentLogs = data.currentLogs ?? []
-    this.globalLogs = data.globalLogs ?? []
+    this.currentLogs = data?.currentLogs ?? []
+    this.globalLogs = data?.globalLogs ?? []
 
     return this
   }
 
-  clearLogs() {
+  async clearLogs() {
     this.currentLogs = []
+    await this.dump()
   }
 
-  logEvent(message: string, type: string) {
-    this.logGlobalEvent(message, type)
-    this.logCurrentEvent(message, type)
+  async logEvent(message: string, type: string) {
+    await this.logCurrentEvent(message, type)
   }
 
-  logGlobalEvent(message: string, type: string) {
-    this.globalLogs.push({message: message, type: type})
+  async logCurrentEvent(message: string, type: string) {
+    await this.append("currentLogs", {message: message, type: type})
   }
 
-  logCurrentEvent(message: string, type: string) {
-    this.currentLogs.push({message: message, type: type})
+  async info(message: string) {
+    await this.logEvent(message, "info")
   }
 
-  info(message: string) {
-    this.logEvent(message, "info")
+  async alert(message: string) {
+    await this.logEvent(message, "alert")
   }
 
-  alert(message: string) {
-    this.logEvent(message, "alert")
+  async success(message: string) {
+    await this.logEvent(message, "success")
   }
 
-  success(message: string) {
-    this.logEvent(message, "success")
+  async enemy(message: string) {
+    await this.logEvent(message, "enemy")
   }
 
-  enemy(message: string) {
-    this.logEvent(message, "enemy")
-  }
-
-  item(message: string) {
-    this.logEvent(message, "item")
+  async item(message: string) {
+    await this.logEvent(message, "item")
   }
 
   toJson(includeGlobal = false) {
-    return {
-      currentLogs: this.currentLogs,
-      globalLogs: this.globalLogs
-    }
+    return {currentLogs: this.currentLogs}
   }
 }

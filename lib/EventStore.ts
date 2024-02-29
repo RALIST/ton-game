@@ -16,7 +16,7 @@ export class EventStore implements WithRedisStorage{
 
   async load() {
     const data = await this.storage.load()
-    this.records = data.records ?? []
+    this.records = data?.records ?? []
 
     return this
   }

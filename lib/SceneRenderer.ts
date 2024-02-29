@@ -24,11 +24,7 @@ export default class SceneRenderer {
   async handleEvent(event: string, _payload: any) {
     switch (event) {
       case GameplayEvents.GAME_INIT:
-      case GameplayEvents.GLOBAL_CHARACTER_ATTRIBUTES_CHANGED:
-      case GameplayEvents.REST_COMPLETED:
-      case GameplayEvents.ATTACK_COMPLETED:
-      case GameplayEvents.LOOK_COMPLETED:
-      case GameplayEvents.MOVE_COMPLETED: {
+      case GameplayEvents.ACTION_COMPLETED: {
         await this.push();
         break;
       }
@@ -58,7 +54,9 @@ export default class SceneRenderer {
 
     if (!client || client.readyState != 1) return
 
-    const data = await this.render()
-    client.send(JSON.stringify(data))
+    setTimeout(async () => {
+      const data = await this.render()
+      client.send(JSON.stringify(data))
+    }, 100)
   }
 }
