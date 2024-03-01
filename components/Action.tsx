@@ -1,5 +1,5 @@
 import {useWebSocket} from "@/components/WebSocketContext";
-import {GameCommands} from "@/lib/utils/enums";
+import {GameCommands} from "@/lib/utils/gameCommands";
 
 export default function Action({type}: {type: string}){
   const ws = useWebSocket()

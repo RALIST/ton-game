@@ -1,5 +1,5 @@
 import characterData from "./data/character.json"
-import {GameplayEvents} from "@/lib/utils/enums";
+import {GameplayEvents} from "@/lib/utils/gameEvents";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 import {applyOperation} from "@/lib/utils/helpers";
 import {GameMap} from "@/lib/GameMap";

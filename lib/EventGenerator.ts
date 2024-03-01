@@ -1,4 +1,4 @@
-import {GameplayEvents} from "@/lib/utils/enums";
+import {GameplayEvents} from "@/lib/utils/gameEvents";
 import Enemy from "@/lib/Enemy";
 
 import enemiesData from "@/lib/data/enemies.json"

@@ -1,4 +1,4 @@
-import {GameplayEvents} from "@/lib/utils/enums";
+import {GameplayEvents} from "@/lib/utils/gameEvents";
 import {EventStore} from "@/lib/EventStore";
 
 export default class StreamEvent {

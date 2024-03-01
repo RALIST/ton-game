@@ -1,5 +1,5 @@
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
-import {GameplayEvents} from "@/lib/utils/enums";
+import {GameplayEvents} from "@/lib/utils/gameEvents";
 import Enemy from "@/lib/Enemy";
 import Item from "@/lib/Item";
 import RandomEvent from "@/lib/RandomEvent";

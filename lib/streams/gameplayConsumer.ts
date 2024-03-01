@@ -1,6 +1,6 @@
 import {listenToStream} from "@/lib/streams/utils";
 import {Character} from "@/lib/Character";
-import {CharacterEvents, GeneratorEvents, LoggerEvents, RendererEvents} from "@/lib/utils/enums";
+import {CharacterEvents, GeneratorEvents, LoggerEvents, RendererEvents} from "@/lib/utils/gameEvents";
 import SceneRenderer from "@/lib/SceneRenderer";
 import {GameLogger} from "@/lib/GameLogger";
 import {EventGenerator} from "@/lib/EventGenerator";

@@ -2,7 +2,7 @@ import {GameLogger, LogEntry} from "@/lib/GameLogger";
 import {Character} from "@/lib/Character";
 import {GameLocation} from "@/lib/GameLocation";
 import {WebSocketServer, WebSocket} from "ws";
-import {GameplayEvents} from "@/lib/utils/enums";
+import {GameplayEvents} from "@/lib/utils/gameEvents";
 
 export type GameplayData = {
   currentLogs: LogEntry[],

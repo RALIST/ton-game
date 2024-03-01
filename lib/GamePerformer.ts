@@ -1,5 +1,5 @@
-import {GameCommands, GameplayEvents} from "@/lib/utils/enums";
-import emitEvent from "@/lib/utils/events";
+import {GameCommands, GameplayEvents} from "@/lib/utils/gameEvents";
+import emitEvent from "@/lib/utils/emitEvent";
 import StreamEvent from "@/lib/streams/StreamEvent";
 
 export default class GamePerformer {
