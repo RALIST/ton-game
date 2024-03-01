@@ -1,4 +1,4 @@
-import {GameplayEvents} from "@/lib/utils/gameEvents";
+import {GeneratorEvents} from "@/lib/utils/gameEvents";
 import Enemy from "@/lib/Enemy";
 
 import enemiesData from "@/lib/data/enemies.json"
@@ -20,7 +20,7 @@ export class EventGenerator {
     const streamEvent = new StreamEvent()
 
     switch (event) {
-      case GameplayEvents.CHARACTER_MOVED: {
+      case GeneratorEvents.CHARACTER_MOVED: {
         if (Math.random() < 0.3) {
           const newPayload = {...payload, enemy: this.randomEnemy()}
           await streamEvent.enemiesFound(this.userId, newPayload).send()
@@ -32,7 +32,7 @@ export class EventGenerator {
         }
         break;
       }
-      case GameplayEvents.LOOK_STARTED: {
+      case GeneratorEvents.LOOK_STARTED: {
         if(Math.random() < 0.4) {
           const newPayload = {...payload, item: this.randomItem()}
           await streamEvent.itemsFound(this.userId, newPayload).send()

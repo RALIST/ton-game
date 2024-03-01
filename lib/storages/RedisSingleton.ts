@@ -8,7 +8,7 @@ export default class RedisSingleton {
 
   private RedisClient = createClient();
   private constructor() {
-   console.log("🔺 New Redis Client Instance Created!!");
+    console.log("🔺 New Redis Client Instance Created!!");
   }
 
   private async initialize() {

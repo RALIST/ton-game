@@ -1,5 +1,5 @@
 import characterData from "./data/character.json"
-import {GameplayEvents} from "@/lib/utils/gameEvents";
+import {CharacterEvents} from "@/lib/utils/gameEvents";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 import {applyOperation} from "@/lib/utils/helpers";
 import {GameMap} from "@/lib/GameMap";
@@ -52,33 +52,33 @@ export class Character implements WithRedisStorage{
 
   async handleEvent(event: string, payload: any) {
     switch (event) {
-      case GameplayEvents.MOVE_STARTED: {
+      case CharacterEvents.MOVE_STARTED: {
         await this.handleMoveStarted(payload)
         break;
       }
-      case GameplayEvents.ATTACK_STARTED: {
+      case CharacterEvents.ATTACK_STARTED: {
         await this.handleAttackStarted(payload)
         break;
       }
-      case GameplayEvents.ENEMIES_FOUND: {
+      case CharacterEvents.ENEMIES_FOUND: {
         await this.handleEnemiesFound(payload)
         break;
       }
-      case GameplayEvents.RANDOM_EVENT_FOUND: {
+      case CharacterEvents.RANDOM_EVENT_FOUND: {
         await new StreamEvent().actionCompleted(this.userId, {status: "idle"}).send()
         break;
       }
-      case GameplayEvents.CHARACTER_ATTRIBUTES_CHANGED: {
+      case CharacterEvents.CHARACTER_ATTRIBUTES_CHANGED: {
         await this.handleAttributesChange(payload)
         break;
       }
-      case GameplayEvents.REST_STARTED: {
+      case CharacterEvents.REST_STARTED: {
         await this.update({currentHealth: this.maxHealth, endurance: this.maxEndurance})
         await new StreamEvent().restCompleted(this.userId, payload).send()
         await new StreamEvent().actionCompleted(this.userId, payload).send()
         break;
       }
-      case GameplayEvents.ACTION_COMPLETED: {
+      case CharacterEvents.ACTION_COMPLETED: {
         await this.handleActionCompleted(payload)
         break;
       }

@@ -1,5 +1,5 @@
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
-import {GameplayEvents} from "@/lib/utils/gameEvents";
+import {LoggerEvents} from "@/lib/utils/gameEvents";
 import Enemy from "@/lib/Enemy";
 import Item from "@/lib/Item";
 import RandomEvent from "@/lib/RandomEvent";
@@ -24,38 +24,38 @@ export class GameLogger implements WithRedisStorage{
 
   async handleEvent(event: string, payload: any) {
     switch (event) {
-      case GameplayEvents.MOVE_STARTED: {
+      case LoggerEvents.MOVE_STARTED: {
         await this.clearLogs()
         break;
       }
-      case GameplayEvents.CHARACTER_TIRED: {
+      case LoggerEvents.CHARACTER_TIRED: {
         await this.alert("Ты очень устал! Отдохни немного!")
         break;
       }
-      case GameplayEvents.CHARACTER_DEAD: {
+      case LoggerEvents.CHARACTER_DEAD: {
         await this.alert("Ты умер. Соболезную.")
         break;
       }
-      case GameplayEvents.ENEMIES_FOUND: {
+      case LoggerEvents.ENEMIES_FOUND: {
         const {id, name, attack, defence } = payload.enemy as Enemy
         await this.alert(`Ты встретил врага!`)
         await this.enemy(`${name} (⚔️${attack} 🛡${defence})`)
         await this.alert("Кажется, тебе конец...")
         break;
       }
-      case GameplayEvents.ITEMS_FOUND: {
+      case LoggerEvents.ITEMS_FOUND: {
         const {id, name, itemType, description, rarity } = payload.item as Item
         await this.success(`Ты обнаружил предмет!`)
         await this.item(`${name} (${rarity}/${itemType})`)
         break;
       }
-      case GameplayEvents.RANDOM_EVENT_FOUND: {
+      case LoggerEvents.RANDOM_EVENT_FOUND: {
         const {id, name,description} = payload.event as RandomEvent
         await this.info(`Опс, а что это: ${name}`)
         await this.info(description)
         break;
       }
-      case GameplayEvents.CHARACTER_ATTRIBUTES_CHANGED: {
+      case LoggerEvents.CHARACTER_ATTRIBUTES_CHANGED: {
         const { health, endurance} = payload
         if (health) {
           const {type, value} = health
@@ -71,15 +71,15 @@ export class GameLogger implements WithRedisStorage{
 
         break;
       }
-      case GameplayEvents.REST_COMPLETED: {
+      case LoggerEvents.REST_COMPLETED: {
         await this.success("Ты хорошо отдохнул, пора в путь!")
         break
       }
-      case GameplayEvents.ATTACK_COMPLETED: {
+      case LoggerEvents.ATTACK_COMPLETED: {
         await this.success("Кажется, тебе удалось выжить в этой бойне. Едем дальше.")
         break;
       }
-      case GameplayEvents.NOTHING_FOUND: {
+      case LoggerEvents.NOTHING_FOUND: {
         await this.info("До тебя здесь побывало куча людей, даже дырявого мешка не найти.")
       }
     }

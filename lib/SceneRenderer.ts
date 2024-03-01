@@ -2,7 +2,7 @@ import {GameLogger, LogEntry} from "@/lib/GameLogger";
 import {Character} from "@/lib/Character";
 import {GameLocation} from "@/lib/GameLocation";
 import {WebSocketServer, WebSocket} from "ws";
-import {GameplayEvents} from "@/lib/utils/gameEvents";
+import {RendererEvents} from "@/lib/utils/gameEvents";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
@@ -23,8 +23,8 @@ export default class SceneRenderer {
 
   async handleEvent(event: string, _payload: any) {
     switch (event) {
-      case GameplayEvents.GAME_INIT:
-      case GameplayEvents.ACTION_COMPLETED: {
+      case RendererEvents.GAME_INIT:
+      case RendererEvents.ACTION_COMPLETED: {
         await this.push();
         break;
       }
