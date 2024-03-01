@@ -14,7 +14,7 @@ export type GameplayData = {
 }
 
 // collect game data and push data to ws socket
-export default class SceneRenderer {
+export default class GameRenderer {
   userId: number;
 
   constructor(userId: number) {

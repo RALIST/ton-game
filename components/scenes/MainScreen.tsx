@@ -4,7 +4,7 @@ import HeaderMenu from "@/components/HeaderMenu";
 import CurrentLocation from "@/components/CurrentLocation";
 import Scene from "@/components/Scene";
 import ScreenBackground from "@/components/ScreenBackgound";
-import {GameplayData} from "@/lib/SceneRenderer";
+import {GameplayData} from "@/lib/GameRenderer";
 
 function Timer() {
   return (<div>

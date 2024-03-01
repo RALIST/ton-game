@@ -6,7 +6,7 @@ import CharacterScreen from "@/components/scenes/CharacterScreen";
 import InventoryScreen from "@/components/scenes/InventoryScreen";
 import {useEffect, useState} from "react";
 import {useWebSocket} from "@/components/WebSocketContext";
-import {GameplayData} from "@/lib/SceneRenderer";
+import {GameplayData} from "@/lib/GameRenderer";
 
 export default function GameplayScene() {
   const [game, setGame] = useState<GameplayData | null>(null)
