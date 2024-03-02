@@ -3,5 +3,6 @@ export enum GameCommands {
   LOOK = "look",
   ATTACK = "attack",
   RUN = "run",
-  REST = "rest"
+  REST = "rest",
+  CHANGE_SCREEN = "change_screen"
 }

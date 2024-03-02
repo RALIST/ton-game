@@ -48,7 +48,7 @@ export default function GameplayScene() {
         return <MapScreen currentLocation={game.currentLocation}/>
       }
       case "character": {
-        return <CharacterScreen/>
+        return <CharacterScreen character={game.character}/>
       }
       case "inventory": {
         return <InventoryScreen/>

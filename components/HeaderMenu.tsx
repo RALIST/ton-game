@@ -5,7 +5,7 @@ export default function HeaderMenu({character}: {character: Character}) {
     <div className={"gameHeader"}>
       <div>❤️ {character.currentHealth}/{character.maxHealth}</div>
       <div>💶 {character.balance}</div>
-      <div>🌡️ {character.endurance}</div>
+      <div>⚡ {character.endurance}</div>
     </div>
   )
 }

@@ -147,7 +147,7 @@ a {
   justify-content: space-around;
   flex-grow: 0;
   z-index: 1;
-  padding: 10px 10px;
+  padding: 20px 10px;
   gap: 6px;
 
   .button {
@@ -258,5 +258,26 @@ h2 {
 
   .locationDesc {
     font-size: 14px;
+  }
+}
+
+.character {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .characterName {
+    font-size: 18px;
+    text-align: center;
+    color: orange;
+    font-weight: bold;
+    padding-top: 10px;
+  }
+
+  .characterStats {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
   }
 }

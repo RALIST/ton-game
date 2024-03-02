@@ -4,13 +4,20 @@ import GameLoggerService from "@/lib/services/GameLoggerService";
 import GameRendererService from "@/lib/services/GameRendererService";
 import EventGeneratorService from "@/lib/services/EventGeneratorService";
 
+let streamInterval: NodeJS.Timeout | undefined;
+
 async function gameConsumer(){
-  await listenToStream((message) => {
+  streamInterval = await listenToStream((message) => {
     CharacterService.handleEvent(message)
     EventGeneratorService.handleEvent(message)
     GameLoggerService.handleEvent(message)
     GameRendererService.handleEvent(message)
   }, ["gameplay"])
+}
+
+export async function stopGameplayService(){
+  clearInterval(streamInterval)
+  process.exit(0)
 }
 
 export async function startGameplayService() {

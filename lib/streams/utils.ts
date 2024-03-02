@@ -25,7 +25,7 @@ export async function listenToStream (
   }
 
   // setup a loop to listen for stream events
-  setInterval(async () => {
+  return setInterval(async () => {
     const dataArr = await streamRedis.xRead(
       streamNames,
       {COUNT: readMaxCount, BLOCK: 1000},

@@ -14,12 +14,17 @@ export async function SOCKET(client: WebSocket, request: IncomingMessage, server
   client["id"] = query.get("userId") ?? "Unknown";
   (global as any)["wsServer"] = server;
 
-  server.once("connection", async () => {
-    await publishToStream(
-      "gameplay",
-      new StreamEvent().gameInit(parseInt(client.id), {})
-    )
-  })
+  // server.once("connection", async () => {
+  //   await publishToStream(
+  //     "gameplay",
+  //     new StreamEvent().gameInit(parseInt(client.id), {})
+  //   )
+  // })
+
+  await publishToStream(
+    "gameplay",
+    new StreamEvent().gameInit(parseInt(client.id), {})
+  )
 
   client.on('message', async (message) => {
     const data = JSON.parse(message.toString())

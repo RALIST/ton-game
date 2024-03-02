@@ -28,7 +28,6 @@ export default function MainScreen({game}: { game: GameplayData }) {
         {actions}
       </div>
       <FooterMenu/>
-      <ScreenBackground/>
     </div>
   )
 }

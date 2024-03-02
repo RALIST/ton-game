@@ -1,6 +1,7 @@
-import {GameCommands, GameplayEvents} from "@/lib/utils/gameEvents";
+import {GameplayEvents} from "@/lib/utils/gameEvents";
 import emitEvent from "@/lib/utils/emitEvent";
 import StreamEvent from "@/lib/streams/StreamEvent";
+import {GameCommands} from "@/lib/utils/gameCommands";
 
 export default class GamePerformer {
   userId: number
@@ -40,6 +41,10 @@ export default class GamePerformer {
       }
       case GameCommands.REST: {
         actionEvent = GameplayEvents.REST_STARTED
+        break;
+      }
+      case GameCommands.CHANGE_SCREEN: {
+        actionEvent = GameplayEvents.CHANGE_SCREEN_STARTED
       }
     }
 

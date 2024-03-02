@@ -1,11 +1,3 @@
-export enum GameCommands {
-  MOVE = "move",
-  LOOK = "look",
-  ATTACK = "attack",
-  RUN = "run",
-  REST = "rest"
-}
-
 export enum CharacterEvents {
   MOVE_STARTED = "move_started",
   ATTACK_STARTED = "attack_started",
@@ -44,7 +36,8 @@ export type LoggerEvent = typeof LoggerEvents
 
 export enum RendererEvents {
   GAME_INIT = "game_init",
-  ACTION_COMPLETED = "action_completed"
+  ACTION_COMPLETED = "action_completed",
+  CHANGE_SCREEN_STARTED = "change_screen_started"
 }
 export type RendererEvent = typeof RendererEvents
 
@@ -54,7 +47,7 @@ export enum OtherEvents {
   CHARACTER_MAX_HEALTH_REACHED = "character_max_health_reached",
   CHARACTER_MAX_ENDURANCE_REACHED = "character_max_endurance_reached",
   RUN_STARTED = "run_started",
-  LOOK_COMPLETED = "look_completed"
+  LOOK_COMPLETED = "look_completed",
 }
 
 export const GameplayEvents = {

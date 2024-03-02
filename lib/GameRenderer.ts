@@ -21,31 +21,33 @@ export default class GameRenderer {
     this.userId = userId
   }
 
-  async handleEvent(event: string, _payload: any) {
+  async handleEvent(event: string, payload: any) {
     switch (event) {
       case RendererEvents.GAME_INIT:
+      case RendererEvents.CHANGE_SCREEN_STARTED:
       case RendererEvents.ACTION_COMPLETED: {
-        await this.push();
+        await this.push(payload);
         break;
       }
     }
   }
 
-  async render() {
+  async render(payload: any) {
     const character = await new Character(this.userId).load()
     const logger  = await new GameLogger(this.userId).load()
+    const currentScene = payload?.scene ?? "main"
 
     return {
       currentLogs: logger.currentLogs,
       character: character ,
       currentLocation: await character.currentLocation(),
       availableActions: character.getAvailableAction(),
-      currentScene: "main",
+      currentScene: currentScene,
       error: ""
     }
   }
 
-  async push() {
+  async push(payload: any) {
     const webSocket = (global as any)?.["wsServer"] as WebSocketServer;
     if (!webSocket) return
 
@@ -55,7 +57,7 @@ export default class GameRenderer {
     if (!client || client.readyState != 1) return
 
     setTimeout(async () => {
-      const data = await this.render()
+      const data = await this.render(payload)
       client.send(JSON.stringify(data))
     }, 100)
   }
