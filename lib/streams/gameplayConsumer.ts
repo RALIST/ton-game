@@ -17,5 +17,3 @@ export async function startGameplayService() {
   console.log("Gameplay service started!")
   await gameConsumer()
 }
-
-await startGameplayService();

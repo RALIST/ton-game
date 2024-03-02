@@ -39,6 +39,10 @@ export class Character implements WithRedisStorage{
     this.currentLocationId = data?.currentLocationId ?? 1
     this.status = data?.status ?? "idle"
 
+    if (!data) {
+      await this.dump()
+    }
+
     return this
   }
 
@@ -58,6 +62,10 @@ export class Character implements WithRedisStorage{
       }
       case CharacterEvents.ATTACK_STARTED: {
         await this.handleAttackStarted(payload)
+        break;
+      }
+      case CharacterEvents.RUN_STARTED: {
+        await this.handleRunStarted(payload)
         break;
       }
       case CharacterEvents.ENEMIES_FOUND: {
@@ -98,6 +106,20 @@ export class Character implements WithRedisStorage{
       await streamEvent.actionCompleted(this.userId, {status: "tired"}).send()
     }
   }
+  async handleRunStarted(payload: any) {
+    const streamEvent = new StreamEvent()
+
+    if (this.endurance > 0) {
+      const newPayload = { ...payload, health: {type: "subtract", value: 1 } }
+      await streamEvent.characterAttributesChanged(this.userId, newPayload).send()
+      await this.changeLocation()
+      await streamEvent.runCompleted(this.userId, {location: (await this.currentLocation()).name}).send()
+      await streamEvent.characterMoved(this.userId, payload).send()
+    } else {
+      await streamEvent.characterTired(this.userId, payload).send()
+      await streamEvent.actionCompleted(this.userId, {status: "tired"}).send()
+    }
+  }
 
   getAvailableAction(): string[] {
     switch(this.status) {
@@ -127,10 +149,11 @@ export class Character implements WithRedisStorage{
 
     let nextLocationId = (this.currentLocationId + 1) % (map.locations.length + 1)
     if (nextLocationId == 0) nextLocationId = 1
+    this.currentLocationId = nextLocationId
     await this.update({currentLocationId: nextLocationId})
   }
 
-  async currentLocation(): Promise<GameLocation> {
+  async currentLocation() {
     const map = await new GameMap().load()
     const location =  map.locations.find((location) => location.id === this.currentLocationId)
     return location || map.locations[0]

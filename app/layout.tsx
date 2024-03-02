@@ -12,9 +12,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body className={inter.className}>
           <div className={"app"}>
-            {/*<TmaSDKLoader>*/}
+            <TmaSDKLoader>
               {children}
-            {/*</TmaSDKLoader>*/}
+            </TmaSDKLoader>
           </div>
       </body>
     </html>

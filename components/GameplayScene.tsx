@@ -7,15 +7,16 @@ import InventoryScreen from "@/components/scenes/InventoryScreen";
 import {useEffect, useState} from "react";
 import {useWebSocket} from "@/components/WebSocketContext";
 import {GameplayData} from "@/lib/GameRenderer";
+import {useInitData, useViewport} from "@tma.js/sdk-react";
 
 export default function GameplayScene() {
   const [game, setGame] = useState<GameplayData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const ws = useWebSocket()
+  const viewport = useViewport()
 
-  const userId = 1
   useEffect(() => {
-    // layout.expand()
+    viewport.expand();
     // @ts-ignore
     ws.onopen = () => {
       ws?.send("{}")
@@ -24,15 +25,13 @@ export default function GameplayScene() {
     // @ts-ignore
     ws.onmessage = function (event) {
       const data: GameplayData = JSON.parse(event.data)
-
       if (data.error) {
         setError(data.error)
         return
       }
-
       setGame(data)
     }
-  }, [ws]);
+  }, [viewport, ws]);
 
   if (error) {
     return <div>Error: {error}</div>

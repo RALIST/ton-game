@@ -15,8 +15,7 @@ export default class StreamEvent {
 
   async send() {
     if (!this.userId && !this.event) throw "Provide userId and event to send!"
-
-    console.log("Sending event", this.event)
+    console.log(`Sending event ${this.event} to ${this.userId}`)
 
     const eventStore = new EventStore(this.userId)
     await eventStore.emitEvent(this, "gameplay")
@@ -181,6 +180,20 @@ export default class StreamEvent {
     this.userId = userId
     this.payload = payload
     this.event = GameplayEvents.ACTION_COMPLETED
+    return this
+  }
+
+  runCompleted(userId: number, payload: any) {
+    this.userId = userId
+    this.payload = payload
+    this.event = GameplayEvents.RUN_COMPLETED
+    return this
+  }
+
+  dangerEventFound(userId: number, payload: any) {
+    this.userId = userId
+    this.payload = payload
+    this.event = GameplayEvents.DANGER_EVENT_FOUND
     return this
   }
 }

@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "npx next-ws-cli@latest patch -yy && next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000",
     "lint": "next lint",
-    "postinstall": "npx next-ws-cli@latest patch"
+    "postinstall": "npx next-ws-cli@latest patch -yy"
   },
   "dependencies": {
     "@tma.js/sdk-react": "^1.1.0",
@@ -18,6 +18,7 @@
     "react": "^18",
     "react-dom": "^18",
     "redis": "^4.6.13",
+    "sharp": "^0.33.2",
     "ws": "^8.16.0"
   },
   "devDependencies": {

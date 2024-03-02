@@ -5,12 +5,12 @@ import footerImage from "@/assets/floor.png";
 export default function ScreenBackground() {
   return (
     <>
-      <div className={"bgImage"}>
-        <Image src={bgImage} alt={""}></Image>
-      </div>
-      <div className={"footerImage"}>
-        <Image src={footerImage} alt={""}></Image>
-      </div>
+      {/*<div className={"bgImage"}>*/}
+      {/*  <Image src={bgImage} alt={""}></Image>*/}
+      {/*</div>*/}
+      {/*<div className={"footerImage"}>*/}
+      {/*  <Image src={footerImage} alt={""}></Image>*/}
+      {/*</div>*/}
     </>
   )
 }

@@ -31,6 +31,7 @@ a {
   background: rgba(106, 90, 205, 0.8);
   color: orange;
   min-width: 40%;
+  cursor: pointer;
 }
 
 .app {
@@ -55,19 +56,26 @@ a {
   flex-wrap: wrap;
   background-image: url("../assets/sky.png");
   background-size: cover;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: hidden;
 }
 
 .scene {
   display: flex;
   flex-direction: column;
-  overflow: scroll;
   height: 40vh;
   padding: 0 10px;
   position: relative;
   background: rgba(0, 0, 0, 0.5);
   -ms-overflow-style: none;
-  scrollbar-width: none;
   flex-grow: 4;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-color:  indigo transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
   gap: 8px;
 
   .log {

@@ -55,6 +55,10 @@ export class GameLogger implements WithRedisStorage{
         await this.info(description)
         break;
       }
+      case LoggerEvents.DANGER_EVENT_FOUND: {
+        await this.alert("Ты зачем то полез в темный подвал. Что ты там хотел найти? В темноте ты напоролся на острую арматуру. Будет тебе уроком.")
+        break
+      }
       case LoggerEvents.CHARACTER_ATTRIBUTES_CHANGED: {
         const { health, endurance} = payload
         if (health) {
@@ -63,11 +67,11 @@ export class GameLogger implements WithRedisStorage{
             await this.alert(`Ты потерял ${value} здоровья!`);
         }
 
-        if (endurance) {
-          const {type, value} = endurance
-          if (type === "subtract")
-            await this.info(`Ты потратил ${value} выносливости за этот переход!`);
-        }
+        // if (endurance) {
+        //   const {type, value} = endurance
+        //   if (type === "subtract")
+        //     await this.info(`Ты потратил ${value} выносливости за этот переход!`);
+        // }
 
         break;
       }
@@ -81,6 +85,13 @@ export class GameLogger implements WithRedisStorage{
       }
       case LoggerEvents.NOTHING_FOUND: {
         await this.info("До тебя здесь побывало куча людей, даже дырявого мешка не найти.")
+        break;
+      }
+      case LoggerEvents.RUN_COMPLETED: {
+        await this.alert("Враг вдогонку пнул тебя и кричал всякие неприятные вещи!")
+        await this.info("Тебе стоит вернуться и отомстить ему при случае. Такое нельзя терпеть!")
+        await this.success(`Ты убежал от врага в ${payload.location}`)
+        break;
       }
     }
   }

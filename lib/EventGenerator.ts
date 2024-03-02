@@ -39,6 +39,7 @@ export class EventGenerator {
           await streamEvent.lookCompleted(this.userId, payload).send()
           await streamEvent.actionCompleted(this.userId, {status: "looked"}).send()
         } else if(Math.random() < 0.2) {
+          await streamEvent.dangerEventFound(this.userId, payload).send()
           await streamEvent.characterAttributesChanged(this.userId, {
             health: { type: "subtract", value: 1 }
           }).send()

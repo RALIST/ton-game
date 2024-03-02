@@ -16,6 +16,7 @@ export enum CharacterEvents {
   REST_STARTED = "rest_started",
   ACTION_COMPLETED = "action_completed",
   RANDOM_EVENT_FOUND = "random_event_found",
+  RUN_STARTED = "run_started",
 }
 export type CharacterEvent = typeof CharacterEvents
 
@@ -36,6 +37,8 @@ export enum LoggerEvents {
   REST_COMPLETED = "rest_completed",
   NOTHING_FOUND = "nothing_found",
   CHARACTER_DEAD = "character_dead",
+  RUN_COMPLETED = "run_completed",
+  DANGER_EVENT_FOUND = "danger_event_found"
 }
 export type LoggerEvent = typeof LoggerEvents
 

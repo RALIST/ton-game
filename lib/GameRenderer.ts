@@ -31,7 +31,7 @@ export default class GameRenderer {
     }
   }
 
-  async render(): Promise<GameplayData> {
+  async render() {
     const character = await new Character(this.userId).load()
     const logger  = await new GameLogger(this.userId).load()
 
