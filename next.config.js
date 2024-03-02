@@ -5,8 +5,7 @@ const nextConfig = {
     experimental: {
         instrumentationHook: true,
     },
-    reactStrictMode: false,
-    output: "standalone",
+    reactStrictMode: false
 }
 
 module.exports = nextConfig
