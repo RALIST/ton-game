@@ -51,7 +51,7 @@ export default function GameplayScene() {
         return <CharacterScreen character={game.character}/>
       }
       case "inventory": {
-        return <InventoryScreen/>
+        return <InventoryScreen inventory={game.inventory}/>
       }
     }
   }

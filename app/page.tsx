@@ -18,7 +18,9 @@ export default function Home() {
 
   return (
     <WebSocketProvider url={url}>
-      <GameplayScene/>
+      <div className={"screen"}>
+        <GameplayScene/>
+      </div>
     </WebSocketProvider>
   )
 };

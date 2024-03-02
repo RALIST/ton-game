@@ -5,29 +5,29 @@ import CurrentLocation from "@/components/CurrentLocation";
 import Scene from "@/components/Scene";
 import ScreenBackground from "@/components/ScreenBackgound";
 import {GameplayData} from "@/lib/GameRenderer";
+import {useBackButton} from "@tma.js/sdk-react";
+import {useEffect} from "react";
 
 function Timer() {
   return (<div>
-
   </div>)
 }
 
 export default function MainScreen({game}: { game: GameplayData }) {
-  let actions;
-  if (game.character.status !== "inAction") {
-    actions = <ActionList actions={game.availableActions}/>
-  } else {
-    actions = <Timer/>
-  }
+  const backButton = useBackButton()
+  useEffect(() => {
+    backButton.hide();
+  }, [backButton]);
+
   return (
-    <div className={"screen"}>
+    <>
       <HeaderMenu character={game.character}/>
       <div className={"gameScreen"}>
         <CurrentLocation location={game.currentLocation}/>
         <Scene log={game.currentLogs}/>
-        {actions}
+        <ActionList actions={game.availableActions}/>
       </div>
       <FooterMenu/>
-    </div>
+    </>
   )
 }

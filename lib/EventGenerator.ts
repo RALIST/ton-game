@@ -34,8 +34,10 @@ export class EventGenerator {
       }
       case GeneratorEvents.LOOK_STARTED: {
         if(Math.random() < 0.4) {
-          const newPayload = {...payload, item: this.randomItem()}
+          const item = this.randomItem()
+          const newPayload = {...payload, item: item}
           await streamEvent.itemsFound(this.userId, newPayload).send()
+          await streamEvent.itemAdded(this.userId, {item: item.id}).send()
           await streamEvent.lookCompleted(this.userId, payload).send()
           await streamEvent.actionCompleted(this.userId, {status: "looked"}).send()
         } else if(Math.random() < 0.2) {

@@ -50,10 +50,15 @@ export enum OtherEvents {
   LOOK_COMPLETED = "look_completed",
 }
 
+export enum InventoryEvents {
+  ITEM_ADDED = "item_added"
+}
+
 export const GameplayEvents = {
   ...OtherEvents,
   ...CharacterEvents,
   ...GeneratorEvents,
   ...LoggerEvents,
-  ...RendererEvents
+  ...RendererEvents,
+  ...InventoryEvents
 }

@@ -3,14 +3,19 @@ import {Character} from "@/lib/Character";
 import {GameLocation} from "@/lib/GameLocation";
 import {WebSocketServer, WebSocket} from "ws";
 import {RendererEvents} from "@/lib/utils/gameEvents";
+import Inventory from "@/lib/Inventory";
+import Item from "@/lib/Item";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
   character: Character,
   availableActions: string[],
   currentScene: string,
-  currentLocation: GameLocation
-  error: string
+  currentLocation: GameLocation,
+  inventory: {
+    items: Item[]
+  },
+  error: string,
 }
 
 // collect game data and push data to ws socket
@@ -35,6 +40,7 @@ export default class GameRenderer {
   async render(payload: any) {
     const character = await new Character(this.userId).load()
     const logger  = await new GameLogger(this.userId).load()
+    const inventory = await new Inventory(this.userId).load()
     const currentScene = payload?.scene ?? "main"
 
     return {
@@ -43,6 +49,7 @@ export default class GameRenderer {
       currentLocation: await character.currentLocation(),
       availableActions: character.getAvailableAction(),
       currentScene: currentScene,
+      inventory: { items: inventory.getItems() },
       error: ""
     }
   }
