@@ -204,48 +204,6 @@ h2 {
   margin: 0;
 }
 
-.map {
-  width: 100vw;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  overflow-x: hidden;
-  overflow-y: scroll;
-
-  a {
-    position: absolute;
-    z-index: 1;
-    top: 10px;
-    left: 10px;
-  }
-
-  .location {
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    width: calc(100vw / 5);
-    height: calc(100vh / 5);
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .currentLocation {
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    width: calc(100vw / 5);
-    height: calc(100vh / 5);
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-    background: rgba(106, 90, 205, 0.8);
-  }
-}
-
 .currentLocation {
   padding: 4px 10px;
   display: flex;
@@ -261,46 +219,4 @@ h2 {
   .locationDesc {
     font-size: 14px;
   }
-}
-
-.character {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  .characterName {
-    font-size: 18px;
-    text-align: center;
-    color: orange;
-    font-weight: bold;
-    padding-top: 10px;
-  }
-
-  .characterStats {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-  }
-}
-
-.inventory {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  overflow-y: scroll;
-  padding: 10px 10px;
-  .inventoryItem {
-    .itemName {
-      color: gold;
-      font-weight: bold;
-    }
-
-    .itemDescription {
-      font-size: 12px;
-      color: orange;
-    }
-  }
-
 }

@@ -6,6 +6,12 @@ import {GameCommands} from "@/lib/utils/gameCommands";
 import {GameplayData} from "@/lib/GameRenderer";
 import {useEffect} from "react";
 
+import "@/assets/character.css"
+import Attributes from "@/components/Attributes";
+import Skills from "@/components/Skills";
+import Perks from "@/components/Perks";
+import Stats from "@/components/Stats";
+
 export default function CharacterScreen({character}: {character: GameplayData["character"]}){
   const ws = useWebSocket()
   const initData = useInitData();
@@ -26,10 +32,14 @@ export default function CharacterScreen({character}: {character: GameplayData["c
   return (
     <div className={"character"}>
       <div className={"characterName"}>{character.name}</div>
-      <div className={"characterStats"}>
-        <div>❤️ {character.currentHealth}/{character.maxHealth}</div>
-        <div>⚡ {character.endurance}/{character.maxEndurance}</div>
-      </div>
+      <Stats
+        currentHealth={character.currentHealth}
+        maxHealth={character.maxHealth}
+        endurance={character.endurance}
+        maxEndurance={character.maxEndurance}/>
+      <Attributes attributes={character.attributes}/>
+      <Skills skills={character.skills}/>
+      <Perks perks={character.perks}/>
     </div>
   )
 }

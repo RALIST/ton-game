@@ -1,12 +1,27 @@
-import characterData from "./data/character.json"
 import {CharacterEvents} from "@/lib/utils/gameEvents";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 import {applyOperation} from "@/lib/utils/helpers";
 import {GameMap} from "@/lib/GameMap";
-import {GameLocation} from "@/lib/GameLocation";
 import StreamEvent from "@/lib/streams/StreamEvent";
+import characterData from "./data/character.json"
+import skillsData from "./data/skills.json"
+import perksData  from "./data/perks.json"
+import Skill from "@/lib/character/Skill";
+import Perk from "@/lib/character/Perk";
 
-export class Character implements WithRedisStorage{
+export type CharacterSkill = {
+  skillId: number,
+  level: number,
+  exp: number
+}
+
+export type CharacterAttribute = {
+  name: string,
+  description: string,
+  value: number
+}
+
+export class Character implements WithRedisStorage {
   userId: number;
   name!: string;
   maxHealth!: number;
@@ -19,6 +34,9 @@ export class Character implements WithRedisStorage{
   currentLocationId!: number
   status!: "idle" | "inBattle" | "inAction" | "tired" | "looked" | "dead"
   storage!: RedisStorage
+  skills!: CharacterSkill[] // skills ids
+  perks!: number[] // perks ids
+  attributes!: CharacterAttribute[]
 
   constructor(id: number) {
     this.userId = id
@@ -38,12 +56,61 @@ export class Character implements WithRedisStorage{
     this.name = data?.name ?? characterData.name
     this.currentLocationId = data?.currentLocationId ?? 1
     this.status = data?.status ?? "idle"
+    this.skills = data?.skills ?? await this.loadSkills()
+    this.perks = data?.perks ?? await this.loadPerks()
+    this.attributes = data?.attributes ?? await this.loadAttributes()
 
     if (!data) {
       await this.dump()
     }
 
     return this
+  }
+
+  async loadSkills() {
+    this.skills = []
+    skillsData.map(skill => {
+      this.skills.push({
+        skillId: skill.id,
+        level: 1,
+        exp: 0
+      })
+    })
+
+    await this.update({skills: this.skills})
+  }
+
+  getSkills() {
+    return this.skills.map(skill => {
+      const s: Skill | undefined = skillsData.find(dataSkill => dataSkill.id == skill.skillId)
+      return { skill: s, level: skill.level, exp: skill.exp }
+    })
+  }
+
+  async loadPerks() {
+    this.perks = []
+    const randomPerk = perksData[(Math.floor(Math.random() * perksData.length))]
+    this.perks.push(randomPerk.id)
+
+    await this.update({perks: this.perks})
+  }
+
+  getPerks(): Perk[] {
+    return perksData.filter(perk => this.perks.includes(perk.id))
+  }
+
+  async loadAttributes(){
+    this.attributes = []
+    const attr1: CharacterAttribute = {name: "Сила", description: "" , value: 1}
+    const attr2: CharacterAttribute = {name: "Восприятие", description: "" , value: 1}
+    const attr3: CharacterAttribute = {name: "Выносливость", description: "" , value: 1}
+    const attr4: CharacterAttribute = {name: "Харизма", description: "" , value: 1}
+    const attr5: CharacterAttribute = {name: "Ителлект", description: "" , value: 1}
+    const attr6: CharacterAttribute = {name: "Ловкость", description: "" , value: 1}
+    const attr7: CharacterAttribute = {name: "Удача", description: "" , value: 1}
+
+    this.attributes.push(attr1, attr2, attr3, attr4, attr5, attr6, attr7)
+    await this.update({attributes: this.attributes})
   }
 
   async dump() {

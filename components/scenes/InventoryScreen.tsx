@@ -5,6 +5,8 @@ import {useEffect} from "react";
 import {GameplayData} from "@/lib/GameRenderer";
 import InventoryItemsList from "@/components/InventoryItemsList";
 
+import "@/assets/inventory.css"
+
 export default function InventoryScreen({inventory}: {inventory: GameplayData["inventory"]}){
   const ws = useWebSocket()
   const initData = useInitData();

@@ -1,14 +1,34 @@
 import {GameLogger, LogEntry} from "@/lib/GameLogger";
-import {Character} from "@/lib/Character";
+import {Character, CharacterAttribute} from "@/lib/Character";
 import {GameLocation} from "@/lib/GameLocation";
 import {WebSocketServer, WebSocket} from "ws";
 import {RendererEvents} from "@/lib/utils/gameEvents";
 import Inventory from "@/lib/Inventory";
 import Item from "@/lib/Item";
+import Perk from "@/lib/character/Perk";
+import Skill from "@/lib/character/Skill";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
-  character: Character,
+  character: {
+    userId: number,
+    balance: number,
+    currenLocationId: number,
+    enduranceRecoverySpeed: number,
+    healthRecoverySpeed: number,
+    name: string,
+    currentHealth: number,
+    maxHealth: number,
+    endurance: number,
+    maxEndurance: number,
+    perks: Perk[],
+    skills: {
+      skill: Skill,
+      exp: number,
+      level: number
+    }[],
+    attributes: CharacterAttribute[]
+  },
   availableActions: string[],
   currentScene: string,
   currentLocation: GameLocation,
@@ -45,7 +65,12 @@ export default class GameRenderer {
 
     return {
       currentLogs: logger.currentLogs,
-      character: character ,
+      character: {
+        ...character,
+        attributes: character.attributes,
+        skills: character.getSkills(),
+        perks: character.getPerks()
+      },
       currentLocation: await character.currentLocation(),
       availableActions: character.getAvailableAction(),
       currentScene: currentScene,
@@ -66,6 +91,6 @@ export default class GameRenderer {
     setTimeout(async () => {
       const data = await this.render(payload)
       client.send(JSON.stringify(data))
-    }, 100)
+    }, 1000 / 60)
   }
 }

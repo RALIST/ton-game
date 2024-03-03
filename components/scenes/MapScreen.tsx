@@ -1,10 +1,10 @@
 import {GameMap} from "@/lib/GameMap";
-import Link from "next/link";
 import {useWebSocket} from "@/components/WebSocketContext";
 import {useEffect, useState} from "react";
 import {GameLocation} from "@/lib/GameLocation";
 import {GameCommands} from "@/lib/utils/gameCommands";
 import {useBackButton, useInitData} from "@tma.js/sdk-react";
+import "@/assets/map.css"
 
 export default function MapScreen({currentLocation}: {currentLocation: GameLocation}){
   const ws = useWebSocket()
