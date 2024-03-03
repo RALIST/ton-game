@@ -3,11 +3,11 @@ import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 import {applyOperation} from "@/lib/utils/helpers";
 import {GameMap} from "@/lib/GameMap";
 import StreamEvent from "@/lib/streams/StreamEvent";
+import Skill from "@/lib/character/Skill";
+
 import characterData from "./data/character.json"
 import skillsData from "./data/skills.json"
 import perksData  from "./data/perks.json"
-import Skill from "@/lib/character/Skill";
-import Perk from "@/lib/character/Perk";
 
 export type CharacterSkill = {
   skillId: number,
@@ -68,19 +68,24 @@ export class Character implements WithRedisStorage {
   }
 
   async loadSkills() {
-    this.skills = []
+    const skls: CharacterSkill[] = []
     skillsData.map(skill => {
-      this.skills.push({
+      skls.push({
         skillId: skill.id,
         level: 1,
         exp: 0
       })
     })
 
-    await this.update({skills: this.skills})
+    this.skills = skls
+    await this.update({skills: skls})
   }
 
-  getSkills() {
+  async getSkills() {
+    if (!this.skills) {
+      await this.loadSkills()
+    }
+
     return this.skills.map(skill => {
       const s: Skill | undefined = skillsData.find(dataSkill => dataSkill.id == skill.skillId)
       return { skill: s, level: skill.level, exp: skill.exp }
@@ -88,29 +93,44 @@ export class Character implements WithRedisStorage {
   }
 
   async loadPerks() {
-    this.perks = []
+    const prks: number[] =  []
     const randomPerk = perksData[(Math.floor(Math.random() * perksData.length))]
-    this.perks.push(randomPerk.id)
+    prks.push(randomPerk.id)
+    this.perks = prks
 
-    await this.update({perks: this.perks})
+    await this.update({perks: prks})
   }
 
-  getPerks(): Perk[] {
+  async getPerks() {
+    if (!this.perks) {
+      await this.loadPerks()
+    }
+
     return perksData.filter(perk => this.perks.includes(perk.id))
   }
 
   async loadAttributes(){
-    this.attributes = []
+    const atrs: CharacterAttribute[] = []
     const attr1: CharacterAttribute = {name: "Сила", description: "" , value: 1}
     const attr2: CharacterAttribute = {name: "Восприятие", description: "" , value: 1}
     const attr3: CharacterAttribute = {name: "Выносливость", description: "" , value: 1}
     const attr4: CharacterAttribute = {name: "Харизма", description: "" , value: 1}
-    const attr5: CharacterAttribute = {name: "Ителлект", description: "" , value: 1}
+    const attr5: CharacterAttribute = {name: "Интеллект", description: "" , value: 1}
     const attr6: CharacterAttribute = {name: "Ловкость", description: "" , value: 1}
     const attr7: CharacterAttribute = {name: "Удача", description: "" , value: 1}
 
-    this.attributes.push(attr1, attr2, attr3, attr4, attr5, attr6, attr7)
-    await this.update({attributes: this.attributes})
+    atrs.push(attr1, attr2, attr3, attr4, attr5, attr6, attr7)
+    this.attributes = atrs
+
+    await this.update({attributes: atrs})
+  }
+
+  async getAttributes() {
+    if (!this.attributes) {
+      await this.loadAttributes()
+    }
+
+    return this.attributes
   }
 
   async dump() {

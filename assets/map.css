@@ -11,24 +11,27 @@
         font-size: 12px;
         display: flex;
         flex-direction: column;
-        width: calc(100vw / 5);
+        width: calc(100vw / 3);
         height: calc(100vh / 5);
         align-items: center;
         justify-content: center;
         text-align: center;
         overflow: hidden;
+        color: orange;
     }
 
     .currentLocation {
         font-size: 12px;
         display: flex;
         flex-direction: column;
-        width: calc(100vw / 5);
+        width: calc(100vw / 3);
         height: calc(100vh / 5);
         align-items: center;
         justify-content: center;
         text-align: center;
         overflow: hidden;
-        background: rgba(106, 90, 205, 0.8);
+        background: rgba(103, 32, 159, 0.8);
+        color: orange;
+        font-weight: bold;
     }
 }

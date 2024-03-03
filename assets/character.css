@@ -8,16 +8,56 @@
     .title {
         color: orange;
         font-weight: bold;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
     }
-    .attribute {
-        color: crimson;
+    .characterAttributes {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        .attribute {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            .attributeName {
+                color: crimson;
+                font-weight: bold;
+            }
+            .attributeValue {
+                color: orange;
+                font-weight: bold;
+            }
+        }
     }
-    .skill {
-        color: forestgreen;
+    .characterSkills {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .skill {
+            color: forestgreen;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            .skillName {
+                font-weight: bold;
+            }
+            .skillDesc {
+                color: orange;
+                font-size: 12px;
+            }
+        }
     }
 
     .perk {
         color: brown;
+        font-weight: bold;
+    }
+
+    .perkDesc {
+        color: orange;
+        font-size: 12px;
     }
     .characterName {
         font-size: 18px;

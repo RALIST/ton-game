@@ -67,9 +67,9 @@ export default class GameRenderer {
       currentLogs: logger.currentLogs,
       character: {
         ...character,
-        attributes: character.attributes,
-        skills: character.getSkills(),
-        perks: character.getPerks()
+        attributes: await character.getAttributes(),
+        skills: await character.getSkills(),
+        perks: await character.getPerks()
       },
       currentLocation: await character.currentLocation(),
       availableActions: character.getAvailableAction(),

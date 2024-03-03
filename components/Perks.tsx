@@ -5,7 +5,12 @@ export default function Perks({perks}: {perks: GameplayData["character"]["perks"
     <div className={"characterPerks"}>
       <div className={"title"}>Перки</div>
       {perks.map((perk, index) => {
-        return <div key={index} className={"perk"}>{perk.name}</div>
+        return (
+          <>
+            <div key={index} className={"perk"}>{perk.name}</div>
+            <div className={"perkDesc"}>{perk.description}</div>
+          </>
+        )
       })}
     </div>
   )

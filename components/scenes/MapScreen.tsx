@@ -34,7 +34,6 @@ export default function MapScreen({currentLocation}: {currentLocation: GameLocat
       <div className={"map"}>
         {map.locations.map(location => {
           return <div key={location.id} className={isCurrent(location.id) ? "currentLocation" : "location"}>
-            <div>{location.id} </div>
             <div>{location.name}</div>
           </div>
         })}

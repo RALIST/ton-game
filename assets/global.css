@@ -220,3 +220,10 @@ h2 {
     font-size: 14px;
   }
 }
+
+.title {
+  font-size: 18px;
+  text-align: center;
+  color: orange;
+  font-weight: bold;
+}

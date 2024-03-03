@@ -5,7 +5,10 @@ export default function Attributes({attributes}: {attributes: GameplayData["char
     <div className={"characterAttributes"}>
       <div className={"title"}>Аттрибуты</div>
       {attributes.map((attr, index) => {
-        return <div key={index} className={"attribute"}>{attr.name}: {attr.value}</div>
+        return <div key={index} className={"attribute"}>
+          <span className={"attributeName"}>{attr.name}</span>
+          <span className={"attributeValue"}>{attr.value}</span>
+        </div>
       })}
     </div>
   )
