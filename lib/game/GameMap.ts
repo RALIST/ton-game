@@ -22,7 +22,7 @@ export class GameMap {
     this.locations = []
 
     locationsData.map(location => {
-      this.locations.push(new GameLocation(location.id, location.name, location.desc))
+      this.locations.push(new GameLocation(location.id, location.name, location.desc, "danger"))
     })
   }
 }
