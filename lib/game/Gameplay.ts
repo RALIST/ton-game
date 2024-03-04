@@ -1,15 +1,15 @@
-import {GeneratorEvents} from "@/lib/utils/gameEvents";
-import Enemy from "@/lib/Enemy";
+import {GameplayEvents} from "@/lib/utils/GameEvents";
+import Enemy from "@/lib/game/Enemy";
 
 import enemiesData from "@/lib/data/enemies.json"
 import itemsData from "@/lib/data/items.json"
 import eventsData from "@/lib/data/events.json"
 
-import Item from "@/lib/Item";
-import RandomEvent from "@/lib/RandomEvent";
+import Item from "@/lib/game/Item";
+import RandomEvent from "@/lib/game/RandomEvent";
 import StreamEvent from "@/lib/streams/StreamEvent";
 
-export class EventGenerator {
+export class Gameplay {
   userId: number;
 
   constructor(userId: number) {
@@ -20,7 +20,7 @@ export class EventGenerator {
     const streamEvent = new StreamEvent()
 
     switch (event) {
-      case GeneratorEvents.CHARACTER_MOVED: {
+      case GameplayEvents.CHARACTER_MOVED: {
         if (Math.random() < 0.3) {
           const newPayload = {...payload, enemy: this.randomEnemy()}
           await streamEvent.enemiesFound(this.userId, newPayload).send()
@@ -32,7 +32,7 @@ export class EventGenerator {
         }
         break;
       }
-      case GeneratorEvents.LOOK_STARTED: {
+      case GameplayEvents.LOOK_STARTED: {
         if(Math.random() < 0.4) {
           const item = this.randomItem()
           const newPayload = {...payload, item: item}

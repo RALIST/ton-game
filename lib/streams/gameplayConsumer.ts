@@ -2,8 +2,7 @@ import {listenToStream} from "@/lib/streams/utils";
 import CharacterService from "@/lib/services/CharacterService";
 import GameLoggerService from "@/lib/services/GameLoggerService";
 import GameRendererService from "@/lib/services/GameRendererService";
-import EventGeneratorService from "@/lib/services/EventGeneratorService";
-import Inventory from "@/lib/Inventory";
+import GameplayService from "@/lib/services/GameplayService";
 import InventoryService from "@/lib/services/InventoryService";
 
 let streamInterval: NodeJS.Timeout | undefined;
@@ -11,7 +10,7 @@ let streamInterval: NodeJS.Timeout | undefined;
 async function gameConsumer(){
   streamInterval = await listenToStream((message) => {
     CharacterService.handleEvent(message)
-    EventGeneratorService.handleEvent(message)
+    GameplayService.handleEvent(message)
     InventoryService.handleEvent(message)
     GameLoggerService.handleEvent(message)
     GameRendererService.handleEvent(message)

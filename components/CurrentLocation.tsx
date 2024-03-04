@@ -1,4 +1,4 @@
-import {GameLocation} from "@/lib/GameLocation";
+import {GameLocation} from "@/lib/game/GameLocation";
 
 export default function CurrentLocation({location}: {location: GameLocation}) {
   return (

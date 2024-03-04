@@ -1,4 +1,4 @@
-import Item from "@/lib/Item";
+import Item from "@/lib/game/Item";
 
 export default function InventoryItem({item}: {item: Item}) {
   return (

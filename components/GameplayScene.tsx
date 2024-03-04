@@ -6,8 +6,8 @@ import CharacterScreen from "@/components/scenes/CharacterScreen";
 import InventoryScreen from "@/components/scenes/InventoryScreen";
 import {useEffect, useState} from "react";
 import {useWebSocket} from "@/components/WebSocketContext";
-import {GameplayData} from "@/lib/GameRenderer";
-import {useInitData, useViewport} from "@tma.js/sdk-react";
+import {GameplayData} from "@/lib/utils/GameRenderer";
+import {useViewport} from "@tma.js/sdk-react";
 
 export default function GameplayScene() {
   const [game, setGame] = useState<GameplayData | null>(null)

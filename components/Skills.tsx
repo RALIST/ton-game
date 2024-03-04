@@ -1,4 +1,4 @@
-import {GameplayData} from "@/lib/GameRenderer";
+import {GameplayData} from "@/lib/utils/GameRenderer";
 
 export default function Skills({skills}: {skills: GameplayData["character"]["skills"]}) {
   return (

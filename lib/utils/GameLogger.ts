@@ -1,8 +1,8 @@
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
-import {LoggerEvents} from "@/lib/utils/gameEvents";
-import Enemy from "@/lib/Enemy";
-import Item from "@/lib/Item";
-import RandomEvent from "@/lib/RandomEvent";
+import {LoggerEvents} from "@/lib/utils/GameEvents";
+import Enemy from "@/lib/game/Enemy";
+import Item from "@/lib/game/Item";
+import RandomEvent from "@/lib/game/RandomEvent";
 
 export type LogEntry = {
   message: string,
@@ -24,7 +24,7 @@ export class GameLogger implements WithRedisStorage{
 
   async handleEvent(event: string, payload: any) {
     switch (event) {
-      case LoggerEvents.MOVE_STARTED: {
+      case LoggerEvents.CHARACTER_MOVE_STARTED: {
         await this.clearLogs()
         break;
       }
@@ -79,7 +79,7 @@ export class GameLogger implements WithRedisStorage{
         await this.success("Ты хорошо отдохнул, пора в путь!")
         break
       }
-      case LoggerEvents.ATTACK_COMPLETED: {
+      case LoggerEvents.CHARACTER_ATTACK_COMPLETED: {
         await this.success("Кажется, тебе удалось выжить в этой бойне. Едем дальше.")
         break;
       }
@@ -87,7 +87,7 @@ export class GameLogger implements WithRedisStorage{
         await this.info("До тебя здесь побывало куча людей, даже дырявого мешка не найти.")
         break;
       }
-      case LoggerEvents.RUN_COMPLETED: {
+      case LoggerEvents.CHARACTER_RUN_COMPLETED: {
         await this.alert("Враг вдогонку пнул тебя и кричал всякие неприятные вещи!")
         await this.info("Тебе стоит вернуться и отомстить ему при случае. Такое нельзя терпеть!")
         await this.success(`Ты убежал от врага в ${payload.location}`)

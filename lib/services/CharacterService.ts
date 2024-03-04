@@ -1,7 +1,7 @@
 import StreamEvent from "@/lib/streams/StreamEvent";
-import {Character} from "@/lib/Character";
+import {Character} from "@/lib/game/Character";
 import {isValidEvent} from "@/lib/streams/utils";
-import {CharacterEvents} from "@/lib/utils/gameEvents";
+import {CharacterEvents} from "@/lib/utils/GameEvents";
 
 export default class CharacterService {
   public static async handleEvent(message: any) {

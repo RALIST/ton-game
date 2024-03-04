@@ -1,6 +1,6 @@
-import {GameLocation} from "@/lib/GameLocation";
+import {GameLocation} from "@/lib/game/GameLocation";
 
-import locationsData from "./data/locations.json"
+import locationsData from "../data/locations.json"
 
 export class GameMap {
   locations!: GameLocation[];

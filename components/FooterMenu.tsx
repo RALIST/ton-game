@@ -1,6 +1,6 @@
 import {useWebSocket} from "@/components/WebSocketContext";
 import {useInitData} from "@tma.js/sdk-react";
-import {GameCommands} from "@/lib/utils/gameCommands";
+import {GameCommands} from "@/lib/utils/GameCommands";
 
 export default function FooterMenu(){
   const ws = useWebSocket()

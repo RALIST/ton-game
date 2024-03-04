@@ -2,8 +2,8 @@
 
 import {useWebSocket} from "@/components/WebSocketContext";
 import {useBackButton, useInitData} from "@tma.js/sdk-react";
-import {GameCommands} from "@/lib/utils/gameCommands";
-import {GameplayData} from "@/lib/GameRenderer";
+import {GameCommands} from "@/lib/utils/GameCommands";
+import {GameplayData} from "@/lib/utils/GameRenderer";
 import {useEffect} from "react";
 
 import "@/assets/character.css"

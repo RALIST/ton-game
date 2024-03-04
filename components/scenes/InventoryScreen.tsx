@@ -1,8 +1,8 @@
 import {useWebSocket} from "@/components/WebSocketContext";
-import {GameCommands} from "@/lib/utils/gameCommands";
+import {GameCommands} from "@/lib/utils/GameCommands";
 import {useBackButton, useInitData} from "@tma.js/sdk-react";
 import {useEffect} from "react";
-import {GameplayData} from "@/lib/GameRenderer";
+import {GameplayData} from "@/lib/utils/GameRenderer";
 import InventoryItemsList from "@/components/InventoryItemsList";
 
 import "@/assets/inventory.css"

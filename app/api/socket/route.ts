@@ -1,7 +1,7 @@
 import {IncomingMessage} from "node:http";
 import {WebSocket, WebSocketServer} from "ws";
 import {publishToStream} from "@/lib/streams/utils";
-import GamePerformer from "@/lib/GamePerformer";
+import GamePerformer from "@/lib/utils/GamePerformer";
 import StreamEvent from "@/lib/streams/StreamEvent";
 import {NextResponse} from "next/server";
 

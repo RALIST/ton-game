@@ -1,8 +1,7 @@
 import StreamEvent from "@/lib/streams/StreamEvent";
 import {isValidEvent} from "@/lib/streams/utils";
-import {InventoryEvents, RendererEvents} from "@/lib/utils/gameEvents";
-import GameRenderer from "@/lib/GameRenderer";
-import Inventory from "@/lib/Inventory";
+import {InventoryEvents} from "@/lib/utils/GameEvents";
+import Inventory from "@/lib/game/Inventory";
 
 export default class InventoryService {
   public static async handleEvent(message: any) {

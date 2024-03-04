@@ -1,4 +1,4 @@
-import {EventStore} from "@/lib/EventStore";
+import {EventStore} from "@/lib/utils/EventStore";
 import StreamEvent from "@/lib/streams/StreamEvent";
 
 export default async function emitEvent(data: StreamEvent, stream = "gameplay") {

@@ -1,5 +1,5 @@
 import InventoryItem from "@/components/InventoryItem";
-import Item from "@/lib/Item";
+import Item from "@/lib/game/Item";
 
 export default function InventoryItemsList({items}: {items: Item[]}) {
   return (

@@ -1,8 +1,8 @@
-import {GameMap} from "@/lib/GameMap";
+import {GameMap} from "@/lib/game/GameMap";
 import {useWebSocket} from "@/components/WebSocketContext";
 import {useEffect, useState} from "react";
-import {GameLocation} from "@/lib/GameLocation";
-import {GameCommands} from "@/lib/utils/gameCommands";
+import {GameLocation} from "@/lib/game/GameLocation";
+import {GameCommands} from "@/lib/utils/GameCommands";
 import {useBackButton, useInitData} from "@tma.js/sdk-react";
 import "@/assets/map.css"
 

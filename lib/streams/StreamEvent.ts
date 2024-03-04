@@ -1,5 +1,5 @@
-import {GameplayEvents} from "@/lib/utils/gameEvents";
-import {EventStore} from "@/lib/EventStore";
+import {GameEvents} from "@/lib/utils/GameEvents";
+import {EventStore} from "@/lib/utils/EventStore";
 
 export default class StreamEvent {
   userId!: number
@@ -22,21 +22,21 @@ export default class StreamEvent {
 
   moveStarted(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.MOVE_STARTED
+    this.event = GameEvents.CHARACTER_MOVE_STARTED
     this.payload = payload
     return this
   }
 
   moveCompleted(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.MOVE_COMPLETED
+    this.event = GameEvents.CHARACTER_MOVE_COMPLETED
     this.payload = payload
     return this
   }
 
   lookStarted(userId: number,payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.LOOK_STARTED
+    this.event = GameEvents.LOOK_STARTED
     this.payload = payload
     return this
   }
@@ -44,14 +44,14 @@ export default class StreamEvent {
   lookCompleted(userId: number,payload: any) {
     this.userId = userId
 
-    this.event = GameplayEvents.LOOK_COMPLETED
+    this.event = GameEvents.LOOK_COMPLETED
     this.payload = payload
     return this
   }
 
   attackStarted(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.ATTACK_STARTED
+    this.event = GameEvents.CHARACTER_ATTACK_STARTED
     this.payload = payload
     return this
   }
@@ -59,7 +59,7 @@ export default class StreamEvent {
   attackCompleted(userId: number, payload: any) {
     this.userId = userId
 
-    this.event = GameplayEvents.ATTACK_COMPLETED
+    this.event = GameEvents.CHARACTER_ATTACK_COMPLETED
     this.payload = payload
     return this
   }
@@ -67,7 +67,7 @@ export default class StreamEvent {
   runStarted(userId: number, payload: any) {
     this.userId = userId
 
-    this.event = GameplayEvents.RUN_STARTED
+    this.event = GameEvents.CHARACTER_RUN_STARTED
     this.payload = payload
     return this
   }
@@ -76,7 +76,7 @@ export default class StreamEvent {
     this.userId = userId
 
     this.userId = userId
-    this.event = GameplayEvents.CHARACTER_MOVED
+    this.event = GameEvents.CHARACTER_MOVED
     this.payload = payload
     return this
   }
@@ -84,20 +84,20 @@ export default class StreamEvent {
   gameInit(userId: number, payload: any) {
     this.userId = userId
 
-    this.event = GameplayEvents.GAME_INIT
+    this.event = GameEvents.GAME_INIT
     this.payload = payload
     return this
   }
 
   gameQuited(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.GAME_QUITED
+    this.event = GameEvents.GAME_QUITED
     this.payload = payload
     return this
   }
 
   characterAttributesChanged(userId: number, payload: any) {
-    this.event = GameplayEvents.CHARACTER_ATTRIBUTES_CHANGED
+    this.event = GameEvents.CHARACTER_ATTRIBUTES_CHANGED
     this.userId = userId
     this.payload = payload
 
@@ -105,14 +105,14 @@ export default class StreamEvent {
   }
 
   characterTired(userId: number, payload: any) {
-    this.event = GameplayEvents.CHARACTER_TIRED
+    this.event = GameEvents.CHARACTER_TIRED
     this.userId = userId
     this.payload = payload
     return this
   }
 
   globalCharacterAttributesChanged(userId: number, payload: any) {
-    this.event = GameplayEvents.GLOBAL_CHARACTER_ATTRIBUTES_CHANGED
+    this.event = GameEvents.GLOBAL_CHARACTER_ATTRIBUTES_CHANGED
     this.userId = userId
     this.payload = payload
 
@@ -120,7 +120,7 @@ export default class StreamEvent {
   }
 
   characterMaxHealthReached(userId: number, payload: any) {
-    this.event = GameplayEvents.CHARACTER_MAX_HEALTH_REACHED
+    this.event = GameEvents.CHARACTER_MAX_HEALTH_REACHED
     this.userId = userId
     this.payload = payload
     return this
@@ -128,49 +128,49 @@ export default class StreamEvent {
 
   characterDied(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.CHARACTER_DEAD
+    this.event = GameEvents.CHARACTER_DEAD
     this.payload = payload
     return this;
   }
 
   characterMaxEnduranceReached(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.CHARACTER_DEAD
+    this.event = GameEvents.CHARACTER_DEAD
     this.payload = payload
     return this;
   }
 
   itemsFound(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.ITEMS_FOUND
+    this.event = GameEvents.ITEMS_FOUND
     this.payload = payload
     return this;
   }
 
   enemiesFound(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.ENEMIES_FOUND
+    this.event = GameEvents.ENEMIES_FOUND
     this.payload = payload
     return this;
   }
 
   randomEventFound(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.RANDOM_EVENT_FOUND
+    this.event = GameEvents.RANDOM_EVENT_FOUND
     this.payload = payload
     return this;
   }
 
   restCompleted(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.REST_COMPLETED
+    this.event = GameEvents.REST_COMPLETED
     this.payload = payload
     return this;
   }
 
   nothingFound(userId: number, payload: any) {
     this.userId = userId
-    this.event = GameplayEvents.NOTHING_FOUND
+    this.event = GameEvents.NOTHING_FOUND
     this.payload = payload
     return this
   }
@@ -178,28 +178,28 @@ export default class StreamEvent {
   actionCompleted(userId: number, payload: any) {
     this.userId = userId
     this.payload = payload
-    this.event = GameplayEvents.ACTION_COMPLETED
+    this.event = GameEvents.CHARACTER_ACTION_COMPLETED
     return this
   }
 
   runCompleted(userId: number, payload: any) {
     this.userId = userId
     this.payload = payload
-    this.event = GameplayEvents.RUN_COMPLETED
+    this.event = GameEvents.CHARACTER_RUN_COMPLETED
     return this
   }
 
   dangerEventFound(userId: number, payload: any) {
     this.userId = userId
     this.payload = payload
-    this.event = GameplayEvents.DANGER_EVENT_FOUND
+    this.event = GameEvents.DANGER_EVENT_FOUND
     return this
   }
 
   itemAdded(userId: number, payload: { item: number }) {
     this.userId = userId
     this.payload = payload
-    this.event = GameplayEvents.ITEM_ADDED
+    this.event = GameEvents.ITEM_ADDED
     return this
   }
 }

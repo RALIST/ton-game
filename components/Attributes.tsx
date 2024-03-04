@@ -1,4 +1,4 @@
-import {GameplayData} from "@/lib/GameRenderer";
+import {GameplayData} from "@/lib/utils/GameRenderer";
 
 export default function Attributes({attributes}: {attributes: GameplayData["character"]["attributes"]}) {
   return(

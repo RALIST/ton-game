@@ -1,7 +1,7 @@
 import StreamEvent from "@/lib/streams/StreamEvent";
 import {isValidEvent} from "@/lib/streams/utils";
-import {RendererEvents} from "@/lib/utils/gameEvents";
-import GameRenderer from "@/lib/GameRenderer";
+import {RendererEvents} from "@/lib/utils/GameEvents";
+import GameRenderer from "@/lib/utils/GameRenderer";
 
 export default class GameRendererService {
   public static async handleEvent(message: any) {

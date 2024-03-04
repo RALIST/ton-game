@@ -1,12 +1,12 @@
-import {GameLogger, LogEntry} from "@/lib/GameLogger";
-import {Character, CharacterAttribute} from "@/lib/Character";
-import {GameLocation} from "@/lib/GameLocation";
+import {GameLogger, LogEntry} from "@/lib/utils/GameLogger";
+import {Character, CharacterAttribute} from "@/lib/game/Character";
+import {GameLocation} from "@/lib/game/GameLocation";
 import {WebSocketServer, WebSocket} from "ws";
-import {RendererEvents} from "@/lib/utils/gameEvents";
-import Inventory from "@/lib/Inventory";
-import Item from "@/lib/Item";
-import Perk from "@/lib/character/Perk";
-import Skill from "@/lib/character/Skill";
+import {RendererEvents} from "@/lib/utils/GameEvents";
+import Inventory from "@/lib/game/Inventory";
+import Item from "@/lib/game/Item";
+import Perk from "@/lib/game/character/Perk";
+import Skill from "@/lib/game/character/Skill";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
@@ -50,7 +50,7 @@ export default class GameRenderer {
     switch (event) {
       case RendererEvents.GAME_INIT:
       case RendererEvents.CHANGE_SCREEN_STARTED:
-      case RendererEvents.ACTION_COMPLETED: {
+      case RendererEvents.CHARACTER_ACTION_COMPLETED: {
         await this.push(payload);
         break;
       }

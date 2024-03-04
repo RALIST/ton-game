@@ -1,7 +1,7 @@
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
-import {InventoryEvents} from "@/lib/utils/gameEvents";
+import {InventoryEvents} from "@/lib/utils/GameEvents";
 import itemsData from "@/lib/data/items.json"
-import Item from "@/lib/Item";
+import Item from "@/lib/game/Item";
 
 export default class Inventory implements WithRedisStorage{
   userId: number

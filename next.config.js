@@ -5,7 +5,10 @@ const nextConfig = {
     experimental: {
         instrumentationHook: true,
     },
-    reactStrictMode: false
+    reactStrictMode: false,
+    images: {
+        unoptimized: true,
+    },
 }
 
 module.exports = nextConfig

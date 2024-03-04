@@ -1,4 +1,4 @@
-import {LogEntry} from "@/lib/GameLogger";
+import {LogEntry} from "@/lib/utils/GameLogger";
 
 export default function Scene({log}: {log: LogEntry[]}) {
   return (

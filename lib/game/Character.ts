@@ -1,13 +1,14 @@
-import {CharacterEvents} from "@/lib/utils/gameEvents";
+import {CharacterEvents} from "@/lib/utils/GameEvents";
 import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
 import {applyOperation} from "@/lib/utils/helpers";
-import {GameMap} from "@/lib/GameMap";
+import {GameMap} from "@/lib/game/GameMap";
 import StreamEvent from "@/lib/streams/StreamEvent";
-import Skill from "@/lib/character/Skill";
+import Skill from "@/lib/game/character/Skill";
 
-import characterData from "./data/character.json"
-import skillsData from "./data/skills.json"
-import perksData  from "./data/perks.json"
+import characterData from "../data/character.json"
+import skillsData from "../data/skills.json"
+import perksData  from "../data/perks.json"
+import {GameCommands} from "@/lib/utils/GameCommands";
 
 export type CharacterSkill = {
   skillId: number,
@@ -110,7 +111,7 @@ export class Character implements WithRedisStorage {
   }
 
   async loadAttributes(){
-    const atrs: CharacterAttribute[] = []
+    const attrs: CharacterAttribute[] = []
     const attr1: CharacterAttribute = {name: "Сила", description: "" , value: 1}
     const attr2: CharacterAttribute = {name: "Восприятие", description: "" , value: 1}
     const attr3: CharacterAttribute = {name: "Выносливость", description: "" , value: 1}
@@ -119,10 +120,10 @@ export class Character implements WithRedisStorage {
     const attr6: CharacterAttribute = {name: "Ловкость", description: "" , value: 1}
     const attr7: CharacterAttribute = {name: "Удача", description: "" , value: 1}
 
-    atrs.push(attr1, attr2, attr3, attr4, attr5, attr6, attr7)
-    this.attributes = atrs
+    attrs.push(attr1, attr2, attr3, attr4, attr5, attr6, attr7)
+    this.attributes = attrs
 
-    await this.update({attributes: atrs})
+    await this.update({attributes: attrs})
   }
 
   async getAttributes() {
@@ -143,15 +144,15 @@ export class Character implements WithRedisStorage {
 
   async handleEvent(event: string, payload: any) {
     switch (event) {
-      case CharacterEvents.MOVE_STARTED: {
+      case CharacterEvents.CHARACTER_MOVE_STARTED: {
         await this.handleMoveStarted(payload)
         break;
       }
-      case CharacterEvents.ATTACK_STARTED: {
+      case CharacterEvents.CHARACTER_ATTACK_STARTED: {
         await this.handleAttackStarted(payload)
         break;
       }
-      case CharacterEvents.RUN_STARTED: {
+      case CharacterEvents.CHARACTER_RUN_STARTED: {
         await this.handleRunStarted(payload)
         break;
       }
@@ -173,7 +174,7 @@ export class Character implements WithRedisStorage {
         await new StreamEvent().actionCompleted(this.userId, payload).send()
         break;
       }
-      case CharacterEvents.ACTION_COMPLETED: {
+      case CharacterEvents.CHARACTER_ACTION_COMPLETED: {
         await this.handleActionCompleted(payload)
         break;
       }
@@ -211,19 +212,19 @@ export class Character implements WithRedisStorage {
   getAvailableAction(): string[] {
     switch(this.status) {
       case "idle": {
-        return ["move", "look"]
+        return [GameCommands.MOVE, GameCommands.LOOK]
       }
       case "inBattle": {
-        return ["attack", "run"]
+        return [GameCommands.ATTACK, GameCommands.DEFENCE, GameCommands.USE_ITEM, GameCommands.RUN]
       }
       case "tired": {
-        return ["rest"]
+        return [GameCommands.REST]
       }
       case "dead": {
-        return ["rest"]
+        return [GameCommands.REST]
       }
       case "looked": {
-        return ["move"]
+        return [GameCommands.MOVE]
       }
       default: {
         return []
