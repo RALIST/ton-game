@@ -1,85 +1,46 @@
-import {GameLogger, LogEntry} from "@/lib/utils/GameLogger";
-import {Character, CharacterAttribute} from "@/lib/game/Character";
-import {GameLocation} from "@/lib/game/GameLocation";
+import GameLogger, {LogEntry} from "@/lib/utils/GameLogger";
+import Character, {CharacterData} from "@/lib/game/Character";
 import {WebSocketServer, WebSocket} from "ws";
-import {RendererEvents} from "@/lib/utils/GameEvents";
-import Inventory from "@/lib/game/Inventory";
-import Item from "@/lib/game/Item";
-import Perk from "@/lib/game/character/Perk";
-import Skill from "@/lib/game/character/Skill";
+import Inventory, {InventoryData} from "@/lib/game/Inventory";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
-  character: {
-    userId: number,
-    balance: number,
-    currenLocationId: number,
-    enduranceRecoverySpeed: number,
-    healthRecoverySpeed: number,
-    name: string,
-    currentHealth: number,
-    maxHealth: number,
-    endurance: number,
-    maxEndurance: number,
-    perks: Perk[],
-    skills: {
-      skill: Skill,
-      exp: number,
-      level: number
-    }[],
-    attributes: CharacterAttribute[]
-  },
+  character: CharacterData
   availableActions: string[],
   currentScene: string,
-  currentLocation: GameLocation,
-  inventory: {
-    items: Item[]
-  },
+  currentLocation: any,
+  inventory: InventoryData,
   error: string,
 }
 
 // collect game data and push data to ws socket
 export default class GameRenderer {
-  userId: number;
+  userId: number
 
   constructor(userId: number) {
-    this.userId = userId
-  }
-
-  async handleEvent(event: string, payload: any) {
-    switch (event) {
-      case RendererEvents.GAME_INIT:
-      case RendererEvents.CHANGE_SCREEN_STARTED:
-      case RendererEvents.CHARACTER_ACTION_COMPLETED: {
-        await this.push(payload);
-        break;
-      }
-    }
+    this.userId = userId;
   }
 
   async render(payload: any) {
-    const character = await new Character(this.userId).load()
+    const character = await Character.initialize(this.userId)
     const logger  = await new GameLogger(this.userId).load()
-    const inventory = await new Inventory(this.userId).load()
+    const inventory = await Inventory.initialize(this.userId)
     const currentScene = payload?.scene ?? "main"
 
-    return {
+    const data: GameplayData =  {
       currentLogs: logger.currentLogs,
-      character: {
-        ...character,
-        attributes: await character.getAttributes(),
-        skills: await character.getSkills(),
-        perks: await character.getPerks()
-      },
-      currentLocation: await character.currentLocation(),
+      character: character,
+      currentLocation: {},
       availableActions: character.getAvailableAction(),
       currentScene: currentScene,
-      inventory: { items: inventory.getItems() },
+      inventory: inventory,
       error: ""
     }
+
+    this.push(data)
   }
 
-  async push(payload: any) {
+  private push(data: GameplayData) {
     const webSocket = (global as any)?.["wsServer"] as WebSocketServer;
     if (!webSocket) return
 
@@ -88,9 +49,8 @@ export default class GameRenderer {
 
     if (!client || client.readyState != 1) return
 
-    setTimeout(async () => {
-      const data = await this.render(payload)
+    setTimeout(() => {
       client.send(JSON.stringify(data))
-    }, 1000 / 60)
+    }, 100)
   }
 }

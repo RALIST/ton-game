@@ -20,7 +20,6 @@ export default function FooterMenu(){
     <div className={"gameFooter"}>
       <div className={"button"} onClick={setScene("character")}>Персонаж</div>
       <div className={"button"} onClick={setScene("inventory")}>Инвентарь</div>
-      <div className={"button"} onClick={setScene("map")}>Карта</div>
     </div>
   )
 }

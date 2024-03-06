@@ -7,11 +7,6 @@ import {GameplayData} from "@/lib/utils/GameRenderer";
 import {useBackButton} from "@tma.js/sdk-react";
 import {useEffect} from "react";
 
-function Timer() {
-  return (<div>
-  </div>)
-}
-
 export default function MainScreen({game}: { game: GameplayData }) {
   const backButton = useBackButton()
   useEffect(() => {

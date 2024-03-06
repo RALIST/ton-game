@@ -1,6 +1,6 @@
-import {GameLocation} from "@/lib/game/GameLocation";
+import {DungeonLocation} from "@/lib/game/DungeonLocation";
 
-export default function CurrentLocation({location}: {location: GameLocation}) {
+export default function CurrentLocation({location}: {location: DungeonLocation}) {
   return (
     <div className={"currentLocation"}>
       <div className={"locationHeader"}>{location.name}</div>

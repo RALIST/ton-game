@@ -1,8 +1,6 @@
 "use client"
 
-import {useWebSocket} from "@/components/WebSocketContext";
-import {useBackButton, useInitData} from "@tma.js/sdk-react";
-import {GameCommands} from "@/lib/utils/GameCommands";
+import {useBackButton} from "@tma.js/sdk-react";
 import {GameplayData} from "@/lib/utils/GameRenderer";
 import {useEffect} from "react";
 
@@ -13,18 +11,7 @@ import Perks from "@/components/Perks";
 import Stats from "@/components/Stats";
 
 export default function CharacterScreen({character}: {character: GameplayData["character"]}){
-  const ws = useWebSocket()
-  const initData = useInitData();
-  const userId = initData?.user?.id // get telegram id
   const backButton = useBackButton()
-  const callback = () => { ws?.send(JSON.stringify({
-    action: GameCommands.CHANGE_SCREEN,
-    userId: userId,
-    payload: {scene: "main"}
-  }))}
-
-  backButton.on("click", callback)
-
   useEffect(() => {
     backButton.show();
   }, [backButton]);

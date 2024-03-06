@@ -1,4 +1,4 @@
-export class GameLocation {
+export class DungeonLocation {
   name: string
   id: number
   desc: string

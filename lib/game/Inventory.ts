@@ -1,62 +1,30 @@
-import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
-import {InventoryEvents} from "@/lib/utils/GameEvents";
-import itemsData from "@/lib/data/items.json"
-import Item from "@/lib/game/Item";
+import InventoryRepository from "@/lib/repositories/InventoryRepository";
+import InventoryItems, {InventoryItemData} from "@/lib/game/InventoryItems";
 
-export default class Inventory implements WithRedisStorage{
+export type InventoryData = {
+  userId: number,
+  items: InventoryItemData[]
+}
+
+export default class Inventory {
   userId: number
-  storage!: RedisStorage
-  items!: number[]
+  items!: InventoryItemData[]
+  repo: InventoryRepository
+
+  public static async initialize(userId: number) {
+    return await new Inventory(userId).load()
+  }
 
   constructor(userId: number) {
     this.userId = userId
-    this.storage = new RedisStorage(`inventory:${this.userId}`)
-    this.items = []
-  }
-
-  async handleEvent(event: string, payload: any) {
-    switch(event) {
-      case InventoryEvents.ITEM_ADDED: {
-        await this.addItem(payload.item)
-      }
-    }
-  }
-
-  getItems(): Item[] {
-    let characterItems: Item[] = [];
-
-    this.items.map(itemId => {
-      const item = itemsData.find(({id}) => itemId === id )
-      if (item) characterItems.push(item)
-    })
-
-    return characterItems
-  }
-
-  async addItem(item: number){
-    await this.storage.append("items", item)
+    this.repo = new InventoryRepository(userId)
   }
 
   async load() {
-    const data = await this.storage.load()
-    this.items = data?.items ?? []
-
-    if (!data) {
-      await this.dump()
-    }
+    const data = await this.repo.loadInventoryData()
+    this.items = InventoryItems.initialize(data?.items)
+    if (!data) await this.repo.dump(this)
 
     return this
-  }
-
-  async dump(){
-    await this.storage.dump(this.toJson())
-  }
-
-  toJson() {
-    const {
-      storage:_,
-      ...props} = this
-
-    return props
   }
 }

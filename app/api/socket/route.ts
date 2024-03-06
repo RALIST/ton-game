@@ -39,5 +39,7 @@ export async function SOCKET(client: WebSocket, request: IncomingMessage, server
       "gameplay",
       new StreamEvent().gameQuited(parseInt(client.id), {})
     )
+
+    console.log("Client disconnected!")
   });
 }

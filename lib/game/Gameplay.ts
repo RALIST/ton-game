@@ -9,24 +9,11 @@ import Item from "@/lib/game/Item";
 import RandomEvent from "@/lib/game/RandomEvent";
 import StreamEvent from "@/lib/streams/StreamEvent";
 
-export class Gameplay {
+export default class Gameplay {
   userId: number;
 
   constructor(userId: number) {
     this.userId = userId
-  }
-
-  async handleEvent(event: string, _payload: any) {
-    switch (event) {
-      case GameplayEvents.CHARACTER_MOVED: {
-        await this.handleCharacterMoved()
-        break;
-      }
-      case GameplayEvents.LOOK_STARTED: {
-        await this.handleCharacterLook()
-        break;
-      }
-    }
   }
 
   async handleCharacterMoved() {

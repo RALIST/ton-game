@@ -7,13 +7,24 @@ import InventoryScreen from "@/components/scenes/InventoryScreen";
 import {useEffect, useState} from "react";
 import {useWebSocket} from "@/components/WebSocketContext";
 import {GameplayData} from "@/lib/utils/GameRenderer";
-import {useViewport} from "@tma.js/sdk-react";
+import {useBackButton, useInitData, useViewport} from "@tma.js/sdk-react";
+import {GameCommands} from "@/lib/utils/GameCommands";
 
 export default function GameplayScene() {
   const [game, setGame] = useState<GameplayData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const ws = useWebSocket()
   const viewport = useViewport()
+  const initData = useInitData();
+  const userId = initData?.user?.id // get telegram id
+  const backButton = useBackButton()
+  const callback = () => { ws?.send(JSON.stringify({
+    action: GameCommands.CHANGE_SCREEN,
+    userId: userId,
+    payload: {scene: "main"}
+  }))}
+
+  backButton.on("click", callback)
 
   useEffect(() => {
     viewport.expand();

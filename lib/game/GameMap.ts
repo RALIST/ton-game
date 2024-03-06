@@ -1,9 +1,9 @@
-import {GameLocation} from "@/lib/game/GameLocation";
+import {DungeonLocation} from "@/lib/game/DungeonLocation";
 
 import locationsData from "../data/locations.json"
 
-export class GameMap {
-  locations!: GameLocation[];
+export default class GameMap {
+  locations!: DungeonLocation[];
   width!: number;
   height!: number;
 
@@ -12,7 +12,7 @@ export class GameMap {
     this.height = 5
   }
 
-  async load(): Promise<this> {
+  async load() {
     await this.loadLocations();
 
     return this
@@ -22,7 +22,7 @@ export class GameMap {
     this.locations = []
 
     locationsData.map(location => {
-      this.locations.push(new GameLocation(location.id, location.name, location.desc, "danger"))
+      this.locations.push(new DungeonLocation(location.id, location.name, location.desc, "danger"))
     })
   }
 }

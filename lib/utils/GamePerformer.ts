@@ -17,7 +17,7 @@ export default class GamePerformer {
     if(!availableEvents.includes(actionEvent)) return
 
     const createdEvent=  new StreamEvent(this.userId, actionEvent, payload)
-    await emitEvent(createdEvent, "gameplay")
+    await createdEvent.send()
   }
 
   detectEvent(action: string): string {
