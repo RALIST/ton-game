@@ -1,5 +1,5 @@
 import {publishToStream} from "@/lib/streams/utils";
-import {RedisStorage, WithRedisStorage} from "@/lib/storages/RedisStorage";
+import {RedisStorage, WithRedisStorage} from "@/lib/repositories/RedisStorage";
 import StreamEvent from "@/lib/streams/StreamEvent";
 
 export class EventStore implements WithRedisStorage{

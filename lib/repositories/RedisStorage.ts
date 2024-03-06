@@ -1,9 +1,11 @@
-import RedisSingleton from "@/lib/storages/RedisSingleton";
+import RedisSingleton from "@/lib/repositories/RedisSingleton";
 
 export interface IStorage {
   model: string;
   load(): Object
   dump(data: any): void
+  update(data: any): void
+  append(arr: string, item: any): void
 }
 
 const redis = await (await RedisSingleton.getInstance()).getClient()

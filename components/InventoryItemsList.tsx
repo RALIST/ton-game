@@ -1,13 +1,13 @@
 import InventoryItem from "@/components/InventoryItem";
-import Item from "@/lib/game/Item";
+import {InventoryItemData} from "@/lib/game/InventoryItems";
 
-export default function InventoryItemsList({items}: {items: Item[]}) {
+export default function InventoryItemsList({items}: {items: InventoryItemData[]}) {
   return (
     <div className={"inventory"}>
       <div className={"title"}>Инвентарь</div>
       {
-        items.map((item: Item, index: any) => {
-          return <InventoryItem item={item} key={index}/>
+        items.map(({item, count}, index: any) => {
+          return <InventoryItem item={item} count={count} key={index}/>
         })
       }
     </div>

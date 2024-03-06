@@ -1,14 +1,24 @@
+import Gameplay from "@/lib/game/Gameplay";
 import StreamEvent from "@/lib/streams/StreamEvent";
-import {isValidEvent} from "@/lib/streams/utils";
-import {GameplayEvents} from "@/lib/utils/GameEvents";
-import {Gameplay} from "@/lib/game/Gameplay";
 
 export default class GameplayService {
-  public static async handleEvent(message: any) {
-    const data: StreamEvent = JSON.parse(message.message)
-    if(isValidEvent(data, GameplayEvents)) {
-      const generator = new Gameplay(data.userId)
-      await generator.handleEvent(data.event, data.payload)
-    }
+  model: Gameplay
+
+  public static async consume(data: any) {
+    const model = new Gameplay(data.userId)
+    const instance = new GameplayService(model)
+    await instance.handleEvent(data)
   }
+
+  constructor(model: Gameplay) {
+    this.model = model
+  }
+
+  async handleEvent(data: StreamEvent) {
+    const { event, payload } = data
+    // @ts-ignore
+    if (event in this.eventHandlers) await this.eventHandlers[event](payload);
+  }
+
+  private eventHandlers = {}
 }

@@ -1,7 +1,7 @@
 // Below is some code for how you would use Redis to listen for the stream events:
 import {createClient} from "redis";
 import StreamEvent from "@/lib/streams/StreamEvent";
-import RedisSingleton from "@/lib/storages/RedisSingleton";
+import RedisSingleton from "@/lib/repositories/RedisSingleton";
 
 export async function listenToStream (
   onMessage: (message: any, messageId: any) => void,

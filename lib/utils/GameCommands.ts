@@ -6,7 +6,33 @@ export enum GameCommands {
   REST = "rest",
   DEFENCE = "defence",
   USE_ITEM = "use_item",
+  EQUIP_ITEM = "equip_item",
+  TAKE_ITEM = "take_item",
+  TALK = "talk",
   TRADE = "trade",
   LEARN = "learn",
-  CHANGE_SCREEN = "change_screen"
+  CHANGE_SCREEN = "change_screen",
+  CRAFT_ITEM = "craft_item",
+  CRAFT_MEDICINE ="craft_medicine",
+  ACCEPT_QUEST = "accept_quest",
+  COMPLETE_QUEST = "complete_quest",
+  BAR = "bar",
+  SHOP = "shop",
+  STORAGE = "storage",
+  HOME = "home",
+  DUNGEON = "dungeon"
 }
+
+export const gameCommandLabels = {
+  [GameCommands.MOVE]: "Идти дальше",
+  [GameCommands.LOOK]: "Осмотреться",
+  [GameCommands.REST]: "Разбить лагерь",
+  [GameCommands.ATTACK]: "Атака",
+  [GameCommands.RUN]: "Убежать",
+  [GameCommands.DEFENCE]: "Защита",
+  [GameCommands.BAR]: "Бар",
+  [GameCommands.SHOP]: "Магазин",
+  [GameCommands.HOME]: "Дом",
+  [GameCommands.STORAGE]: "Хранилище",
+  [GameCommands.DUNGEON]: "Вылазка",
+};
