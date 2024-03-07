@@ -1,43 +1,41 @@
-import {RedisStorage, WithRedisStorage} from "@/lib/repositories/RedisStorage";
+import LoggerRepository from "@/lib/repositories/LoggerRepository";
 
 export type LogEntry = {
   message: string,
   type: string
 }
 
-export default  class GameLogger implements WithRedisStorage{
+export default  class GameLogger {
   globalLogs!: LogEntry[]
   currentLogs!: LogEntry[]
   userId: number;
-  storage!: RedisStorage
+  repo!: LoggerRepository
 
   constructor(userId: number) {
     this.globalLogs = []
     this.currentLogs = []
     this.userId = userId
-    this.storage = new RedisStorage(`gamelogs:${this.userId}`)
+    this.repo = new LoggerRepository(userId)
   }
 
 
   async load() {
-    const data = await this.storage.load()
+    const data = await this.repo.loadLoggerData()
     this.currentLogs = data?.currentLogs ?? []
     this.globalLogs = data?.globalLogs ?? []
+
+    if (!data) await this.repo.dump(this)
 
     return this
   }
 
-  private async dump() {
-    await this.storage.dump(this.toJson())
-  }
-
   private async append(arr: string, item: any) {
-    await this.storage.append(arr, item)
+    await this.repo.append(arr, item)
   }
 
   async clearLogs() {
     this.currentLogs = []
-    await this.storage.update({currentLogs: []})
+    await this.repo.update({currentLogs: []})
   }
 
   async logEvent(message: string, type: string) {

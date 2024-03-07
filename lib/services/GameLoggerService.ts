@@ -22,16 +22,14 @@ export default class GameLoggerService {
   }
 
   private eventHandlers = {
-    [LoggerEvents.CHARACTER_MOVE_STARTED]: async (payload: any) =>  this.model.handleMoveStarted(payload),
-    [LoggerEvents.CHARACTER_TIRED]: async (payload: any) => this.model.handleCharacterTired(payload),
-    [LoggerEvents.RANDOM_EVENT_FOUND]: async (payload: any) => this.model.handleRandomEventFound(payload),
-    [LoggerEvents.DANGER_EVENT_FOUND]: async (payload: any) => this.model.handleDangerEventFound(payload),
-    [LoggerEvents.ENEMIES_FOUND]: async (payload: any) => this.model.handleEnemiesFound(payload),
-    [LoggerEvents.ITEMS_FOUND]: async (payload: any) => this.model.handleItemsFound(payload),
-    [LoggerEvents.CHARACTER_ATTRIBUTES_CHANGED]: async (payload: any) => this.model.handleCharacterAttributesChanged(payload),
-    [LoggerEvents.CHARACTER_ATTACK_COMPLETED]: async (payload: any) => this.model.handleCharacterAttackCompleted(payload),
-    [LoggerEvents.NOTHING_FOUND]: async (payload: any) => this.model.handleNothingFound(payload),
-    [LoggerEvents.REST_COMPLETED]: async (payload: any) => this.model.handleRestCompleted(payload),
-    [LoggerEvents.CHARACTER_RUN_COMPLETED]: async (payload: any) => this.model.handleRunCompleted(payload),
+    [LoggerEvents.DUNGEON_STARTED]: async (payload: any) => {
+      await this.model.logEvent("Вы начали вылазку", "info")
+    },
+    [LoggerEvents.DUNGEON_STOPPED]: async (payload: any) => {
+      await this.model.clearLogs()
+    },
+    [LoggerEvents.CHARACTER_MOVE_STARTED]:  async (payload: any) => {
+      await this.model.clearLogs()
+    },
   }
 }

@@ -10,11 +10,15 @@ import Skills from "@/components/Skills";
 import Perks from "@/components/Perks";
 import Stats from "@/components/Stats";
 
-export default function CharacterScreen({character}: {character: GameplayData["character"]}){
+export default function Character({character}: {character: GameplayData["character"] | undefined}){
   const backButton = useBackButton()
   useEffect(() => {
     backButton.show();
   }, [backButton]);
+
+  if(!character) {
+    return <div>Something went wrong.</div>
+  }
 
   return (
     <div className={"character"}>
@@ -24,6 +28,7 @@ export default function CharacterScreen({character}: {character: GameplayData["c
         maxHealth={character.maxHealth}
         endurance={character.endurance}
         maxEndurance={character.maxEndurance}/>
+      <div>{character.status}</div>
       <Attributes attributes={character.attributes}/>
       <Skills skills={character.skills}/>
       <Perks perks={character.perks}/>

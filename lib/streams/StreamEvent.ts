@@ -202,4 +202,11 @@ export default class StreamEvent {
     this.event = GameEvents.ITEM_ADDED
     return this
   }
+
+  dungeonStopped(userId: number, payload: any) {
+    this.userId = userId
+    this.payload = payload
+    this.event = GameEvents.DUNGEON_STOPPED
+    return this
+  }
 }

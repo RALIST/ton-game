@@ -4,7 +4,7 @@ import {DungeonLocation} from "@/lib/game/DungeonLocation";
 import {useBackButton} from "@tma.js/sdk-react";
 import "@/assets/map.css"
 
-export default function MapScreen({currentLocation}: {currentLocation: DungeonLocation}){
+export default function Map({currentLocation}: {currentLocation: DungeonLocation}){
   const [map, setMap] = useState<GameMap | null>(null);
   const backButton = useBackButton()
 

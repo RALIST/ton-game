@@ -9,6 +9,8 @@ export enum CharacterEvents {
   CHARACTER_ACTION_COMPLETED = "character_action_completed",
   RANDOM_EVENT_FOUND = "random_event_found",
   CHARACTER_RUN_STARTED = "character_run_started",
+  DUNGEON_STARTED = "dungeon_started",
+  DUNGEON_STOPPED = "dungeon_stopped"
 }
 
 export enum GameplayEvents {
@@ -28,13 +30,17 @@ export enum LoggerEvents {
   NOTHING_FOUND = "nothing_found",
   CHARACTER_DEAD = "character_dead",
   CHARACTER_RUN_COMPLETED = "run_completed",
-  DANGER_EVENT_FOUND = "danger_event_found"
+  DANGER_EVENT_FOUND = "danger_event_found",
+  DUNGEON_STARTED = "dungeon_started",
+  DUNGEON_STOPPED = "dungeon_stopped"
 }
 
 export enum RendererEvents {
   GAME_INIT = "game_init",
   CHARACTER_ACTION_COMPLETED = "character_action_completed",
-  CHANGE_SCREEN_STARTED = "change_screen_started"
+  CHANGE_SCREEN_STARTED = "change_screen_started",
+  DUNGEON_STARTED = "dungeon_started",
+  DUNGEON_STOPPED = "dungeon_stopped"
 }
 
 export enum OtherEvents {

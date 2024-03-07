@@ -1,15 +1,19 @@
 import GameLogger, {LogEntry} from "@/lib/utils/GameLogger";
 import Character, {CharacterData} from "@/lib/game/Character";
-import {WebSocketServer, WebSocket} from "ws";
+import {WebSocket, WebSocketServer} from "ws";
 import Inventory, {InventoryData} from "@/lib/game/Inventory";
+import {SceneCommands} from "@/lib/utils/GameCommands";
+import {DungeonLocation} from "@/lib/game/DungeonLocation";
+import GameMap from "@/lib/game/GameMap";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
-  character: CharacterData
+  character: Partial<CharacterData>
   availableActions: string[],
   currentScene: string,
   currentLocation: any,
   inventory: InventoryData,
+  totalLocations: number,
   error: string,
 }
 
@@ -22,25 +26,64 @@ export default class GameRenderer {
   }
 
   async render(payload: any) {
+    // const logger  = await new GameLogger(this.userId).load()
     const character = await Character.initialize(this.userId)
-    const logger  = await new GameLogger(this.userId).load()
-    const inventory = await Inventory.initialize(this.userId)
-    const currentScene = payload?.scene ?? "main"
+    const currentScene = payload?.scene ?? (character.status == "inVillage" ? SceneCommands.VILLAGE_SCENE : SceneCommands.DUNGEON_SCENE)
+    let data;
+    let sceneData: Partial<GameplayData> = { currentScene: currentScene };
 
-    const data: GameplayData =  {
-      currentLogs: logger.currentLogs,
-      character: character,
-      currentLocation: {},
-      availableActions: character.getAvailableAction(),
-      currentScene: currentScene,
-      inventory: inventory,
-      error: ""
+    switch(currentScene) {
+      case SceneCommands.VILLAGE_SCENE: {
+        data = {
+          availableActions: Object.values(SceneCommands) as string[],
+          ...sceneData,
+        }
+        break;
+      }
+      case SceneCommands.INVENTORY_SCENE: {
+        const inventory = await Inventory.initialize(this.userId)
+        data = { inventory: inventory, ...sceneData }
+        break
+      }
+
+      case SceneCommands.CHARACTER_SCENE: {
+        const character = await Character.initialize(this.userId)
+        data = { character: character, ...sceneData }
+        break;
+      }
+
+      case SceneCommands.DUNGEON_SCENE: {
+        const logger  = await new GameLogger(this.userId).load()
+        const character = await Character.initialize(this.userId)
+        const map = await new GameMap().load()
+        const currentLocation = await character.getCurrentLocation()
+
+        data =  {
+          ...sceneData,
+          currentLogs: logger.currentLogs,
+          character: {
+            currentHealth: character.currentHealth,
+            maxHealth: character.maxHealth,
+            endurance: character.endurance,
+            maxEndurance: character.maxEndurance,
+            balance: character.balance
+          },
+          currentLocation: currentLocation,
+          totalLocations: map.locations.length,
+          availableActions: character.getAvailableAction(),
+          currentScene: currentScene
+        }
+        break;
+      }
+      default: {
+        data = {...sceneData}
+      }
     }
 
     this.push(data)
   }
 
-  private push(data: GameplayData) {
+  private push(data: Partial<GameplayData>) {
     const webSocket = (global as any)?.["wsServer"] as WebSocketServer;
     if (!webSocket) return
 
