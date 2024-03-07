@@ -78,7 +78,7 @@ export default class CharacterService {
     [CharacterEvents.DUNGEON_STOPPED]: async (payload: any) => {
       await this.model.repo.update({currentLocationId: 0})
       await this.model.repo.update({status: "inVillage"})
-      await this.streamEvent.actionCompleted(this.model.userId, {}).send()
+      await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.END_DUNGEON_SCENE}).send()
     },
     [CharacterEvents.ITEM_BOUGHT]: async (payload: any) => {
       const shopItem: ShopItem = payload.item

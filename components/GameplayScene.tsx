@@ -15,6 +15,7 @@ import StartDungeon from "@/components/scenes/StartDungeon";
 import Bank from "@/components/scenes/Bank";
 import {SceneCommands} from "@/lib/utils/GameCommands";
 import Dungeon from "@/components/scenes/Dungeon";
+import EndDungeon from "@/components/scenes/EndDungeon";
 
 export default function GameplayScene() {
   const [game, setGame] = useState<GameplayData | null>(null)
@@ -68,7 +69,8 @@ export default function GameplayScene() {
     [SceneCommands.WAREHOUSE_SCENE]: <Warehouse/>,
     [SceneCommands.START_DUNGEON_SCENE]: <StartDungeon/>,
     [SceneCommands.BANK_SCENE]: <Bank/>,
-    [SceneCommands.DUNGEON_SCENE]: <Dungeon game={game}/>
+    [SceneCommands.DUNGEON_SCENE]: <Dungeon game={game}/>,
+    [SceneCommands.END_DUNGEON_SCENE]: <EndDungeon/>
   }
 
   return scenes[game.currentScene]

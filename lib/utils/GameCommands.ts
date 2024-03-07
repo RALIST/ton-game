@@ -5,6 +5,7 @@ export enum SceneCommands {
   HOME_SCENE = "home_scene",
   BANK_SCENE = "bank_scene",
   START_DUNGEON_SCENE = "start_dungeon_scene",
+  END_DUNGEON_SCENE = "end_dungeon_scene",
   VILLAGE_SCENE = "village_scene",
   DUNGEON_SCENE = "dungeon_scene",
   CHARACTER_SCENE = "character_scene",

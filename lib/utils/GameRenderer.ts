@@ -19,8 +19,6 @@ export type GameplayData = {
   error: string,
 }
 
-
-
 // collect game data and push data to ws socket
 export default class GameRenderer {
   userId: number
@@ -105,6 +103,6 @@ export default class GameRenderer {
 
     setTimeout(() => {
       client.send(JSON.stringify(data))
-    }, 100)
+    }, 10)
   }
 }
