@@ -2,6 +2,7 @@ import InventoryItem from "@/components/InventoryItem";
 import {InventoryItemData} from "@/lib/game/InventoryItems";
 
 export default function InventoryItemsList({items}: {items: InventoryItemData[]}) {
+  console.log(items)
   return (
     <div className={"inventory"}>
       <div className={"title"}>Инвентарь</div>

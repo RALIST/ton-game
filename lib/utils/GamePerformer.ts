@@ -52,6 +52,11 @@ export default class GamePerformer {
         break;
       }
 
+      case GameCommands.BUY_ITEM: {
+        actionEvent = GameEvents.ITEM_BOUGHT
+        break;
+      }
+
       case GameCommands.STOP_DUNGEON: {
         actionEvent = GameEvents.DUNGEON_STOPPED
       }

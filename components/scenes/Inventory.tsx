@@ -8,6 +8,7 @@ import "@/assets/inventory.css"
 export default function Inventory({inventory}: {inventory: GameplayData["inventory"] | undefined}){
   const backButton = useBackButton()
 
+  console.log(inventory)
   useEffect(() => {
     backButton.show();
   }, [backButton]);

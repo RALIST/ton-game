@@ -54,23 +54,23 @@ export default function GameplayScene() {
     return <div>Error: {error}</div>
   }
 
+  if (!game) {
+    return <div>Loading...</div>
+  }
+
   const scenes: any = {
     [SceneCommands.VILLAGE_SCENE]:  <Village game={game}/>,
-    [SceneCommands.CHARACTER_SCENE]: <Character character={game?.character}/>,
-    [SceneCommands.INVENTORY_SCENE]: <Inventory inventory={game?.inventory}/>,
-    [SceneCommands.SHOP_SCENE]: <Shop/>,
+    [SceneCommands.CHARACTER_SCENE]: <Character character={game.character}/>,
+    [SceneCommands.INVENTORY_SCENE]: <Inventory inventory={game.inventory}/>,
+    [SceneCommands.SHOP_SCENE]: <Shop shop={game.shop} balance={game.character?.balance || 0}/>,
     [SceneCommands.BAR_SCENE]: <Bar/>,
     [SceneCommands.HOME_SCENE]: <Home/>,
     [SceneCommands.WAREHOUSE_SCENE]: <Warehouse/>,
     [SceneCommands.START_DUNGEON_SCENE]: <StartDungeon/>,
     [SceneCommands.BANK_SCENE]: <Bank/>,
-    // @ts-ignore
     [SceneCommands.DUNGEON_SCENE]: <Dungeon game={game}/>
-}
-
-  if (!game) {
-    return <div>Loading...</div>
-  } else {
-    return scenes[game.currentScene]
   }
+
+  return scenes[game.currentScene]
+
 }

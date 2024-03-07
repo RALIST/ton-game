@@ -196,7 +196,7 @@ export default class StreamEvent {
     return this
   }
 
-  itemAdded(userId: number, payload: { item: number }) {
+  itemAdded(userId: number, payload: any) {
     this.userId = userId
     this.payload = payload
     this.event = GameEvents.ITEM_ADDED

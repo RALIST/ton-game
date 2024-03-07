@@ -10,7 +10,7 @@ import Skills from "@/components/Skills";
 import Perks from "@/components/Perks";
 import Stats from "@/components/Stats";
 
-export default function Character({character}: {character: GameplayData["character"] | undefined}){
+export default function Character({character}: {character: GameplayData["character"]}){
   const backButton = useBackButton()
   useEffect(() => {
     backButton.show();

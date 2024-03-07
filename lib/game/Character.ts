@@ -45,6 +45,7 @@ export default class Character {
   constructor(id: number) {
     this.userId = id
     this.repo = new CharacterRepository(id)
+    this.balance = 0
   }
 
   public static async initialize(userId: number): Promise<Character> {
@@ -65,7 +66,7 @@ export default class Character {
     this.endurance = data?.endurance ?? characterData.endurance;
     this.maxEndurance = data?.endurance ?? characterData.maxEndurance;
     this.maxHealth = data?.maxHealth ?? characterData.health[1];
-    this.balance = data?.balance ?? characterData.balance;
+    this.balance = data?.balance ?? characterData.balance ?? 0;
     this.name = data?.name ?? characterData.name;
     this.currentLocationId = data?.currentLocationId ?? 1;
     this.status = data?.status ?? "inVillage";

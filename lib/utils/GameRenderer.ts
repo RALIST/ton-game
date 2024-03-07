@@ -5,17 +5,21 @@ import Inventory, {InventoryData} from "@/lib/game/Inventory";
 import {SceneCommands} from "@/lib/utils/GameCommands";
 import {DungeonLocation} from "@/lib/game/DungeonLocation";
 import GameMap from "@/lib/game/GameMap";
+import Shop from "@/lib/game/Shop";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
-  character: Partial<CharacterData>
+  character: CharacterData
   availableActions: string[],
   currentScene: string,
   currentLocation: any,
   inventory: InventoryData,
   totalLocations: number,
+  shop: Shop,
   error: string,
 }
+
+
 
 // collect game data and push data to ws socket
 export default class GameRenderer {
@@ -52,6 +56,12 @@ export default class GameRenderer {
         break;
       }
 
+      case SceneCommands.SHOP_SCENE: {
+        const shop = new Shop()
+        data = { character: { balance: character.balance }, shop: shop, ...sceneData }
+        break;
+      }
+
       case SceneCommands.DUNGEON_SCENE: {
         const logger  = await new GameLogger(this.userId).load()
         const character = await Character.initialize(this.userId)
@@ -80,6 +90,7 @@ export default class GameRenderer {
       }
     }
 
+    // @ts-ignore
     this.push(data)
   }
 

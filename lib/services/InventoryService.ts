@@ -25,8 +25,14 @@ export default class InventoryService {
   }
 
   private eventHandlers = {
-    [InventoryEvents.ITEM_ADDED]: async ({item}: {item: InventoryItemData}) => {
-      await this.model.repo.append("items", item)
-    }
+    [InventoryEvents.ITEM_ADDED]: async (inventoryItem: InventoryItemData) => {
+      const item = this.model.items.find(item => item.item.id === inventoryItem.item.id)
+      if (item) {
+        item.count += inventoryItem.count;
+        const restItems = this.model.items.filter(item => item.item.id != inventoryItem.item.id)
+        await this.model.repo.update({items: [...restItems, item]})
+      } else {
+        await this.model.repo.append("items", {item: inventoryItem.item, count: inventoryItem.count});
+      }}
   }
 }

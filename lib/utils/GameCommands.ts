@@ -30,7 +30,8 @@ export enum ActionCommands {
   ACCEPT_QUEST = "accept_quest",
   COMPLETE_QUEST = "complete_quest",
   START_DUNGEON = "start_dungeon",
-  STOP_DUNGEON = "stop_dungeon"
+  STOP_DUNGEON = "stop_dungeon",
+  BUY_ITEM = "buy_item"
 }
 
 export const GameCommands = {
