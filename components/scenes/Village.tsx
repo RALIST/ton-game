@@ -1,9 +1,10 @@
 import ActionList from "@/components/ActionList";
 import FooterMenu from "@/components/FooterMenu";
-import CurrentLocation from "@/components/CurrentLocation";
 import {GameplayData} from "@/lib/utils/GameRenderer";
 import {useBackButton} from "@tma.js/sdk-react";
 import {useEffect} from "react";
+
+import HeaderMenu from "@/components/HeaderMenu";
 
 export default function Village({game}: { game: GameplayData | null }) {
   const backButton = useBackButton()
@@ -17,7 +18,7 @@ export default function Village({game}: { game: GameplayData | null }) {
 
   return (
     <>
-      {/*<HeaderMenu character={game.character}/>*/}
+      <HeaderMenu character={game.character}/>
       <div className={"gameScreen"}>
         <div className={"title"}>Поселение</div>
         {/*<CurrentLocation location={game.currentLocation}/>*/}

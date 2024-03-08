@@ -5,27 +5,16 @@ import Item from "@/lib/game/Item";
 import InventoryItems, {InventoryItemData} from "@/lib/game/InventoryItems";
 import InventoryRepository from "@/lib/repositories/InventoryRepository";
 import {SceneCommands} from "@/lib/utils/GameCommands";
+import BaseService from "@/lib/services/BaseService";
 
-export default class InventoryService {
-  model: Inventory
-  streamEvent: StreamEvent
-
+export default class InventoryService extends BaseService{
   public static async consume(data: any) {
     const model = await new Inventory(data.userId).load()
     const instance = new InventoryService(model)
     await instance.handleEvent(data)
   }
 
-  constructor(model: Inventory) {
-    this.model = model
-    this.streamEvent = new StreamEvent()
-  }
-
-  async handleEvent(data: StreamEvent) {
-    const { event, payload } = data
-    // @ts-ignore
-    if (event in this.eventHandlers) await this.eventHandlers[event](payload);
-  }
+  constructor(model: Inventory) { super(model) }
 
   private eventHandlers = {
     [InventoryEvents.ITEM_ADDED]: async (inventoryItem: InventoryItemData) => {

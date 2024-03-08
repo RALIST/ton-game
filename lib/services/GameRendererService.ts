@@ -1,26 +1,15 @@
 import GameRenderer from "@/lib/utils/GameRenderer";
-import StreamEvent from "@/lib/streams/StreamEvent";
 import {RendererEvents} from "@/lib/utils/GameEvents";
-import {SceneCommands} from "@/lib/utils/GameCommands";
+import BaseService from "@/lib/services/BaseService";
 
-export default class GameRendererService {
-  model: GameRenderer
-
+export default class GameRendererService extends BaseService {
   public static async consume(data: any) {
     const model = new GameRenderer(data.userId)
     const instance = new GameRendererService(model)
     await instance.handleEvent(data)
   }
 
-  constructor(model: GameRenderer) {
-    this.model = model
-  }
-
-  async handleEvent(data: StreamEvent) {
-    const { event, payload } = data
-    // @ts-ignore
-    if (event in this.eventHandlers) await this.eventHandlers[event](payload);
-  }
+  constructor(model: GameRenderer) {super(model)}
 
   private eventHandlers = {
     [RendererEvents.GAME_INIT]: async (payload: any) => { await this.model.render(payload) },

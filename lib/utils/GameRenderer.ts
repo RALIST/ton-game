@@ -3,7 +3,6 @@ import Character, {CharacterData} from "@/lib/game/Character";
 import {WebSocket, WebSocketServer} from "ws";
 import Inventory, {InventoryData} from "@/lib/game/Inventory";
 import {SceneCommands} from "@/lib/utils/GameCommands";
-import {DungeonLocation} from "@/lib/game/DungeonLocation";
 import GameMap from "@/lib/game/GameMap";
 import Shop from "@/lib/game/Shop";
 
@@ -37,6 +36,12 @@ export default class GameRenderer {
     switch(currentScene) {
       case SceneCommands.VILLAGE_SCENE: {
         data = {
+          character: {
+            currentHealth: character.currentHealth,
+            maxHealth: character.maxHealth,
+            balance: character.balance,
+            endurance: character.endurance
+          },
           availableActions: Object.values(SceneCommands) as string[],
           ...sceneData,
         }
@@ -101,8 +106,7 @@ export default class GameRenderer {
 
     if (!client || client.readyState != 1) return
 
-    setTimeout(() => {
-      client.send(JSON.stringify(data))
-    }, 10)
+    client.send(JSON.stringify(data))
+
   }
 }

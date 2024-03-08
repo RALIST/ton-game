@@ -29,7 +29,7 @@ export default class GamePerformer {
       }
       case GameCommands.ATTACK: {
         actionEvent = GameEvents.CHARACTER_ATTACK_STARTED
-        break
+        break;
       }
       case GameCommands.RUN: {
         actionEvent =  GameEvents.CHARACTER_RUN_STARTED

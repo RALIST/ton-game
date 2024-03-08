@@ -80,7 +80,7 @@ export default class Character {
   private actionLookup = {
     inDungeon: {
       idle: [GameCommands.MOVE, GameCommands.LOOK, GameCommands.STOP_DUNGEON],
-      inBattle: [GameCommands.ATTACK, GameCommands.DEFENCE, GameCommands.USE_ITEM, GameCommands.RUN],
+      inBattle: [GameCommands.ATTACK, GameCommands.DEFENCE, GameCommands.RUN],
       tired: [GameCommands.REST],
       dead: [GameCommands.REST],
       looked: [GameCommands.MOVE],
