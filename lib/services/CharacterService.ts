@@ -48,14 +48,11 @@ export default class CharacterService {
     },
 
     [CharacterEvents.DUNGEON_STARTED]: async (payload: any) => {
-      await this.model.repo.update({currentLocationId: 1})
-      await this.model.repo.update({status: "inDungeon"})
+      await this.model.repo.update({currentLocationId: 1, status: "inDungeon"})
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
     [CharacterEvents.DUNGEON_COMPLETED]: async (payload: any) => {
-      await this.model.repo.update({currentLocationId: 0})
-      await this.model.repo.update({status: "inVillage"})
-      await this.model.repo.update({balance: this.model.balance + 1000})
+      await this.model.repo.update({currentLocationId: 0, status: "inVillage", balance: this.model.balance + 1000})
       await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.END_DUNGEON_SCENE}).send()
     },
 

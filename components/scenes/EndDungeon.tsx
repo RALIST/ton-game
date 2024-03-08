@@ -20,6 +20,7 @@ export default function EndDungeon() {
   return <div className={"gameScreen"}>
     <div className={"title"}>Поздравляю, ты прошел маршрут!</div>
     <div>Вот тебе ништяков от поселения</div>
+    <div className={"title"}>+ 1000$</div>
     <div>
       <div className={"button"} onClick={callback}>Вернуться в поселение</div>
     </div>
