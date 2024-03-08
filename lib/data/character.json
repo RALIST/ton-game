@@ -3,6 +3,6 @@
   "health": [100, 100],
   "endurance": 100,
   "maxEndurance": 100,
-  "balance": 0,
+  "balance": 10000,
   "location": "Пустоши"
 }

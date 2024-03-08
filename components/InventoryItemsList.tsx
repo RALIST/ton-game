@@ -6,8 +6,8 @@ export default function InventoryItemsList({items}: {items: InventoryItemData[]}
     <div className={"inventory"}>
       <div className={"title"}>Инвентарь</div>
       {
-        items.map(({item, count}, index: any) => {
-          return <InventoryItem item={item} count={count} key={index}/>
+        items.map(({item, count, equipped}, index: any) => {
+          return <InventoryItem item={item} count={count} equipped={equipped} key={index}/>
         })
       }
     </div>

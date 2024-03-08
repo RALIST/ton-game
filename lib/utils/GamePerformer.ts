@@ -45,6 +45,31 @@ export default class GamePerformer {
       }
       case GameCommands.CHANGE_SCREEN: {
         actionEvent = GameEvents.CHANGE_SCREEN_STARTED
+        break;
+      }
+      case GameCommands.START_DUNGEON: {
+        actionEvent = GameEvents.DUNGEON_STARTED
+        break;
+      }
+
+      case GameCommands.BUY_ITEM: {
+        actionEvent = GameEvents.ITEM_BOUGHT
+        break;
+      }
+
+      case GameCommands.EQUIP_ITEM: {
+        actionEvent = GameEvents.ITEM_EQUIPPED
+        break;
+      }
+
+      case GameCommands.UNEQUIP_ITEM: {
+        actionEvent = GameEvents.ITEM_UNEQUIPPED
+        break;
+      }
+
+      case GameCommands.STOP_DUNGEON: {
+        actionEvent = GameEvents.DUNGEON_STOPPED
+        break
       }
     }
 

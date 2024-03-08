@@ -1,6 +1,6 @@
 import {useWebSocket} from "@/components/WebSocketContext";
 import {useInitData} from "@tma.js/sdk-react";
-import {GameCommands} from "@/lib/utils/GameCommands";
+import {GameCommands, SceneCommands} from "@/lib/utils/GameCommands";
 
 export default function FooterMenu(){
   const ws = useWebSocket()
@@ -10,16 +10,16 @@ export default function FooterMenu(){
   function setScene(scene: string) {
     return () => {
       ws?.send(JSON.stringify({
-        action: GameCommands.CHANGE_SCREEN,
         userId: userId,
-        payload: { scene: scene }}))
+        scene: scene
+      }))
     }
   }
 
   return(
     <div className={"gameFooter"}>
-      <div className={"button"} onClick={setScene("character")}>Персонаж</div>
-      <div className={"button"} onClick={setScene("inventory")}>Инвентарь</div>
+      <div className={"button"} onClick={setScene(SceneCommands.CHARACTER_SCENE)}>Персонаж</div>
+      <div className={"button"} onClick={setScene(SceneCommands.INVENTORY_SCENE)}>Инвентарь</div>
     </div>
   )
 }

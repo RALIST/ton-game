@@ -6,6 +6,8 @@ import Perk from "@/lib/game/Perk";
 import CharacterRepository from "@/lib/repositories/CharacterRepository";
 
 import characterData from "../data/character.json"
+import GameMap from "@/lib/game/GameMap";
+import {DungeonLocation} from "@/lib/game/DungeonLocation";
 
 export type CharacterData = {
   currentHealth: number,
@@ -43,6 +45,7 @@ export default class Character {
   constructor(id: number) {
     this.userId = id
     this.repo = new CharacterRepository(id)
+    this.balance = 0
   }
 
   public static async initialize(userId: number): Promise<Character> {
@@ -63,7 +66,7 @@ export default class Character {
     this.endurance = data?.endurance ?? characterData.endurance;
     this.maxEndurance = data?.endurance ?? characterData.maxEndurance;
     this.maxHealth = data?.maxHealth ?? characterData.health[1];
-    this.balance = data?.balance ?? characterData.balance;
+    this.balance = data?.balance ?? characterData.balance ?? 0;
     this.name = data?.name ?? characterData.name;
     this.currentLocationId = data?.currentLocationId ?? 1;
     this.status = data?.status ?? "inVillage";
@@ -74,9 +77,9 @@ export default class Character {
     this.attributes = Attributes.initialize(data?.attributes);
   }
 
-  private actionLookup: Record<string, Record<string, GameCommands[]>> = {
+  private actionLookup = {
     inDungeon: {
-      idle: [GameCommands.MOVE, GameCommands.LOOK],
+      idle: [GameCommands.MOVE, GameCommands.LOOK, GameCommands.STOP_DUNGEON],
       inBattle: [GameCommands.ATTACK, GameCommands.DEFENCE, GameCommands.USE_ITEM, GameCommands.RUN],
       tired: [GameCommands.REST],
       dead: [GameCommands.REST],
@@ -85,18 +88,25 @@ export default class Character {
     },
     inVillage: {
       idle: [
-        GameCommands.SHOP,
-        GameCommands.BAR,
-        GameCommands.STORAGE,
-        GameCommands.HOME,
-        GameCommands.DUNGEON,
+        GameCommands.SHOP_SCENE,
+        GameCommands.BAR_SCENE,
+        GameCommands.WAREHOUSE_SCENE,
+        GameCommands.HOME_SCENE,
+        GameCommands.START_DUNGEON_SCENE,
+        GameCommands.BANK_SCENE
       ],
       default: [],
     },
   };
 
-  getAvailableAction(): GameCommands[] {
+  get getAvailableAction(): string[] {
     const subStatus = this.status === 'inDungeon' ? this.dungeon_status : this.peacezone_status;
-    return this.actionLookup[this.status][subStatus] || this.actionLookup[this.status].default || [];
+    //@ts-ignore
+    return (this.actionLookup[this.status][subStatus] || this.actionLookup[this.status].default || []) as string[];
+  }
+
+  async getCurrentLocation(): Promise<DungeonLocation | undefined> {
+    const map = await new GameMap().load();
+    return map.locations.find(location => location.id == this.currentLocationId)
   }
 }
