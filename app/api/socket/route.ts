@@ -11,21 +11,17 @@ export async function GET() {
 }
 
 export async function SOCKET(client: WebSocket, request: IncomingMessage, server: WebSocketServer,) {
-  const query = new URLSearchParams(request.url!.split("?")[1]);
-  client["id"] = query.get("userId") ?? "Unknown";
   (global as any)["wsServer"] = server;
+  const query = new URLSearchParams(request.url!.split("?")[1]);
+  const userId = query.get("userId") ?? "Unknown";
+  const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
+  const existed = clients.find(client => client.id ===  userId)
+  client["id"] = userId
 
-  // server.once("connection", async () => {
-  //   await publishToStream(
-  //     "gameplay",
-  //     new StreamEvent().gameInit(parseInt(client.id), {})
-  //   )
-  // })
-
-  await publishToStream(
-    "gameplay",
-    new StreamEvent().gameInit(parseInt(client.id), {})
-  )
+  if (existed) {
+    server.clients.delete(existed);
+    existed.close()
+  }
 
   client.on('message', async (message) => {
     const data = JSON.parse(message.toString())
@@ -39,7 +35,9 @@ export async function SOCKET(client: WebSocket, request: IncomingMessage, server
         const renderer = new GameRenderer(data.userId)
         await renderer.render({scene: data.scene})
       }
-
+    } else {
+      const renderer = new GameRenderer(parseInt(userId))
+      await renderer.render({scene: data.scene})
     }
   });
 

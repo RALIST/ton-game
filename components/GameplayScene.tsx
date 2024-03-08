@@ -26,30 +26,43 @@ export default function GameplayScene() {
   const userId = initData?.user?.id // get telegram id
   const backButton = useBackButton()
 
-  useEffect(() => {
-    viewport.expand();
-    // @ts-ignore
-    ws.onopen = () => {
-      ws?.send("{}")
-    }
-
-    // @ts-ignore
-    ws.onmessage = function (event) {
-      const data: GameplayData = JSON.parse(event.data)
-      if (data.error) {
-        setError(data.error)
-        return
-      }
-      setGame(data)
-    }
-
-    const callback = () => { ws?.send(JSON.stringify({
+  const callback = () => {
+      ws?.send(JSON.stringify({
       userId: userId,
       scene: SceneCommands.VILLAGE_SCENE
-    }))}
+    }))
+  }
 
-    backButton.on("click", callback)
-  }, [backButton, viewport, ws]);
+  useEffect(() => {
+      viewport.expand();
+      // @ts-ignore
+      ws.onopen = () => {
+        ws?.send("{}")
+      }
+
+      // @ts-ignore
+      ws.onclose = () => {
+        setGame(null)
+        setError("Connection lost... Reload the page")
+      }
+
+      // @ts-ignore
+      ws.onmessage = function (event) {
+        const data: GameplayData = JSON.parse(event.data)
+        if (data.error) {
+          setError(data.error)
+          return
+        }
+        setGame(data)
+      }
+
+      backButton.on("click", callback)
+
+      return () => {
+        backButton.off("click", () => {
+        })
+      }
+    }, []);
 
   if (error) {
     return <div>Error: {error}</div>
