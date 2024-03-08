@@ -4,9 +4,11 @@ import {InventoryEvents} from "@/lib/utils/GameEvents";
 import Item from "@/lib/game/Item";
 import InventoryItems, {InventoryItemData} from "@/lib/game/InventoryItems";
 import InventoryRepository from "@/lib/repositories/InventoryRepository";
+import {SceneCommands} from "@/lib/utils/GameCommands";
 
 export default class InventoryService {
   model: Inventory
+  streamEvent: StreamEvent
 
   public static async consume(data: any) {
     const model = await new Inventory(data.userId).load()
@@ -16,6 +18,7 @@ export default class InventoryService {
 
   constructor(model: Inventory) {
     this.model = model
+    this.streamEvent = new StreamEvent()
   }
 
   async handleEvent(data: StreamEvent) {
@@ -26,13 +29,17 @@ export default class InventoryService {
 
   private eventHandlers = {
     [InventoryEvents.ITEM_ADDED]: async (inventoryItem: InventoryItemData) => {
-      const item = this.model.items.find(item => item.item.id === inventoryItem.item.id)
-      if (item) {
-        item.count += inventoryItem.count;
-        const restItems = this.model.items.filter(item => item.item.id != inventoryItem.item.id)
-        await this.model.repo.update({items: [...restItems, item]})
-      } else {
-        await this.model.repo.append("items", {item: inventoryItem.item, count: inventoryItem.count});
-      }}
+      await this.model.addItem(inventoryItem)
+    },
+
+    [InventoryEvents.ITEM_EQUIPPED]: async ({itemId}: {itemId: number}) => {
+      await this.model.equip(itemId)
+      await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.INVENTORY_SCENE}).send()
+    },
+
+    [InventoryEvents.ITEM_UNEQUIPPED]: async ({itemId}: {itemId: number}) => {
+      await this.model.unequip(itemId)
+      await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.INVENTORY_SCENE}).send()
+    }
   }
 }

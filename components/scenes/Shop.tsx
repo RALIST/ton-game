@@ -26,8 +26,8 @@ export default function Shop({shop, balance}: {shop: any, balance: number}) {
         <div className={"title"}>Твой баланс {balance} </div>
         {shop.items.map((shopItem: any, index: number) => {
           return <div key={index}>
-            {shopItem.item.name} {shopItem.count} шт. {shopItem.price}
-            <div className={"button"} onClick={buy(shopItem)}> Купить </div>
+            {shopItem.item.name} {shopItem.price}$
+            <div className={"smallButton"} onClick={buy(shopItem)}> Купить </div>
           </div>
         })}
       </div>

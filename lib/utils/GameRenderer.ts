@@ -78,7 +78,7 @@ export default class GameRenderer {
           },
           currentLocation: currentLocation,
           totalLocations: map.locations.length,
-          availableActions: character.getAvailableAction(),
+          availableActions: character.getAvailableAction,
           currentScene: currentScene
         }
         break;

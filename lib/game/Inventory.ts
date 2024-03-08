@@ -1,5 +1,7 @@
 import InventoryRepository from "@/lib/repositories/InventoryRepository";
 import InventoryItems, {InventoryItemData} from "@/lib/game/InventoryItems";
+import Weapon from "@/lib/game/items/Weapon";
+import Armor from "@/lib/game/items/Armor";
 
 export type InventoryData = {
   userId: number,
@@ -26,5 +28,37 @@ export default class Inventory {
     if (!data) await this.repo.dump(this)
 
     return this
+  }
+
+  async equip(id: number) {
+    const item = this.items.find(item => item.item.id === id);
+    if (item) {
+      if ((item.item instanceof Weapon) || (item.item instanceof Armor)) {
+        this.items
+          .filter(invitem => invitem.item.itemType === item.item.itemType)
+          .map(invitem => invitem.equipped = false)
+      }
+
+      item.equipped = true;
+      await this.repo.update({items: this.items})
+    }
+  }
+
+  async unequip(id: number) {
+    const item = this.items.find(item => item.item.id === id);
+    if (item) {
+      item.equipped = false;
+      await this.repo.update({items: this.items});
+    }
+  }
+
+  async addItem(inventoryItem: InventoryItemData) {
+    const item = this.items.find(item => item.item.id === inventoryItem.item.id)
+    if (item && item.item.stackable) {
+      item.count += inventoryItem.count;
+      await this.repo.update({items: this.items})
+    } else {
+      await this.repo.append("items", {item: inventoryItem.item, count: inventoryItem.count});
+    }
   }
 }

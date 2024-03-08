@@ -1,5 +1,6 @@
 import Item from "@/lib/game/Item";
 import itemsData from "@/lib/data/items.json"
+import {fromType} from "@/lib/game/items/helpers";
 
 export type ShopItem  = {
   item: Item,
@@ -13,6 +14,12 @@ export default class Shop {
 
   constructor() {
     this.name = "Basic shop"
-    this.items = itemsData.map(item => { return { item: item, count: 10, price: 100 } })
+    this.items = itemsData.map(item => {
+      return {
+        item: fromType(item),
+        count: 10,
+        price: 100
+      }
+    })
   }
 }

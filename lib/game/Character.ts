@@ -99,7 +99,7 @@ export default class Character {
     },
   };
 
-  getAvailableAction(): string[] {
+  get getAvailableAction(): string[] {
     const subStatus = this.status === 'inDungeon' ? this.dungeon_status : this.peacezone_status;
     //@ts-ignore
     return (this.actionLookup[this.status][subStatus] || this.actionLookup[this.status].default || []) as string[];

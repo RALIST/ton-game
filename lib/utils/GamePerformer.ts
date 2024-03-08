@@ -57,8 +57,19 @@ export default class GamePerformer {
         break;
       }
 
+      case GameCommands.EQUIP_ITEM: {
+        actionEvent = GameEvents.ITEM_EQUIPPED
+        break;
+      }
+
+      case GameCommands.UNEQUIP_ITEM: {
+        actionEvent = GameEvents.ITEM_UNEQUIPPED
+        break;
+      }
+
       case GameCommands.STOP_DUNGEON: {
         actionEvent = GameEvents.DUNGEON_STOPPED
+        break
       }
     }
 

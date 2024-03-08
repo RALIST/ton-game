@@ -26,11 +26,22 @@ a {
   display: flex;
   justify-content: center;
   padding: 4px 4px;
-  border: 1px solid grey;
   border-radius: 10px;
   background: rgba(106, 90, 205, 0.8);
   color: orange;
   cursor: pointer;
+}
+
+.smallButton {
+  display: inline-flex;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: rgba(106, 90, 205, 0.8);
+  color: orange;
+  cursor: pointer;
+  width: auto;
+  font-size: 14px;
 }
 
 .app {

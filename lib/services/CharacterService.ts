@@ -43,46 +43,26 @@ export default class CharacterService {
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
 
-    [CharacterEvents.CHARACTER_ATTACK_STARTED]: async (payload: any) => {
-      // Add your custom logic dedicated to CHARACTER_ATTACK_STARTED event here.
-    },
-
-    [CharacterEvents.CHARACTER_RUN_STARTED]: async (payload: any) => {
-      // Add your custom logic dedicated to CHARACTER_RUN_STARTED event here.
-    },
-
-    [CharacterEvents.ENEMIES_FOUND]: async (payload: any) => {
-      // Add your custom logic dedicated to ENEMIES_FOUND event here.
-    },
-
-    [CharacterEvents.CHARACTER_ATTRIBUTES_CHANGED]: async (payload: any) => {
-      // Add your custom logic dedicated to CHARACTER_ATTRIBUTES_CHANGED event here.
-    },
-
-    [CharacterEvents.RANDOM_EVENT_FOUND]: async (payload: any) => {
-      // Add your custom logic dedicated to RANDOM_EVENT_FOUND event here.
-    },
-
-    [CharacterEvents.REST_STARTED]: async (payload: any) => {
-      // Add your custom logic dedicated to REST_STARTED event here.
-    },
-
     [CharacterEvents.CHARACTER_ACTION_COMPLETED]: async (payload: any) => {
       // Add your custom logic dedicated to CHARACTER_ACTION_COMPLETED event here.
     },
+
     [CharacterEvents.DUNGEON_STARTED]: async (payload: any) => {
       await this.model.repo.update({currentLocationId: 1})
       await this.model.repo.update({status: "inDungeon"})
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
-    [CharacterEvents.DUNGEON_STOPPED]: async (payload: any) => {
+    [CharacterEvents.DUNGEON_COMPLETED]: async (payload: any) => {
       await this.model.repo.update({currentLocationId: 0})
       await this.model.repo.update({status: "inVillage"})
+      await this.model.repo.update({balance: this.model.balance + 1000})
       await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.END_DUNGEON_SCENE}).send()
     },
+
     [CharacterEvents.ITEM_BOUGHT]: async (payload: any) => {
       const shopItem: ShopItem = payload.item
       const newBalance = this.model.balance - shopItem.price
+
       if (newBalance < 0) {
         await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.SHOP_SCENE}).send()
         return

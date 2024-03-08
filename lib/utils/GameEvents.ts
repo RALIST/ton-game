@@ -10,7 +10,7 @@ export enum CharacterEvents {
   RANDOM_EVENT_FOUND = "random_event_found",
   CHARACTER_RUN_STARTED = "character_run_started",
   DUNGEON_STARTED = "dungeon_started",
-  DUNGEON_STOPPED = "dungeon_stopped",
+  DUNGEON_COMPLETED = "dungeon_stopped",
   ITEM_BOUGHT = "item_bought"
 }
 
@@ -53,7 +53,9 @@ export enum OtherEvents {
 }
 
 export enum InventoryEvents {
-  ITEM_ADDED = "item_added"
+  ITEM_ADDED = "item_added",
+  ITEM_EQUIPPED = "item_equipped",
+  ITEM_UNEQUIPPED = "item_unequipped"
 }
 
 export const GameEvents = {
