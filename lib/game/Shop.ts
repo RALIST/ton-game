@@ -1,6 +1,6 @@
 import Item from "@/lib/game/Item";
 import itemsData from "@/lib/data/items.json"
-import {fromType} from "@/lib/game/items/helpers";
+import {itemFromType} from "@/lib/game/items/helpers";
 
 export type ShopItem  = {
   item: Item,
@@ -16,7 +16,7 @@ export default class Shop {
     this.name = "Basic shop"
     this.items = itemsData.map(item => {
       return {
-        item: fromType(item),
+        item: itemFromType(item),
         count: 10,
         price: 100
       }

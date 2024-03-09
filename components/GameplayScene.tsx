@@ -6,7 +6,7 @@ import Inventory from "@/components/scenes/Inventory";
 import {useEffect, useState} from "react";
 import {useWebSocket} from "@/components/WebSocketContext";
 import {GameplayData} from "@/lib/utils/GameRenderer";
-import {useBackButton, useInitData, useViewport} from "@tma.js/sdk-react";
+import {useBackButton, useInitData, useMiniApp, useViewport} from "@tma.js/sdk-react";
 import Shop from "@/components/scenes/Shop";
 import Bar from "@/components/scenes/Bar";
 import Warehouse from "@/components/scenes/Warehouse";
@@ -21,10 +21,10 @@ export default function GameplayScene() {
   const [game, setGame] = useState<GameplayData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const ws = useWebSocket()
-  const viewport = useViewport()
   const initData = useInitData();
   const userId = initData?.user?.id // get telegram id
   const backButton = useBackButton()
+  const app = useMiniApp();
 
   const callback = () => {
       ws?.send(JSON.stringify({
@@ -34,7 +34,6 @@ export default function GameplayScene() {
   }
 
   useEffect(() => {
-      viewport.expand();
       // @ts-ignore
       ws.onopen = () => {
         ws?.send("{}")
@@ -42,8 +41,7 @@ export default function GameplayScene() {
 
       // @ts-ignore
       ws.onclose = () => {
-        setGame(null)
-        setError("Connection lost... Reload the page")
+        app.close()
       }
 
       // @ts-ignore
@@ -62,7 +60,7 @@ export default function GameplayScene() {
         backButton.off("click", () => {
         })
       }
-    }, []);
+    });
 
   if (error) {
     return <div>Error: {error}</div>
@@ -87,5 +85,4 @@ export default function GameplayScene() {
   }
 
   return scenes[game.currentScene]
-
 }

@@ -4,7 +4,7 @@ import Medicine from "@/lib/game/items/Medicine";
 import Item from "@/lib/game/Item";
 import Supply from "@/lib/game/items/Supply";
 
-export function fromType(item: {id: number, name: string, description: string, itemType: string}) {
+export function itemFromType(item: {id: number, name: string, description: string, itemType: string}) {
   switch (item.itemType) {
     case "weapon": {
       return new Weapon(item.id, item.name, item.description)

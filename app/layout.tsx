@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import { TmaSDKLoader } from '@/components/TmaSDKLoader';
 
 import '../assets/global.css';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: PropsWithChildren) {

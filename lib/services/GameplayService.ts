@@ -7,7 +7,7 @@ import Item from "@/lib/game/Item";
 import itemsData from "@/lib/data/items.json";
 import RandomEvent from "@/lib/game/RandomEvent";
 import eventsData from "@/lib/data/events.json";
-import {fromType} from "@/lib/game/items/helpers";
+import {itemFromType} from "@/lib/game/items/helpers";
 
 export default class GameplayService extends BaseService {
   public static async consume(data: any) {
@@ -63,7 +63,7 @@ export default class GameplayService extends BaseService {
 
   randomItem(): Item {
     const randomItem = itemsData[(Math.floor(Math.random() * itemsData.length))]
-    return fromType(randomItem)
+    return itemFromType(randomItem)
   }
 
   randomEvent(): RandomEvent {

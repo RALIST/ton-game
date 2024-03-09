@@ -10,6 +10,7 @@
     "postinstall": "npx next-ws-cli@latest patch -yy"
   },
   "dependencies": {
+    "@tma.js/sdk": "^1.4.7",
     "@tma.js/sdk-react": "^1.1.0",
     "@types/ws": "^8.5.10",
     "buffer": "^6.0.3",

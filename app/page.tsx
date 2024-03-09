@@ -2,13 +2,22 @@
 
 import {WebSocketProvider} from "@/components/WebSocketContext";
 import GameplayScene from "@/components/GameplayScene";
-import {useInitData} from "@tma.js/sdk-react";
+import {useInitData, useMiniApp, useViewport} from "@tma.js/sdk-react";
+import {useEffect} from "react";
 
 export default function Home() {
   // const layout = useViewport();
   const initData = useInitData();
   const userId = initData?.user?.id // get telegram id
   const isBrowser = typeof window !== 'undefined';
+  const app = useMiniApp()
+  const viewport = useViewport()
+
+  useEffect(() => {
+    viewport.expand();
+    app.ready();
+  });
+
   let url;
   if (isBrowser) {
     url = `wss://${window?.location.hostname}/api/socket?userId=${userId}`

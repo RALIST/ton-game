@@ -1,5 +1,5 @@
 import Item from "@/lib/game/Item";
-import {fromType} from "@/lib/game/items/helpers";
+import {itemFromType} from "@/lib/game/items/helpers";
 
 export type InventoryItemData = {
   item: Item,
@@ -12,13 +12,12 @@ export default class InventoryItems {
     if (initData) {
       return initData.map(invItem => {
         return {
-          item: fromType(invItem.item),
+          item: itemFromType(invItem.item),
           count: invItem.count,
           equipped: invItem.equipped
         }
       })
     }
-
     return []
   }
 }

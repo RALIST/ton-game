@@ -1,5 +1,5 @@
 // Below is some code for how you would use Redis to listen for the stream events:
-import {createClient} from "redis";
+import {createCluster} from "redis";
 import StreamEvent from "@/lib/streams/StreamEvent";
 import RedisSingleton from "@/lib/repositories/RedisSingleton";
 
@@ -7,15 +7,26 @@ export async function listenToStream (
   onMessage: (message: any, messageId: any) => void,
   streams: string[],
 ) {
-  const streamRedis = createClient();
-  await streamRedis.connect()
+  const streamRedis = createCluster({
+    rootNodes: [
+      {url: "redis://172.30.0.11:6379" },
+      {url: "redis://172.30.0.12:6379" },
+      {url: "redis://172.30.0.13:6379" },
+      {url: "redis://172.30.0.14:6379" },
+      {url: "redis://172.30.0.15:6379" },
+      {url: "redis://172.30.0.16:6379" },
+      {url: "redis://172.30.0.17:6379" },
+      {url: "redis://172.30.0.18:6379" }
+    ],
+    useReplicas: true,
+    minimizeConnections: true
+  });
 
-  const clientId=  await streamRedis.sendCommand([
-      "CLIENT",
-      "ID",
-    ])
-
-  console.log(`✅ Consumer connected to Redis with ID: ${clientId}`);
+  try {
+    await streamRedis.connect()
+  } catch (err) {
+    console.log("❌ Could not connect to Redis\n%o", err);
+  }
 
   const readMaxCount = 1;
   let streamNames: {key: string, id: string}[] = []

@@ -27,26 +27,32 @@ export default class GamePerformer {
         actionEvent = GameEvents.CHARACTER_MOVE_STARTED
         break;
       }
+
       case GameCommands.ATTACK: {
         actionEvent = GameEvents.CHARACTER_ATTACK_STARTED
         break;
       }
+
       case GameCommands.RUN: {
         actionEvent =  GameEvents.CHARACTER_RUN_STARTED
         break
       }
+
       case GameCommands.LOOK: {
         actionEvent = GameEvents.LOOK_STARTED
         break
       }
+
       case GameCommands.REST: {
         actionEvent = GameEvents.REST_STARTED
         break;
       }
+
       case GameCommands.CHANGE_SCREEN: {
         actionEvent = GameEvents.CHANGE_SCREEN_STARTED
         break;
       }
+
       case GameCommands.START_DUNGEON: {
         actionEvent = GameEvents.DUNGEON_STARTED
         break;
