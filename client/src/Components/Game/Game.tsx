@@ -1,33 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import Energy from './Energy/Energy';
-import style from './Game.module.css';
 import {useWebSocket} from "../WebSocketContext";
-import {gameCommandLabels} from "../../enums/GameCommands";
-import VillageScene from "./scenes/VillageScene";
+import VillageScene from "./Scenes/VillageScene";
+
+const Loading = () => <div>Loading...</div>;
+
+const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
+  if (ws) {
+    ws.onopen = () => {
+      ws.send('{}'); // ping server
+    }
+    ws.onmessage = (message) => {
+      const data = JSON.parse(message.data)
+      setGame(data)
+    }
+    ws.onclose = () => {
+      // close mini app
+    }
+  }
+}
 
 const Game = () => {
   const ws = useWebSocket()
   const [game, setGame] = useState<GameplayData | null>(null)
 
   useEffect(() => {
-    if (ws) {
-      ws.onopen = () => {
-        ws.send('{}'); // ping server
-      }
+    setupWebSocketListeners(ws, setGame);
+  }, [ws]);
 
-      ws.onmessage = (message) => {
-        const data = JSON.parse(message.data)
-        setGame(data)
-      }
+  if (!game) return <Loading/>
 
-      ws.onclose = () => {
-        // close mini app
-      }
-    }
-  });
-
-  if (!game) return <div>Loading...</div>
-  switch(game.currentScene) {
+  switch (game.currentScene) {
     case "village_scene": {
       return <VillageScene game={game}/>
     }
@@ -36,7 +38,5 @@ const Game = () => {
     }
   }
 }
-
-
 
 export default Game;
