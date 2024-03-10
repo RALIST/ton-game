@@ -1,0 +1,22 @@
+{
+  "name": "game-backend",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "start": "ts-node -r tsconfig-paths/register server.ts",
+    "start_workers": "ts-node -r tsconfig-paths/register consumers.ts "
+  },
+  "dependencies": {
+    "@types/node": "^20.11.25",
+    "@types/ws": "^8.5.10",
+    "eslint": "^8.57.0",
+    "redis": "^4.6.13",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "tsconfig-paths": "^4.2.0"
+  }
+}

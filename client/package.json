@@ -1,0 +1,33 @@
+{
+  "name": "next-js-example",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tma.js/sdk": "^1.4.7",
+    "@tma.js/sdk-react": "^1.1.0",
+    "@types/ws": "^8.5.10",
+    "buffer": "^6.0.3",
+    "next": "^14",
+    "next-ws": "^1.0.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "redis": "^4.6.13",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.6",
+    "postcss": "^8",
+    "typescript": "^5"
+  }
+}

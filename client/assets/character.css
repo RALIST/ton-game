@@ -1,0 +1,77 @@
+.character {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 10px;
+    .title {
+        color: orange;
+        font-weight: bold;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .characterAttributes {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        .attribute {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            .attributeName {
+                color: crimson;
+                font-weight: bold;
+            }
+            .attributeValue {
+                color: orange;
+                font-weight: bold;
+            }
+        }
+    }
+    .characterSkills {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .skill {
+            color: forestgreen;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            .skillName {
+                font-weight: bold;
+            }
+            .skillDesc {
+                color: orange;
+                font-size: 12px;
+            }
+        }
+    }
+
+    .perk {
+        color: brown;
+        font-weight: bold;
+    }
+
+    .perkDesc {
+        color: orange;
+        font-size: 12px;
+    }
+    .characterName {
+        font-size: 18px;
+        text-align: center;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .characterStats {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
+}

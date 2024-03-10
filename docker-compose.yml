@@ -1,0 +1,170 @@
+version: '3'
+networks:
+  network_redis_cluster:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24
+          gateway: 172.30.0.1
+services:
+  nginx:
+    build:
+      context: ./.nginx
+    ports:
+      - "80:80"
+    networks:
+      - network_redis_cluster
+  client:
+    container_name: game-client
+    hostname: client
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    build:
+      context: ./client
+      target: dev
+      dockerfile: Dockerfile
+    depends_on:
+      nginx:
+        condition: service_started
+      server:
+        condition: service_started
+    volumes:
+      - ./client:/client
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.99
+  server:
+    container_name: game-server
+    hostname: server
+    volumes:
+      - ./server:/server
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.100
+    ports:
+      - "3030:3030"
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: dev
+    depends_on:
+      nginx:
+        condition: service_started
+      redis1:
+        condition: service_healthy
+      redis2:
+        condition: service_healthy
+      redis3:
+        condition: service_healthy
+      redis4:
+        condition: service_healthy
+      redis5:
+        condition: service_healthy
+      redis6:
+        condition: service_healthy
+      redis7:
+        condition: service_healthy
+      redis8:
+        condition: service_healthy
+  redis1: &redis-master
+    build:
+      context: ./.redis
+      dockerfile: Dockerfile
+    container_name: redis1
+    restart: on-failure
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.11
+    volumes:
+      - redis1_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+  redis2:
+    <<: *redis-master
+    container_name: redis2
+    volumes:
+      - redis2_data:/data
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.12
+  redis3:
+    <<: *redis-master
+    container_name: redis3
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.13
+    volumes:
+      - redis3_data:/data
+  redis4:
+    <<: *redis-master
+    container_name: redis4
+    volumes:
+      - redis4_data:/data
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.14
+  redis5:
+    <<: *redis-master
+    container_name: redis5
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.15
+    volumes:
+      - redis5_data:/data
+  redis6:
+    <<: *redis-master
+    container_name: redis6
+    volumes:
+      - redis6_data:/data
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.16
+  redis7:
+    <<: *redis-master
+    container_name: redis7
+    volumes:
+      - redis7_data:/data
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.17
+  redis8:
+    <<: *redis-master
+    container_name: redis8
+    volumes:
+      - redis8_data:/data
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.18
+  redis-cluster:
+    image: redis/redis-stack:latest
+    command: redis-cli --cluster create 172.30.0.11:6379 172.30.0.12:6379 172.30.0.13:6379 172.30.0.14:6379 172.30.0.15:6379 172.30.0.16:6379 172.30.0.17:6379 172.30.0.18:6379 --cluster-replicas 1 --cluster-yes
+    depends_on:
+      redis1:
+        condition: service_healthy
+      redis2:
+        condition: service_healthy
+      redis3:
+        condition: service_healthy
+      redis4:
+        condition: service_healthy
+      redis5:
+        condition: service_healthy
+      redis6:
+        condition: service_healthy
+    networks:
+      network_redis_cluster:
+        ipv4_address: 172.30.0.19
+volumes:
+  redis1_data:
+  redis2_data:
+  redis3_data:
+  redis4_data:
+  redis5_data:
+  redis6_data:
+  redis7_data:
+  redis8_data:
