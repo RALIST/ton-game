@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useWebSocket} from "../WebSocketContext";
 import VillageScene from "./Scenes/VillageScene";
-
-const Loading = () => <div>Loading...</div>;
+import InventoryScene from "./Scenes/InventoryScene";
+import Loading from "../shared/Loading/Loading";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
   if (ws) {
@@ -32,6 +32,9 @@ const Game = () => {
   switch (game.currentScene) {
     case "village_scene": {
       return <VillageScene game={game}/>
+    }
+    case "inventory_scene": {
+      return <InventoryScene game={game}/>
     }
     default: {
       return <div>Broken scene</div>

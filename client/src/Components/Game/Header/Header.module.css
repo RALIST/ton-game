@@ -1,0 +1,9 @@
+.header {
+    text-align: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    background: rgba(185, 156, 230, 0.228);
+    position: relative;
+    padding: 10px;
+}

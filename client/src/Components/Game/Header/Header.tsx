@@ -1,4 +1,4 @@
-import style from "../Game.module.css";
+import style from "./Header.module.css";
 import Energy from "./Energy/Energy";
 import React from "react";
 

@@ -2,6 +2,7 @@ import style from "../Game.module.css";
 import {gameCommandLabels} from "../../../enums/GameCommands";
 import React from "react";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 export default function VillageScene({game}: { game: GameplayData}) {
   return (
@@ -13,8 +14,7 @@ export default function VillageScene({game}: { game: GameplayData}) {
           return <div key={index}>{gameCommandLabels[action]}</div>
         } )}
       </main>
-      <footer className={style.footer}>
-      </footer>
+      <Footer />
     </div>
   );
 }

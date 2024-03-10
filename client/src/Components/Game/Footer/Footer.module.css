@@ -1,4 +1,5 @@
 .footer {
-  display: flex;
-  justify-content: space-evenly;
+  border: 5px solid rgba(0, 0, 0, 0.622);
+  border-radius: 10px 10px 0 0;
+  background: rgba(76, 67, 89, 0.228);
 }
