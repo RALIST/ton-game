@@ -1,9 +1,5 @@
 import LoggerRepository from "@/lib/repositories/LoggerRepository";
-
-export type LogEntry = {
-  message: string,
-  type: string
-}
+import type {LogEntry} from "@/types/gameplay";
 
 export default  class GameLogger {
   globalLogs!: LogEntry[]

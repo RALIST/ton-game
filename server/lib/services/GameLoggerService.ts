@@ -1,6 +1,7 @@
-import GameLogger, {LogEntry} from "@/lib/services/GameLogger";
+import GameLogger from "@/lib/services/GameLogger";
 import {LoggerEvents} from "@/lib/utils/GameEvents";
 import BaseService from "@/lib/services/BaseService";
+import {LogEntry} from "@/types/gameplay";
 
 export default class GameLoggerService extends BaseService {
   public static async consume(data: any) {
@@ -12,15 +13,15 @@ export default class GameLoggerService extends BaseService {
   constructor(model: GameLogger) {super(model)}
 
   private eventHandlers = {
-    [LoggerEvents.DUNGEON_STARTED]: async (payload: any) => {
+    [LoggerEvents.DUNGEON_STARTED]: async () => {
       await this.model.logEvent("Вы начали вылазку", "info")
     },
 
-    [LoggerEvents.DUNGEON_STOPPED]: async (payload: any) => {
+    [LoggerEvents.DUNGEON_STOPPED]: async () => {
       await this.model.clearLogs()
     },
 
-    [LoggerEvents.CHARACTER_MOVE_STARTED]: async (payload: any) => {
+    [LoggerEvents.CHARACTER_MOVE_STARTED]: async () => {
       await this.model.clearLogs()
     },
 

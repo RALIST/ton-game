@@ -1,23 +1,11 @@
-import GameLogger, {LogEntry} from "@/lib/services/GameLogger";
-import {CharacterData} from "@/types/character";
+import GameLogger from "@/lib/services/GameLogger";
 import {WebSocket, WebSocketServer} from "ws";
-import Inventory, {InventoryData} from "@/lib/game/Inventory";
+import Inventory from "@/lib/game/Inventory";
 import {SceneCommands} from "@/lib/utils/GameCommands";
 import GameMap from "@/lib/game/GameMap";
 import Shop from "@/lib/game/Shop";
 import Character from "@/lib/game/Character";
-
-export type GameplayData = {
-  currentLogs: LogEntry[],
-  character: CharacterData
-  availableActions: string[],
-  currentScene: string,
-  currentLocation: any,
-  inventory: InventoryData,
-  totalLocations: number,
-  shop: Shop,
-  error: string,
-}
+import type {GameplayData} from "@/types/gameplay";
 
 // collect game data and push data to ws socket
 export default class GameRenderer {

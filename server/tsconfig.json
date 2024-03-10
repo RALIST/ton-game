@@ -22,6 +22,9 @@
     "skipLibCheck": true
   },
   "paths": {"@/*":  ["./*"]},
-  "include": ["./**/*"],
+  "include": [
+    "./**/*",
+    "../client/src/types/GameplayData.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,14 +1,8 @@
-import Item from "@/lib/game/Item";
 import {itemFromType} from "@/lib/game/items/helpers";
-
-export type InventoryItemData = {
-  item: Item,
-  count: number,
-  equipped?: boolean
-}
+import type {InventoryItem} from "@/types/gameplay";
 
 export default class InventoryItems {
-  public static initialize(initData?: InventoryItemData[]) {
+  public static initialize(initData?: InventoryItem[]) {
     if (initData) {
       return initData.map(invItem => {
         return {

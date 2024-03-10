@@ -1,8 +1,8 @@
 import Inventory from "@/lib/game/Inventory";
 import {InventoryEvents} from "@/lib/utils/GameEvents";
-import {InventoryItemData} from "@/lib/game/InventoryItems";
 import {SceneCommands} from "@/lib/utils/GameCommands";
 import BaseService from "@/lib/services/BaseService";
+import type {InventoryItem} from "@/types/gameplay";
 
 export default class InventoryService extends BaseService{
   public static async consume(data: any) {
@@ -14,7 +14,7 @@ export default class InventoryService extends BaseService{
   constructor(model: Inventory) { super(model) }
 
   private eventHandlers = {
-    [InventoryEvents.ITEM_ADDED]: async (inventoryItem: InventoryItemData) => {
+    [InventoryEvents.ITEM_ADDED]: async (inventoryItem: InventoryItem) => {
       await this.model.addItem(inventoryItem)
     },
 

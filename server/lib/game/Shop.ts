@@ -1,12 +1,6 @@
-import Item from "@/lib/game/Item";
 import itemsData from "@/lib/data/items.json"
 import {itemFromType} from "@/lib/game/items/helpers";
-
-export type ShopItem  = {
-  item: Item,
-  count: number,
-  price: number
-}
+import {ShopItem} from "@/types/gameplay";
 
 export default class Shop {
   name!: string;

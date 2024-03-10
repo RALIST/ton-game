@@ -1,6 +1,6 @@
 import skillsData from "@/lib/data/skills.json"
 import Skill from "@/lib/game/Skill";
-import {CharacterSkill} from "@/types/character";
+import type {CharacterSkill} from "@/types/character";
 
 export default class Skills {
   static initialize(initData?: CharacterSkill[] ) {

@@ -1,16 +1,12 @@
 import InventoryRepository from "@/lib/repositories/InventoryRepository";
-import InventoryItems, {InventoryItemData} from "@/lib/game/InventoryItems";
+import InventoryItems from "@/lib/game/InventoryItems";
 import Weapon from "@/lib/game/items/Weapon";
 import Armor from "@/lib/game/items/Armor";
-
-export type InventoryData = {
-  userId: number,
-  items: InventoryItemData[]
-}
+import type {InventoryItem} from "@/types/gameplay";
 
 export default class Inventory {
   userId: number
-  items!: InventoryItemData[]
+  items!: InventoryItem[]
   repo: InventoryRepository
 
   public static async initialize(userId: number) {
@@ -52,7 +48,7 @@ export default class Inventory {
     }
   }
 
-  async addItem(inventoryItem: InventoryItemData) {
+  async addItem(inventoryItem: InventoryItem) {
     const item = this.items.find(item => item.item.id === inventoryItem.item.id)
     if (item && item.item.stackable) {
       item.count += inventoryItem.count;

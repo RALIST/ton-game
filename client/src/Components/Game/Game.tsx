@@ -3,6 +3,7 @@ import {useWebSocket} from "../WebSocketContext";
 import VillageScene from "./Scenes/VillageScene";
 import InventoryScene from "./Scenes/InventoryScene";
 import Loading from "../shared/Loading/Loading";
+import type {GameplayData} from "../../types/gameplay";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
   if (ws) {
