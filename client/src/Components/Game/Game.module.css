@@ -19,6 +19,7 @@
   height: 45px;
   cursor: pointer;
 }
+
 .game {
   background-image: url(../img/settlement.jpg);
   background-size: cover;

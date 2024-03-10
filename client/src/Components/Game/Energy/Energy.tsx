@@ -23,7 +23,6 @@ const Energy: React.FC<EnergyProps> = ({ value, max, color, icon }) => {
           height: "18px"
         }}
       >
-        <div style={{position: "absolute"}}>{value}/{max}</div>
         <div style={{
             width: `${percentage}%`,
             backgroundColor: color,

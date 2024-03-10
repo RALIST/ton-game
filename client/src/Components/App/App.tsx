@@ -1,21 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Game from '../Game/Game';
 import './App.css';
 import {WebSocketProvider} from "../WebSocketContext";
 
-const App: React.FC = () => {
-  const [showMainMenu, setShowMainMenu] = useState<boolean>(true);
-  const [showContinueButton, setShowContinueButton] = useState<boolean>(false);
-
-  const handleButtonClick = () => {
-    setShowMainMenu(false);
-    setShowContinueButton(true);
-  };
-
-  const handleReturnToMainMenu = () => {
-    setShowMainMenu(true);
-  };
-
+const App = () => {
   const hostname = window.location.hostname
   let wsUrl: string;
 

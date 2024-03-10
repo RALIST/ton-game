@@ -11,7 +11,8 @@ type GameplayData = {
     maxEndurance: number,
     balance: number
   },
-  availableActions: string[]
+  availableActions: string[],
+  currentScene: string
 }
 
 const Game = () => {
@@ -20,12 +21,16 @@ const Game = () => {
   useEffect(() => {
     if (ws) {
       ws.onopen = () => {
-        ws.send('{}');
+        ws.send('{}'); // ping server
       }
 
       ws.onmessage = (message) => {
         const data = JSON.parse(message.data)
         setGame(data)
+      }
+
+      ws.onclose = () => {
+        // close mini app
       }
     }
   });
@@ -35,7 +40,7 @@ const Game = () => {
   return (
     <div className={style.game}>
       <header className={style.header}>
-        <Energy icon={'❤️'} color={'darkred'} value={game.character.currentHealth} max={game.character.maxHealth} />
+        <Energy icon={'❤️'} color={'red'} value={game.character.currentHealth} max={game.character.maxHealth} />
         <Energy icon={'⚡️'} color={'darkorange'} value={game.character.endurance} max={game.character.maxEndurance} />
         {/*<Money value={game.character.balance} />*/}
       </header>
