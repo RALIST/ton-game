@@ -1,6 +1,5 @@
-import GameLogger, {LogEntry} from "@/lib/utils/GameLogger";
+import GameLogger, {LogEntry} from "@/lib/services/GameLogger";
 import {LoggerEvents} from "@/lib/utils/GameEvents";
-import StreamEvent from "@/lib/streams/StreamEvent";
 import BaseService from "@/lib/services/BaseService";
 
 export default class GameLoggerService extends BaseService {

@@ -1,8 +1,4 @@
-export type CharacterAttribute = {
-  name: string,
-  description: string,
-  value: number
-}
+import {CharacterAttribute} from "@/types/character";
 
 export default class Attributes {
   static initialize(initData?: CharacterAttribute[]) {

@@ -1,9 +1,6 @@
 import Inventory from "@/lib/game/Inventory";
-import StreamEvent from "@/lib/streams/StreamEvent";
 import {InventoryEvents} from "@/lib/utils/GameEvents";
-import Item from "@/lib/game/Item";
-import InventoryItems, {InventoryItemData} from "@/lib/game/InventoryItems";
-import InventoryRepository from "@/lib/repositories/InventoryRepository";
+import {InventoryItemData} from "@/lib/game/InventoryItems";
 import {SceneCommands} from "@/lib/utils/GameCommands";
 import BaseService from "@/lib/services/BaseService";
 

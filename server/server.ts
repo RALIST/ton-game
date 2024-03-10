@@ -1,7 +1,7 @@
 import {WebSocket, WebSocketServer} from "ws";
 import {IncomingMessage} from "node:http";
-import GamePerformer from "@/lib/utils/GamePerformer";
-import GameRenderer from "@/lib/utils/GameRenderer";
+import GamePerformer from "@/lib/services/GamePerformer";
+import GameRenderer from "@/lib/services/GameRenderer";
 import {startGameplayService} from "@/lib/streams/GameplayConsumer";
 
 const server = new WebSocketServer({port: 3030})

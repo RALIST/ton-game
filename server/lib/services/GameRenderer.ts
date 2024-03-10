@@ -1,10 +1,11 @@
-import GameLogger, {LogEntry} from "@/lib/utils/GameLogger";
-import Character, {CharacterData} from "@/lib/game/Character";
+import GameLogger, {LogEntry} from "@/lib/services/GameLogger";
+import {CharacterData} from "@/types/character";
 import {WebSocket, WebSocketServer} from "ws";
 import Inventory, {InventoryData} from "@/lib/game/Inventory";
 import {SceneCommands} from "@/lib/utils/GameCommands";
 import GameMap from "@/lib/game/GameMap";
 import Shop from "@/lib/game/Shop";
+import Character from "@/lib/game/Character";
 
 export type GameplayData = {
   currentLogs: LogEntry[],
@@ -31,7 +32,7 @@ export default class GameRenderer {
     const character = await Character.initialize(this.userId)
     const currentScene = payload?.scene ?? (character.status == "inVillage" ? SceneCommands.VILLAGE_SCENE : SceneCommands.DUNGEON_SCENE)
     let data;
-    let sceneData: Partial<GameplayData> = { currentScene: currentScene };
+    const sceneData: Partial<GameplayData> = { currentScene: currentScene };
 
     switch(currentScene) {
       case SceneCommands.VILLAGE_SCENE: {

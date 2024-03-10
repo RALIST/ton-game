@@ -1,5 +1,4 @@
 import {RedisStorage} from "@/lib/repositories/RedisStorage";
-import {CharacterData} from "@/lib/game/Character";
 
 export default class LoggerRepository {
   private storage!: RedisStorage

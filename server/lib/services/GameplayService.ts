@@ -19,7 +19,7 @@ export default class GameplayService extends BaseService {
   constructor(model: Gameplay) {super(model)}
 
   private eventHandlers = {
-    [GameplayEvents.CHARACTER_MOVED]: async (payload: any) => {
+    [GameplayEvents.CHARACTER_MOVED]: async () => {
       if (Math.random() < 0.3) {
         const newPayload = {enemy: this.randomEnemy()}
         await this.streamEvent.enemiesFound(this.model.userId, newPayload).send()

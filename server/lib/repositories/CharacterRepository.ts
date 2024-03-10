@@ -1,5 +1,5 @@
 import {RedisStorage} from "@/lib/repositories/RedisStorage";
-import {CharacterData} from "@/lib/game/Character";
+import {CharacterData} from "@/types/character";
 
 export default class CharacterRepository {
   private storage!: RedisStorage

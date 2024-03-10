@@ -1,6 +1,4 @@
 import {GameCommands} from "@/lib/utils/GameCommands";
-import Skills, {CharacterSkill} from "@/lib/game/character/Skills";
-import Attributes, {CharacterAttribute} from "@/lib/game/character/Attributes";
 import Perks from "@/lib/game/character/Perks";
 import Perk from "@/lib/game/Perk";
 import CharacterRepository from "@/lib/repositories/CharacterRepository";
@@ -8,22 +6,9 @@ import CharacterRepository from "@/lib/repositories/CharacterRepository";
 import characterData from "../data/character.json"
 import GameMap from "@/lib/game/GameMap";
 import {DungeonLocation} from "@/lib/game/DungeonLocation";
-
-export type CharacterData = {
-  currentHealth: number,
-  maxHealth: number,
-  endurance: number,
-  maxEndurance: number,
-  balance: number,
-  name: string,
-  currentLocationId: number,
-  status: "inVillage" | "inDungeon",
-  peacezone_status: "idle",
-  dungeon_status: "idle" | "inBattle" | "tired" | "dead" | "returning" | "looked",
-  skills: CharacterSkill[],
-  perks: Perk[],
-  attributes: CharacterAttribute[]
-};
+import {CharacterAttribute, CharacterData, CharacterSkill} from "@/types/character";
+import Attributes from "@/lib/game/character/Attributes";
+import Skills from "@/lib/game/character/Skills";
 
 export default class Character {
   userId: number;
@@ -101,7 +86,7 @@ export default class Character {
 
   get getAvailableAction(): string[] {
     const subStatus = this.status === 'inDungeon' ? this.dungeon_status : this.peacezone_status;
-    //@ts-ignore
+    //@ts-expect-error idk
     return (this.actionLookup[this.status][subStatus] || this.actionLookup[this.status].default || []) as string[];
   }
 

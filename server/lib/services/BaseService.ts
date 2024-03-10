@@ -11,7 +11,7 @@ export default abstract class BaseService {
 
   async handleEvent(data: StreamEvent) {
     const { event, payload } = data
-    // @ts-ignore
+    // @ts-expect-error idk
     if (event in this.eventHandlers) await this.eventHandlers[event](payload);
   }
 }

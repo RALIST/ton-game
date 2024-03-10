@@ -1,5 +1,4 @@
 import {GameEvents} from "@/lib/utils/GameEvents";
-import emitEvent from "@/lib/utils/emitEvent";
 import StreamEvent from "@/lib/streams/StreamEvent";
 import {GameCommands} from "@/lib/utils/GameCommands";
 

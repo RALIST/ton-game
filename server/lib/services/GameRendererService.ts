@@ -1,4 +1,4 @@
-import GameRenderer from "@/lib/utils/GameRenderer";
+import GameRenderer from "@/lib/services/GameRenderer";
 import {RendererEvents} from "@/lib/utils/GameEvents";
 import BaseService from "@/lib/services/BaseService";
 

@@ -23,19 +23,19 @@ export default class CharacterService extends BaseService {
     [CharacterEvents.DUNGEON_COMPLETED]: this.completeDungeon.bind(this),
     [CharacterEvents.ITEM_BOUGHT]: this.handleItemBought.bind(this),
 
-    [CharacterEvents.ENEMIES_FOUND]: async (payload: any) => {
+    [CharacterEvents.ENEMIES_FOUND]: async (payload: never) => {
       await this.model.repo.update({dungeon_status: "inBattle"})
       await this.streamEvent.actionCompleted(this.model.userId, payload).send()
     },
 
-    [CharacterEvents.CHARACTER_ATTACK_STARTED]: async (payload: any) => {
+    [CharacterEvents.CHARACTER_ATTACK_STARTED]: async () => {
       await this.model.repo.update({dungeon_status: "idle"})
       // check character damage to enemy
       await this.streamEvent.attackCompleted(this.model.userId, {damage: 10}).send()
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
 
-    [CharacterEvents.REST_STARTED]: async (payload: any) => {
+    [CharacterEvents.REST_STARTED]: async () => {
       await this.model.repo.update({endurance: 100, dungeon_status: "idle"})
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     }
@@ -60,7 +60,7 @@ export default class CharacterService extends BaseService {
     }
 
     const map = await new GameMap().load()
-    let nextLocationId = this.model.currentLocationId + 1
+    const nextLocationId = this.model.currentLocationId + 1
 
     if (nextLocationId > map.locations.length) {
       return await this.streamEvent.dungeonStopped(this.model.userId, {}).send()
