@@ -29,7 +29,7 @@ const App: React.FC = () => {
     // <TmaSDKLoader>
       <WebSocketProvider url={wsUrl}>
         <div className='app'>
-          <Game pauseClick={handleReturnToMainMenu}/>
+          <Game/>
         </div>
       </WebSocketProvider>
     // </TmaSDKLoader>

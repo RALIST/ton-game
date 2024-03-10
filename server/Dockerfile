@@ -1,7 +1,7 @@
 FROM node:latest AS base
 
 FROM base AS deps
-WORKDIR /server
+WORKDIR /cache
 
 #.lock
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
@@ -49,7 +49,7 @@ FROM base AS dev
 WORKDIR /server
 ENV NODE_ENV=development
 
-COPY --from=deps /server/node_modules ./node_modules
+COPY --from=deps /cache/node_modules ./node_modules
 COPY . .
 
 CMD \

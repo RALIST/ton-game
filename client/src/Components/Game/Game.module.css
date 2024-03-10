@@ -10,8 +10,8 @@
   margin: auto 0;
 }
 .main {
-  position: absolute;
-  width: 383px;
+  width: 100%;
+  height: 100%;
 }
 .img {
   margin: auto 0;
@@ -29,8 +29,6 @@
   justify-content: space-between;
 }
 .footer {
-  width: 100%;
-  padding: 5px;
   border: 5px solid rgba(0, 0, 0, 0.622);
   border-radius: 10px 10px 0 0;
   background: rgba(76, 67, 89, 0.228);

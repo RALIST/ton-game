@@ -20,15 +20,15 @@ const Energy: React.FC<EnergyProps> = ({ value, max, color, icon }) => {
           border: '1px solid black',
           width: '100px',
           borderRadius: '15px',
-          height: '10px',
+          height: "18px"
         }}
       >
-        <div
-          style={{
+        <div style={{position: "absolute"}}>{value}/{max}</div>
+        <div style={{
             width: `${percentage}%`,
-            height: '10px',
             backgroundColor: color,
             borderRadius: '15px',
+            height: "18px"
           }}
         ></div>
       </div>
