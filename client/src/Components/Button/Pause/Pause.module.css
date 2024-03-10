@@ -1,0 +1,10 @@
+.pause {
+  margin: auto 0;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+.btn {
+  margin: auto 0;
+  padding: 0;
+}

@@ -1,0 +1,22 @@
+.img {
+  width: 100px;
+}
+.item {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 7px 0 6px;
+  padding: 0;
+}
+.name {
+  position: absolute;
+  color: wheat;
+  background-color: rgba(138, 138, 138, 0.621);
+  width: 96px;
+  top: 33px;
+  left: 2px;
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+  font-size: 14px;
+}

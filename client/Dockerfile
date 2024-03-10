@@ -6,8 +6,8 @@ WORKDIR /client
 #.lock
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
+  if [ -f yarn.lock ]; then yarn install; \
+  elif [ -f package-lock.json ]; then npm install; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
@@ -33,7 +33,6 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 USER nextjs
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /client/node_modules ./node_modules
 COPY --from=builder /client/package.json ./package.json
 COPY --from=builder /client/public ./public
@@ -53,8 +52,8 @@ COPY --from=deps /client/node_modules ./node_modules
 COPY . .
 
 CMD \
-  if [ -f yarn.lock ]; then yarn run dev; \
-  elif [ -f package-lock.json ]; then npm run dev; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run dev; \
+  if [ -f yarn.lock ]; then yarn run start; \
+  elif [ -f package-lock.json ]; then npm run start; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run start; \
   else echo "Lockfile not found." && exit 1; \
   fi

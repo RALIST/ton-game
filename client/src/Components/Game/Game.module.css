@@ -1,0 +1,37 @@
+.header {
+  text-align: center;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  background: rgba(185, 156, 230, 0.228);
+  position: relative;
+}
+.wrap {
+  margin: auto 0;
+}
+.main {
+  position: absolute;
+  width: 383px;
+}
+.img {
+  margin: auto 0;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+.game {
+  background-image: url(../img/settlement.jpg);
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer {
+  width: 100%;
+  padding: 5px;
+  border: 5px solid rgba(0, 0, 0, 0.622);
+  border-radius: 10px 10px 0 0;
+  background: rgba(76, 67, 89, 0.228);
+}

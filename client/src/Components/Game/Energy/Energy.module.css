@@ -1,0 +1,13 @@
+.energy {
+  display: flex;
+  padding: 0 auto;
+}
+.energy_scale {
+  border: '1px solid #333';
+  width: '50px';
+  border-radius: '15px';
+  height: '10px';
+}
+.energy_icon {
+  margin: auto;
+}

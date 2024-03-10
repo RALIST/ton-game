@@ -1,0 +1,35 @@
+.inventory {
+  box-sizing: border-box;
+  border: 2px solid rgb(78, 78, 78);
+  border-radius: 10px;
+  margin: 10px 10px 0 10px;
+  background: rgba(78, 78, 78, 0.547);
+}
+.title {
+  text-align: center;
+  margin: 0;
+  display: block;
+  background-color: rgba(250, 235, 215, 0.336);
+
+  color: black;
+  border-radius: 10px 10px 0 0;
+  font-size: 20px;
+}
+.loot {
+  margin: 0;
+  padding: 10px;
+  width: 340px;
+  max-height: 380px;
+  display: flex;
+  flex-wrap: wrap;
+
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 0;
+}
+.btn {
+  position: absolute;
+  margin: 0;
+  left: 340px;
+}

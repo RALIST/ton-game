@@ -19,8 +19,6 @@ services:
     container_name: game-client
     hostname: client
     restart: on-failure
-    ports:
-      - "3000:3000"
     build:
       context: ./client
       target: dev
@@ -43,8 +41,6 @@ services:
     networks:
       network_redis_cluster:
         ipv4_address: 172.30.0.100
-    ports:
-      - "3030:3030"
     build:
       context: ./server
       dockerfile: Dockerfile

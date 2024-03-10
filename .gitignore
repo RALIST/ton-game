@@ -40,3 +40,4 @@ client/next-env.d.ts
 /client/build
 /server/node_modules
 /server/node_modules/
+/client/old_client/
