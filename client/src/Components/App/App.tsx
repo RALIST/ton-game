@@ -14,6 +14,7 @@ const App = () => {
   }
 
   return (
+    // TMA provider for telegram mini apps
     // <TmaSDKLoader>
       <WebSocketProvider url={wsUrl}>
         <div className='app'>

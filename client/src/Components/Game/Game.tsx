@@ -3,6 +3,7 @@ import Energy from './Energy/Energy';
 import style from './Game.module.css';
 import {useWebSocket} from "../WebSocketContext";
 import {gameCommandLabels} from "../../enums/GameCommands";
+import VillageScene from "./scenes/VillageScene";
 
 const Game = () => {
   const ws = useWebSocket()
@@ -26,24 +27,16 @@ const Game = () => {
   });
 
   if (!game) return <div>Loading...</div>
+  switch(game.currentScene) {
+    case "village_scene": {
+      return <VillageScene game={game}/>
+    }
+    default: {
+      return <div>Broken scene</div>
+    }
+  }
+}
 
-  return (
-    <div className={style.game}>
-      <header className={style.header}>
-        <Energy icon={'❤️'} color={'red'} value={game.character.currentHealth} max={game.character.maxHealth} />
-        <Energy icon={'⚡️'} color={'darkorange'} value={game.character.endurance} max={game.character.maxEndurance} />
-        {/*<Money value={game.character.balance} />*/}
-      </header>
-      <main className={style.main}>
-        {game.availableActions.map((action, index) => {
-          // @ts-ignore
-          return <div key={index}>{gameCommandLabels[action]}</div>
-        } )}
-      </main>
-      <footer className={style.footer}>
-      </footer>
-    </div>
-  );
-};
+
 
 export default Game;

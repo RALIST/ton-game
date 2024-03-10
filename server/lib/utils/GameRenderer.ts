@@ -40,7 +40,8 @@ export default class GameRenderer {
             currentHealth: character.currentHealth,
             maxHealth: character.maxHealth,
             balance: character.balance,
-            endurance: character.endurance
+            endurance: character.endurance,
+            maxEndurance: character.maxEndurance
           },
           availableActions: Object.values(SceneCommands) as string[],
           ...sceneData,
