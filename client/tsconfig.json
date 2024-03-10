@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
     "plugins": [
-      {
-        "name": "typescript-plugin-css-modules"
-      }
+      {"name": "typescript-plugin-css-modules"}
     ],
     "target": "ES6",
     "baseUrl": "./src",
     "paths": {
-      "#*": ["./src/*"]
+      "@/*": ["./src/*"]
     },
+    "typeRoots": ["./types"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

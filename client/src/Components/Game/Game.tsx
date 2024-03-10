@@ -2,22 +2,12 @@ import React, {useEffect, useState} from 'react';
 import Energy from './Energy/Energy';
 import style from './Game.module.css';
 import {useWebSocket} from "../WebSocketContext";
-
-type GameplayData = {
-  character: {
-    currentHealth: number,
-    maxHealth: number,
-    endurance: number,
-    maxEndurance: number,
-    balance: number
-  },
-  availableActions: string[],
-  currentScene: string
-}
+import {gameCommandLabels} from "../../enums/GameCommands";
 
 const Game = () => {
   const ws = useWebSocket()
   const [game, setGame] = useState<GameplayData | null>(null)
+
   useEffect(() => {
     if (ws) {
       ws.onopen = () => {
@@ -46,7 +36,8 @@ const Game = () => {
       </header>
       <main className={style.main}>
         {game.availableActions.map((action, index) => {
-          return <div key={index}>{action}</div>
+          // @ts-ignore
+          return <div key={index}>{gameCommandLabels[action]}</div>
         } )}
       </main>
       <footer className={style.footer}>
