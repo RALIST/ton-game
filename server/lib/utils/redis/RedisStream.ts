@@ -1,9 +1,10 @@
 import {createCluster} from "redis";
+import * as console from "console";
 
 export type RedisClusterType = ReturnType<typeof createCluster>;
 
-export default class RedisSingleton {
-  static instance: RedisSingleton;
+export default class RedisStream {
+  static instance: RedisStream;
   private static CacheClient: RedisClusterType;
 
   private RedisClient = createCluster({
@@ -16,18 +17,12 @@ export default class RedisSingleton {
       {url: "redis://172.30.0.16:6379" },
       {url: "redis://172.30.0.17:6379" },
       {url: "redis://172.30.0.18:6379" }
-    ],
-    useReplicas: true,
-    minimizeConnections: true
+    ]
   });
 
-  private constructor() {
-    console.log("🔺 New Redis Client Instance Created!!");
-  }
-
-  private async initialize() {
+  async initialize() {
     try {
-      RedisSingleton.CacheClient = this.RedisClient
+      RedisStream.CacheClient = this.RedisClient
       await this.RedisClient.connect();
     } catch (err) {
       console.log("❌ Could not connect to Redis\n%o", err);
@@ -35,15 +30,17 @@ export default class RedisSingleton {
   }
 
   //Singleton Function Implement
-  public static getInstance = async (): Promise<RedisSingleton> => {
-      RedisSingleton.instance = new RedisSingleton();
-      await RedisSingleton.instance.initialize()
+  public static getInstance = async (): Promise<RedisStream> => {
+    if (!RedisStream.instance) {
+      RedisStream.instance = new RedisStream();
+      await RedisStream.instance.initialize();
+    }
 
-    return RedisSingleton.instance;
+    return RedisStream.instance;
   };
 
   //Usable Function Component to get client
   public getClient = async (): Promise<RedisClusterType> => {
-    return RedisSingleton.CacheClient;
+    return RedisStream.CacheClient;
   };
 }

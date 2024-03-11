@@ -1,27 +1,11 @@
 import StreamEvent from "@/lib/utils/streams/StreamEvent";
-import {createCluster} from "redis";
-import RedisSingleton from "../redis/RedisSingleton";
+import RedisStream from "../redis/RedisStream";
+import RedisPublisher from "@/lib/utils/redis/RedisPublisher";
 
 export function listenToStream (
   onMessage: (message: any, messageId: any) => void,
   streams: string[],
 ) {
-
-  const streamRedis = createCluster({
-    rootNodes: [
-      {url: "redis://172.30.0.11:6379" },
-      {url: "redis://172.30.0.12:6379" },
-      {url: "redis://172.30.0.13:6379" },
-      {url: "redis://172.30.0.14:6379" },
-      {url: "redis://172.30.0.15:6379" },
-      {url: "redis://172.30.0.16:6379" },
-      {url: "redis://172.30.0.17:6379" },
-      {url: "redis://172.30.0.18:6379" }
-    ],
-    useReplicas: true,
-    minimizeConnections: true
-  });
-
   const readMaxCount = 1;
   const streamNames: {key: string, id: string}[] = []
 
@@ -30,12 +14,10 @@ export function listenToStream (
   }
 
   return setInterval(async () => {
-    if (!streamRedis.isOpen) {
-      await streamRedis.connect()
-    }
+    const streamRedis = await (await RedisStream.getInstance()).getClient()
     const dataArr = await streamRedis.xRead(
       streamNames,
-      {COUNT: readMaxCount, BLOCK: 100},
+      {COUNT: readMaxCount, BLOCK: 0},
     )
 
     if(!dataArr) return
@@ -49,7 +31,7 @@ export function listenToStream (
 }
 
 export async function publishToStream(stream: string, data: StreamEvent) {
-  const publishRedis = await (await RedisSingleton.getInstance()).getClient()
+  const publishRedis = await (await RedisPublisher.getInstance()).getClient()
   await publishRedis.xAdd(stream, `*`, {message: JSON.stringify(data)})
 }
 

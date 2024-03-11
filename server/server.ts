@@ -8,41 +8,51 @@ import LoggerService from "@/lib/Logger/LoggerService";
 import CharacterService from "@/lib/Character/CharacterService";
 import InventoryService from "@/lib/Inventory/InventoryService";
 import GameplayService from "@/lib/Gameplay/GameplayService";
+import RedisStream from "@/lib/utils/redis/RedisStream";
+import RedisPublisher from "@/lib/utils/redis/RedisPublisher";
+import RedisStorage from "@/lib/utils/redis/RedisStorage";
 
 const server = new WebSocketServer({port: 3030})
-console.log("WS Server started!")
 
-server.once("connection", () => {
-  listenToStream(  async (message) => {
-    const data = JSON.parse(message.message);
-    if (isValidEvent(data, CharacterEvents)) await CharacterService.consume(data);
-    if (isValidEvent(data, GameplayEvents)) await GameplayService.consume(data);
-    if (isValidEvent(data, LoggerEvents)) await LoggerService.consume(data);
-    if (isValidEvent(data, InventoryEvents)) await InventoryService.consume(data);
-    if (isValidEvent(data, RendererEvents)) await RendererService.consume(data);
-  }, ["gameplay"])
-})
+Promise.all([
+    RedisStream.getInstance(),
+    RedisPublisher.getInstance(),
+    RedisStorage.getInstance(),
+]).then(() => {
+  console.log("WS Server started!")
 
-server.on("connection", (client: WebSocket, request: IncomingMessage) => {
-  console.log("Client connected!");
+  server.once("connection", () => {
+    listenToStream(  async (message) => {
+      const data = JSON.parse(message.message);
+      if (isValidEvent(data, CharacterEvents)) await CharacterService.consume(data);
+      if (isValidEvent(data, GameplayEvents)) await GameplayService.consume(data);
+      if (isValidEvent(data, LoggerEvents)) await LoggerService.consume(data);
+      if (isValidEvent(data, InventoryEvents)) await InventoryService.consume(data);
+      if (isValidEvent(data, RendererEvents)) await RendererService.consume(data);
+    }, ["gameplay"])
+  })
 
-  (global as any)["wsServer"] = server;
-  const query = new URLSearchParams(request.url!.split("?")[1]);
-  const userId = query.get("userId") ?? "Unknown";
-  const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
-  const existed = clients.find(client => client.id ===  userId)
-  client["id"] = userId
+  server.on("connection", (client: WebSocket, request: IncomingMessage) => {
+    console.log("Client connected!");
 
-  if (existed) {
-    server.clients.delete(existed);
-    existed.close()
-  }
+    (global as any)["wsServer"] = server;
+    const query = new URLSearchParams(request.url!.split("?")[1]);
+    const userId = query.get("userId") ?? "Unknown";
+    const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
+    const existed = clients.find(client => client.id ===  userId)
+    client["id"] = userId
 
-  client.on('message', async (message) => {
-    await Performer.handleIncomingMessage(message)
-  });
+    if (existed) {
+      server.clients.delete(existed);
+      existed.close()
+    }
 
-  client.on('close', async () => {
-    console.log("Client disconnected!")
-  });
+    client.on('message', async (message) => {
+      await Performer.handleIncomingMessage(message)
+    });
+
+    client.on('close', async () => {
+      console.log("Client disconnected!")
+    });
+  })
 })

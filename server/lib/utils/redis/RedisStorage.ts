@@ -1,38 +1,64 @@
-import RedisSingleton from "@/lib/utils/redis/RedisSingleton";
+import {createCluster} from "redis";
+export type RedisClusterType = ReturnType<typeof createCluster>;
 
-export interface IStorage {
-  model: string;
-  load(): unknown
-  dump(data: any): void
-  update(data: any): void
-  append(arr: string, item: any): void
-}
+export default class RedisStorage {
+  static instance: RedisStorage;
+  private static CacheClient: RedisClusterType;
 
-export class RedisStorage implements IStorage {
-  model: string
-  redis!: any
+  private RedisClient = createCluster({
+    rootNodes: [
+      {url: "redis://172.30.0.11:6379" },
+      {url: "redis://172.30.0.12:6379" },
+      {url: "redis://172.30.0.13:6379" },
+      {url: "redis://172.30.0.14:6379" },
+      {url: "redis://172.30.0.15:6379" },
+      {url: "redis://172.30.0.16:6379" },
+      {url: "redis://172.30.0.17:6379" },
+      {url: "redis://172.30.0.18:6379" }
+    ]
+  });
 
-  constructor(model: string) {
-    this.model = model
+  async initialize() {
+    try {
+      RedisStorage.CacheClient = this.RedisClient
+      await this.RedisClient.connect();
+    } catch (err) {
+      console.log("❌ Could not connect to Redis\n%o", err);
+    }
   }
 
-  async dump(data: any)  {
-    this.redis = await (await RedisSingleton.getInstance()).getClient()
-    await this.redis.json.set(this.model, "$", data)
+  //Singleton Function Implement
+  public static getInstance = async (): Promise<RedisStorage> => {
+    if (!RedisStorage.instance) {
+      RedisStorage.instance = new RedisStorage();
+      await RedisStorage.instance.initialize();
+    }
+
+    return RedisStorage.instance;
+  };
+
+  //Usable Function Component to get client
+  public getClient = async (): Promise<RedisClusterType> => {
+    return RedisStorage.CacheClient;
+  };
+
+  async dump(model: string, data: any)  {
+    const redis = await (await RedisStorage.getInstance()).getClient()
+    await redis.json.set(model, "$", data)
   }
 
-  async load(): Promise<any> {
-    this.redis = await (await RedisSingleton.getInstance()).getClient()
-    return await this.redis.json.get(this.model)
+  async load(model: string): Promise<any> {
+    const redis = await (await RedisStorage.getInstance()).getClient()
+    return await redis.json.get(model)
   }
 
-  async update(data: any) {
-    this.redis = await (await RedisSingleton.getInstance()).getClient()
-    await this.redis.json.merge(this.model, "$", data)
+  async update(model: string, data: any) {
+    const redis = await (await RedisStorage.getInstance()).getClient()
+    await redis.json.merge(model, "$", data)
   }
 
-  async append(arr: string, item: any) {
-    this.redis = await (await RedisSingleton.getInstance()).getClient()
-    await this.redis.json.arrAppend(this.model, `$.${arr}`, item)
+  async append(model: string, arr: string, item: any) {
+    const redis = await (await RedisStorage.getInstance()).getClient()
+    await redis.json.arrAppend(model, `$.${arr}`, item)
   }
 }
