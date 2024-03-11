@@ -5,6 +5,7 @@ import {isValidEvent, listenToStream} from "@/lib/utils/streams/utils";
 
 export default class CharacterConsumer {
   private static events = CharacterEvents
+  private static service = CharacterService
 
   public static async start() {
     console.log("Character consumer started!")
@@ -13,7 +14,7 @@ export default class CharacterConsumer {
     await listenToStream((message) => {
       const data: StreamEvent = JSON.parse(message.message);
 
-      if (isValidEvent(data, events)) CharacterService.consume(data);
+      if (isValidEvent(data, events)) this.service.consume(data);
     }, ["gameplay"])
   }
 }

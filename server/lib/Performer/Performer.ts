@@ -1,12 +1,36 @@
 import {GameEvents} from "@/lib/utils/GameEvents";
 import {GameCommands} from "@/lib/utils/GameCommands";
 import StreamEvent from "@/lib/utils/streams/StreamEvent";
+import {RawData} from "ws";
+import Renderer from "@/lib/Renderer/Renderer";
 
 export default class Performer {
   userId: number
   constructor(userId: number) {
     this.userId = userId
   }
+
+  public static async handleIncomingMessage(message: RawData) {
+    const data = JSON.parse(message.toString())
+    if (data) {
+      if (data.action) {
+        const performer = new Performer(data.userId)
+        await performer.performAction(data.action, data.payload)
+      }
+
+      if (data.scene) {
+        const renderer = new Renderer(data.userId)
+        await renderer.render({scene: data.scene})
+      }
+
+      if (data.initData) {
+        // TODO: upsert user here
+        const renderer = new Renderer(data.initData.user.id)
+        await renderer.render({scene: data.scene})
+      }
+    }
+  }
+
   async performAction(action: string, payload: any) {
     const availableCommands = Object.values(GameCommands) as string[]
     if (!availableCommands.includes(action)) return;

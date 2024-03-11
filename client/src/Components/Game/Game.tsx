@@ -4,17 +4,22 @@ import VillageScene from "./Scenes/VillageScene";
 import InventoryScene from "./Scenes/InventoryScene";
 import Loading from "../shared/Loading/Loading";
 import type {GameplayData} from "../../types/gameplay";
+import {initData} from "../App/App";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
   if (ws) {
+
     ws.onopen = () => {
-      ws.send('{}'); // ping server
+      ws.send(JSON.stringify(initData)); // send init user data
     }
+
     ws.onmessage = (message) => {
       const data = JSON.parse(message.data)
       setGame(data)
     }
+
     ws.onclose = () => {
+      ws.close()
       // close mini app
     }
   }

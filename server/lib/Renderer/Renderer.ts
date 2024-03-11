@@ -85,7 +85,7 @@ export default class Renderer {
   }
 
   private push(data: Partial<GameplayData>) {
-    const webSocket = (global as any)?.["wsServer"] as WebSocketServer;
+    const webSocket = (global as never)?.["wsServer"] as WebSocketServer;
     if (!webSocket) return
 
     const clients: Array<WebSocket> = Array.from(webSocket.clients as Set<WebSocket>);

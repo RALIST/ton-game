@@ -1,7 +1,6 @@
 import {WebSocket, WebSocketServer} from "ws";
 import {IncomingMessage} from "node:http";
 import Performer from "@/lib/Performer/Performer";
-import Renderer from "@/lib/Renderer/Renderer";
 import CharacterConsumer from "@/lib/Character/CharacterConsumer";
 import InventoryConsumer from "@/lib/Inventory/InventoryConsumer";
 import LoggerConsumer from "@/lib/Logger/LoggerConsumer";
@@ -33,21 +32,7 @@ server.on("connection", (client: WebSocket, request: IncomingMessage) => {
   }
 
   client.on('message', async (message) => {
-    const data = JSON.parse(message.toString())
-    if (data && data.userId) {
-      if (data.action) {
-        const performer = new Performer(data.userId)
-        await performer.performAction(data.action, data.payload)
-      }
-
-      if (data.scene) {
-        const renderer = new Renderer(data.userId)
-        await renderer.render({scene: data.scene})
-      }
-    } else {
-      const renderer = new Renderer(parseInt(userId))
-      await renderer.render({scene: data.scene})
-    }
+    await Performer.handleIncomingMessage(message)
   });
 
   client.on('close', async () => {
