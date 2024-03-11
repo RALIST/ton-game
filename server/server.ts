@@ -11,48 +11,74 @@ import GameplayService from "@/lib/Gameplay/GameplayService";
 import RedisStream from "@/lib/utils/redis/RedisStream";
 import RedisPublisher from "@/lib/utils/redis/RedisPublisher";
 import RedisStorage from "@/lib/utils/redis/RedisStorage";
+import * as console from "console";
 
-const server = new WebSocketServer({port: 3030})
+const services = [
+  { events: CharacterEvents, service: CharacterService },
+  { events: GameplayEvents, service: GameplayService },
+  { events: LoggerEvents, service: LoggerService },
+  { events: InventoryEvents, service: InventoryService },
+  { events: RendererEvents, service: RendererService }
+];
 
-Promise.all([
+async function consumeEvent(message: any) {
+  const data = JSON.parse(message.message);
+  for (const { events, service } of services) {
+    if (isValidEvent(data, events)) await service.consume(data);
+  }
+}
+
+const server = new WebSocketServer({port: 3030});
+(global as any)["wsServer"] = server;
+
+async function handleClient(client: WebSocket, request: IncomingMessage) {
+  console.log("Client connected!");
+
+  const query = new URLSearchParams(request.url!.split("?")[1]);
+  const userId = query.get("userId") ?? "Unknown";
+  const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
+  const existed = clients.find(client => client.id ===  userId)
+
+  client["id"] = userId
+  client.isAlive = true
+  if (existed) existed.terminate()
+
+  client.on('message', async (message) => {
+    await Performer.handleIncomingMessage(message)
+  });
+
+  client.on("error", (error) => { console.log("Websocket client error:", error )})
+  client.on('close', () => { console.log("Client disconnected!") } )
+  client.on("pong", () => { client.isAlive = true })
+}
+
+async function initRedis() {
+  await Promise.all([
     RedisStream.getInstance(),
     RedisPublisher.getInstance(),
     RedisStorage.getInstance(),
-]).then(() => {
-  console.log("WS Server started!")
+  ])
+}
 
-  server.once("connection", () => {
-    listenToStream(  async (message) => {
-      const data = JSON.parse(message.message);
-      if (isValidEvent(data, CharacterEvents)) await CharacterService.consume(data);
-      if (isValidEvent(data, GameplayEvents)) await GameplayService.consume(data);
-      if (isValidEvent(data, LoggerEvents)) await LoggerService.consume(data);
-      if (isValidEvent(data, InventoryEvents)) await InventoryService.consume(data);
-      if (isValidEvent(data, RendererEvents)) await RendererService.consume(data);
-    }, ["gameplay"])
-  })
+async function main() {
+  try {
+    await initRedis()
+    const streamInterval = listenToStream(consumeEvent, ["gameplay"])
+    // ping clients periodical
+    const interval = setInterval(function ping() {
+      const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
+      clients.forEach((ws) => {
+        if (!ws.isAlive) return ws.terminate();
+        ws.isAlive = false;
+        ws.ping();
+      });
+    }, 30000);
 
-  server.on("connection", (client: WebSocket, request: IncomingMessage) => {
-    console.log("Client connected!");
+    server.on("connection", handleClient)
+    server.on("close", () => { clearInterval(interval); clearInterval(streamInterval) })
+    server.on("error", (error) => { console.log("WebSocket server error:", error) });
 
-    (global as any)["wsServer"] = server;
-    const query = new URLSearchParams(request.url!.split("?")[1]);
-    const userId = query.get("userId") ?? "Unknown";
-    const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
-    const existed = clients.find(client => client.id ===  userId)
-    client["id"] = userId
+  } catch (error) { console.log("Internal server error:", error) }
+}
 
-    if (existed) {
-      server.clients.delete(existed);
-      existed.close()
-    }
-
-    client.on('message', async (message) => {
-      await Performer.handleIncomingMessage(message)
-    });
-
-    client.on('close', async () => {
-      console.log("Client disconnected!")
-    });
-  })
-})
+main()

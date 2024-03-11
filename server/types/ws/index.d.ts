@@ -2,6 +2,7 @@ import WebSocket from "ws";
 
 interface WebSocketClient {
   id: string;
+  isAlive: boolean
 }
 
 declare module "ws" {
