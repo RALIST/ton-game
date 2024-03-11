@@ -2,7 +2,6 @@ import {WebSocket, WebSocketServer} from "ws";
 import {IncomingMessage} from "node:http";
 import Performer from "@/lib/Performer/Performer";
 import {isValidEvent, listenToStream} from "@/lib/utils/streams/utils";
-import StreamEvent from "@/lib/utils/streams/StreamEvent";
 import {CharacterEvents, GameplayEvents, InventoryEvents, LoggerEvents, RendererEvents} from "@/lib/utils/GameEvents";
 import RendererService from "@/lib/Renderer/RendererService";
 import LoggerService from "@/lib/Logger/LoggerService";
@@ -15,7 +14,7 @@ console.log("WS Server started!")
 
 server.once("connection", () => {
   listenToStream(  async (message) => {
-    const data: StreamEvent = JSON.parse(message.message);
+    const data = JSON.parse(message.message);
     if (isValidEvent(data, CharacterEvents)) await CharacterService.consume(data);
     if (isValidEvent(data, GameplayEvents)) await GameplayService.consume(data);
     if (isValidEvent(data, LoggerEvents)) await LoggerService.consume(data);

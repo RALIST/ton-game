@@ -48,7 +48,7 @@ export default class CharacterModel {
   initializeCharacterData(data: Character) {
     this.currentHealth = data?.currentHealth ?? characterData.health[0];
     this.endurance = data?.endurance ?? characterData.endurance;
-    this.maxEndurance = data?.endurance ?? characterData.maxEndurance;
+    this.maxEndurance = data?.maxEndurance ?? characterData.maxEndurance;
     this.maxHealth = data?.maxHealth ?? characterData.health[1];
     this.balance = data?.balance ?? characterData.balance ?? 0;
     this.name = data?.name ?? characterData.name;
