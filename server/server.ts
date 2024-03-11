@@ -60,10 +60,16 @@ async function initRedis() {
   ])
 }
 
+// server entry point
 async function main() {
   try {
+
+    // init redis singletons
     await initRedis()
+
+    // start redis streams consumer
     const streamInterval = listenToStream(consumeEvent, ["gameplay"])
+
     // ping clients periodical
     const interval = setInterval(function ping() {
       const clients: Array<WebSocket> = Array.from(server.clients as Set<WebSocket>);
@@ -74,6 +80,7 @@ async function main() {
       });
     }, 30000);
 
+    // handle ws server
     server.on("connection", handleClient)
     server.on("close", () => { clearInterval(interval); clearInterval(streamInterval) })
     server.on("error", (error) => { console.log("WebSocket server error:", error) });
