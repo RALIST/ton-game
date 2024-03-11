@@ -8,7 +8,6 @@ import {initData} from "../App/App";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
   if (ws) {
-
     ws.onopen = () => {
       ws.send(JSON.stringify(initData)); // send init user data
     }

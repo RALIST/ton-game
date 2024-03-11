@@ -23,12 +23,10 @@ export default class CharacterService extends BaseService {
     [CharacterEvents.DUNGEON_STARTED]: this.startDungeon.bind(this),
     [CharacterEvents.DUNGEON_COMPLETED]: this.completeDungeon.bind(this),
     [CharacterEvents.ITEM_BOUGHT]: this.handleItemBought.bind(this),
-
     [CharacterEvents.ENEMIES_FOUND]: async (payload: never) => {
       await this.model.repo.update({dungeon_status: "inBattle"})
       await this.streamEvent.actionCompleted(this.model.userId, payload).send()
     },
-
     [CharacterEvents.CHARACTER_ATTACK_STARTED]: async () => {
       await this.model.repo.update({dungeon_status: "idle"})
       // check character damage to enemy

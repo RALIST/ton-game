@@ -1,3 +1,11 @@
-import {startGameplayService} from "@/lib/streams/GameplayConsumer";
+import CharacterConsumer from "@/lib/Character/CharacterConsumer";
+import InventoryConsumer from "@/lib/Inventory/InventoryConsumer";
+import LoggerConsumer from "@/lib/Logger/LoggerConsumer";
+import RendererConsumer from "@/lib/Renderer/RendererConsumer";
+import GameplayConsumer from "@/lib/Gameplay/GameplayConsumer";
 
-startGameplayService() // TODO: start as separate service
+CharacterConsumer.start()
+InventoryConsumer.start()
+LoggerConsumer.start()
+RendererConsumer.start()
+GameplayConsumer.start()
