@@ -20,6 +20,7 @@ export default class RedisSingleton {
     useReplicas: true,
     minimizeConnections: true
   });
+
   private constructor() {
     console.log("🔺 New Redis Client Instance Created!!");
   }
@@ -39,6 +40,7 @@ export default class RedisSingleton {
       RedisSingleton.instance = new RedisSingleton();
       await RedisSingleton.instance.initialize();
     }
+
     return RedisSingleton.instance;
   };
 

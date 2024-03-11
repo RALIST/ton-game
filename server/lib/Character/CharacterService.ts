@@ -11,6 +11,7 @@ import StreamEvent from "@/lib/utils/streams/StreamEvent";
 export default class CharacterService extends BaseService {
 
   public static async consume(data: StreamEvent) {
+    console.log("Character service handling event:", data)
     const character = await CharacterModel.initialize(data.userId)
     const instance = new CharacterService(character)
     await instance.handleEvent(data)
@@ -33,11 +34,10 @@ export default class CharacterService extends BaseService {
       await this.streamEvent.attackCompleted(this.model.userId, {damage: 10}).send()
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
-
     [CharacterEvents.REST_STARTED]: async () => {
       await this.model.repo.update({endurance: 100, dungeon_status: "idle"})
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
-    }
+    },
   }
 
   private async completeDungeon() {

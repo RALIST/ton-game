@@ -11,6 +11,7 @@ import {itemFromType} from "@/lib/Inventory/helpers";
 
 export default class GameplayService extends BaseService {
   public static async consume(data: any) {
+    console.log("Gameplay service handling event:", data)
     const model = new Gameplay(data.userId)
     const instance = new GameplayService(model)
     await instance.handleEvent(data)

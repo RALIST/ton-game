@@ -5,6 +5,7 @@ import {LogEntry} from "@/lib/Logger/types";
 
 export default class LoggerService extends BaseService {
   public static async consume(data: any) {
+    console.log("Logger service handling event:", data)
     const model = await new LoggerModel(data.userId).load()
     const instance = new LoggerService(model)
     await instance.handleEvent(data)

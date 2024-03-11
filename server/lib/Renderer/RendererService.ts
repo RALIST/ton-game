@@ -4,6 +4,7 @@ import BaseService from "@/lib/utils/services/BaseService";
 
 export default class RendererService extends BaseService {
   public static async consume(data: any) {
+    console.log("Renderer service handling event:", data)
     const model = new Renderer(data.userId)
     const instance = new RendererService(model)
     await instance.handleEvent(data)

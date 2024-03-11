@@ -1,11 +1,12 @@
-import {createCluster} from "redis";
-import RedisSingleton from "@/lib/utils/redis/RedisSingleton";
 import StreamEvent from "@/lib/utils/streams/StreamEvent";
+import {createCluster} from "redis";
+import RedisSingleton from "../redis/RedisSingleton";
 
-export async function listenToStream (
+export function listenToStream (
   onMessage: (message: any, messageId: any) => void,
   streams: string[],
 ) {
+
   const streamRedis = createCluster({
     rootNodes: [
       {url: "redis://172.30.0.11:6379" },
@@ -21,12 +22,6 @@ export async function listenToStream (
     minimizeConnections: true
   });
 
-  try {
-    await streamRedis.connect()
-  } catch (err) {
-    console.log("❌ Could not connect to Redis\n%o", err);
-  }
-
   const readMaxCount = 1;
   const streamNames: {key: string, id: string}[] = []
 
@@ -34,12 +29,15 @@ export async function listenToStream (
     streamNames.push({key: stream, id: '$'})
   }
 
-  // setup a loop to listen for stream events
   return setInterval(async () => {
+    if (!streamRedis.isOpen) {
+      await streamRedis.connect()
+    }
     const dataArr = await streamRedis.xRead(
       streamNames,
-      {COUNT: readMaxCount, BLOCK: 1000},
+      {COUNT: readMaxCount, BLOCK: 100},
     )
+
     if(!dataArr) return
 
     for (const data of dataArr) {

@@ -33,7 +33,7 @@ services:
     networks:
       network_redis_cluster:
         ipv4_address: 172.30.0.99
-  server: &server
+  server:
     container_name: game-server
     hostname: server
     volumes:
@@ -64,14 +64,6 @@ services:
         condition: service_healthy
       redis8:
         condition: service_healthy
-  workers:
-    <<: *server
-    container_name: game-workers
-    hostname: workers
-    networks:
-      network_redis_cluster:
-        ipv4_address: 172.30.0.101
-    command: "npm run start_workers"
   redis1: &redis-master
     build:
       context: ./.redis
