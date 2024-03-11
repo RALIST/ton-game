@@ -1,13 +1,21 @@
 import {WebSocket, WebSocketServer} from "ws";
 import {IncomingMessage} from "node:http";
-import GamePerformer from "@/lib/services/GamePerformer";
-import GameRenderer from "@/lib/services/GameRenderer";
-import {startGameplayService} from "@/lib/streams/GameplayConsumer";
+import Performer from "@/lib/Performer/Performer";
+import Renderer from "@/lib/Renderer/Renderer";
+import CharacterConsumer from "@/lib/Character/CharacterConsumer";
+import InventoryConsumer from "@/lib/Inventory/InventoryConsumer";
+import LoggerConsumer from "@/lib/Logger/LoggerConsumer";
+import RendererConsumer from "@/lib/Renderer/RendererConsumer";
+import GameplayConsumer from "@/lib/Gameplay/GameplayConsumer";
 
 const server = new WebSocketServer({port: 3030})
 console.log("WS Server started!")
 
-startGameplayService() // TODO: start as separate service
+CharacterConsumer.start()
+InventoryConsumer.start()
+LoggerConsumer.start()
+RendererConsumer.start()
+GameplayConsumer.start()
 
 server.on("connection", (client: WebSocket, request: IncomingMessage) => {
   console.log("Client connected!");
@@ -28,16 +36,16 @@ server.on("connection", (client: WebSocket, request: IncomingMessage) => {
     const data = JSON.parse(message.toString())
     if (data && data.userId) {
       if (data.action) {
-        const performer = new GamePerformer(data.userId)
+        const performer = new Performer(data.userId)
         await performer.performAction(data.action, data.payload)
       }
 
       if (data.scene) {
-        const renderer = new GameRenderer(data.userId)
+        const renderer = new Renderer(data.userId)
         await renderer.render({scene: data.scene})
       }
     } else {
-      const renderer = new GameRenderer(parseInt(userId))
+      const renderer = new Renderer(parseInt(userId))
       await renderer.render({scene: data.scene})
     }
   });

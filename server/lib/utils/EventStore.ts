@@ -1,8 +1,8 @@
-import {publishToStream} from "@/lib/streams/utils";
-import {RedisStorage, WithRedisStorage} from "@/lib/repositories/RedisStorage";
-import StreamEvent from "@/lib/streams/StreamEvent";
+import {RedisStorage} from "@/lib/utils/redis/RedisStorage";
+import StreamEvent from "@/lib/utils/streams/StreamEvent";
+import {publishToStream} from "@/lib/utils/streams/utils";
 
-export class EventStore implements WithRedisStorage{
+export class EventStore {
   records!: StreamEvent[];
   userId: number;
   storage!: RedisStorage

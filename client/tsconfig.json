@@ -23,5 +23,5 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src/**/*", "Game.style.img.ts"]
+  "include": ["./src/**/*", "Game.style.img.ts", "./src/types/*"]
 }

@@ -3,6 +3,7 @@ import {gameCommandLabels} from "../../../enums/GameCommands";
 import React from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import {GameplayData} from "../../../types/gameplay";
 
 export default function VillageScene({game}: { game: GameplayData}) {
   return (

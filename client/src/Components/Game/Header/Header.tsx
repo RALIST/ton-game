@@ -1,6 +1,7 @@
 import style from "./Header.module.css";
 import Energy from "./Energy/Energy";
 import React from "react";
+import {GameplayData} from "../../../types/gameplay";
 
 export default function Header({character}: { character: GameplayData["character"]}) {
   return <header className={style.header}>
