@@ -36,10 +36,8 @@ export default class RedisSingleton {
 
   //Singleton Function Implement
   public static getInstance = async (): Promise<RedisSingleton> => {
-    if (!RedisSingleton.instance) {
       RedisSingleton.instance = new RedisSingleton();
-      await RedisSingleton.instance.initialize();
-    }
+      await RedisSingleton.instance.initialize()
 
     return RedisSingleton.instance;
   };
