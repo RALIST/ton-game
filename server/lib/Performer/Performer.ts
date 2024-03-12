@@ -3,6 +3,7 @@ import {GameCommands} from "@/lib/utils/GameCommands";
 import StreamEvent from "@/lib/utils/streams/StreamEvent";
 import {RawData} from "ws";
 import Renderer from "@/lib/Renderer/Renderer";
+import CharacterState from "@/lib/Character/state/CharacterState";
 
 export default class Performer {
   userId: number
@@ -34,6 +35,9 @@ export default class Performer {
   async performAction(action: string, payload: any) {
     const availableCommands = Object.values(GameCommands) as string[]
     if (!availableCommands.includes(action)) return;
+
+    const characterState = await new CharacterState(this.userId).load()
+    if(!characterState.availableActions.includes(action))  return;
 
     const actionEvent = this.detectEvent(action)
     const availableEvents = Object.values(GameEvents) as string[]

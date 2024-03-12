@@ -6,6 +6,7 @@ import GameMap from "@/lib/Dungeon/GameMap";
 import ShopModel from "@/lib/Shop/ShopModel";
 import CharacterModel from "@/lib/Character/CharacterModel";
 import {GameplayData} from "@/lib/Gameplay/types";
+import CharacterState from "@/lib/Character/state/CharacterState";
 
 // collect game data and push data to ws socket
 export default class Renderer {
@@ -18,7 +19,10 @@ export default class Renderer {
   async render(payload: any) {
     // const logger  = await new GameLogger(this.userId).load()
     const character = await CharacterModel.initialize(this.userId)
-    const currentScene = payload?.scene ?? (character.status == "inVillage" ? SceneCommands.VILLAGE_SCENE : SceneCommands.DUNGEON_SCENE)
+    const characterState = await new CharacterState(this.userId).load()
+    const availableActions = characterState.availableActions
+    const availableScenes = characterState.availableScenes
+    const currentScene = payload?.scene ?? (characterState.status == "IN_VILLAGE" ? SceneCommands.VILLAGE_SCENE : SceneCommands.DUNGEON_SCENE)
     let data;
     const sceneData: Partial<GameplayData> = { currentScene: currentScene };
 
@@ -32,11 +36,13 @@ export default class Renderer {
             endurance: character.endurance,
             maxEndurance: character.maxEndurance
           },
-          availableActions: Object.values(SceneCommands) as string[],
-          ...sceneData,
+          availableActions: availableActions,
+          availableScenes: availableScenes,
+          currentScene: currentScene
         }
         break;
       }
+
       case SceneCommands.INVENTORY_SCENE: {
         const inventory = await InventoryModel.initialize(this.userId)
         data = { inventory: inventory, ...sceneData }
@@ -71,7 +77,8 @@ export default class Renderer {
           },
           currentLocation: currentLocation,
           totalLocations: map.locations.length,
-          availableActions: character.getAvailableAction,
+          availableActions: availableActions,
+          availableScenes: availableScenes,
           currentScene: currentScene
         }
         break;

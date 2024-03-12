@@ -6,7 +6,6 @@ import {InventoryItem} from "@/lib/Inventory/types";
 
 export default class InventoryService extends BaseService{
   public static async consume(data: any) {
-    console.log("Inventory service handling event:", data)
     const model = await new InventoryModel(data.userId).load()
     const instance = new InventoryService(model)
     await instance.handleEvent(data)

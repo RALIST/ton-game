@@ -11,7 +11,6 @@ import StreamEvent from "@/lib/utils/streams/StreamEvent";
 export default class CharacterService extends BaseService {
 
   public static async consume(data: StreamEvent) {
-    console.log("Character service handling event:", data)
     const character = await CharacterModel.initialize(data.userId)
     const instance = new CharacterService(character)
     await instance.handleEvent(data)
@@ -25,34 +24,36 @@ export default class CharacterService extends BaseService {
     [CharacterEvents.DUNGEON_COMPLETED]: this.completeDungeon.bind(this),
     [CharacterEvents.ITEM_BOUGHT]: this.handleItemBought.bind(this),
     [CharacterEvents.ENEMIES_FOUND]: async (payload: never) => {
-      await this.model.repo.update({dungeon_status: "inBattle"})
+      await this.model.state.setStatus("IN_BATTLE")
       await this.streamEvent.actionCompleted(this.model.userId, payload).send()
     },
     [CharacterEvents.CHARACTER_ATTACK_STARTED]: async () => {
-      await this.model.repo.update({dungeon_status: "idle"})
-      // check character damage to enemy
+      await this.model.state.setStatus("IDLE")
       await this.streamEvent.attackCompleted(this.model.userId, {damage: 10}).send()
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
     [CharacterEvents.REST_STARTED]: async () => {
-      await this.model.repo.update({endurance: 100, dungeon_status: "idle"})
+      await this.model.repo.update({endurance: 100})
+      await this.model.state.setStatus("IDLE")
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
     },
   }
 
   private async completeDungeon() {
-    await this.model.repo.update({currentLocationId: 0, status: "inVillage", balance: this.model.balance + 1000})
+    await this.model.repo.update({currentLocationId: 0, balance: this.model.balance + 1000})
+    await this.model.state.setStatus("IN_VILLAGE")
     await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.END_DUNGEON_SCENE}).send()
   }
 
   private async startDungeon() {
-    await this.model.repo.update({currentLocationId: 1, status: "inDungeon"})
+    await this.model.repo.update({currentLocationId: 1 })
+    await this.model.state.setStatus("IN_DUNGEON")
     await this.streamEvent.actionCompleted(this.model.userId, {}).send()
   }
 
   private async updateLocationAndMove() {
     if (this.model.endurance <= 0) {
-      await this.model.repo.update({dungeon_status: "tired"})
+      await this.model.state.setStatus("TIRED")
       await this.streamEvent.characterTired(this.model.userId, {}).send()
       await this.streamEvent.actionCompleted(this.model.userId, {}).send()
       return
@@ -67,7 +68,7 @@ export default class CharacterService extends BaseService {
 
     this.model.endurance -= 5
     if (this.model.endurance <= 0) {
-      await this.model.repo.update({dungeon_status: "tired"})
+      await this.model.state.setStatus("TIRED")
       await this.streamEvent.characterTired(this.model.userId, {}).send()
     }
 

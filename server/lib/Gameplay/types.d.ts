@@ -4,6 +4,7 @@ export type GameplayData = {
   currentLogs: LogEntry[],
   character: Character
   availableActions: string[],
+  availableScenes: string[],
   currentScene: string,
   currentLocation: DungeonLocation,
   inventory: Inventory,

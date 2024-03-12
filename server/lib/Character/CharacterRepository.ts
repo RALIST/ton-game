@@ -10,7 +10,7 @@ export default class CharacterRepository {
     this.userId = userId
   }
 
-  async loadCharacterData() {
+  async load() {
     const data = await this.storage.load(`character:${this.userId}`)
     return data || null;
   }
