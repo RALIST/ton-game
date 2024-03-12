@@ -17,7 +17,7 @@ export default class StreamEvent {
     if (!this.userId && !this.event) throw "Provide userId and event to send!"
 
     const eventStore = new EventStore(this.userId)
-    await eventStore.emitEvent(this, "gameplay")
+    await eventStore.emitEvent(this)
   }
 
   moveStarted(userId: number, payload: any) {

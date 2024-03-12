@@ -29,10 +29,10 @@ export class EventStore {
     return this.records.length + 1
   }
 
-  async emitEvent(data: StreamEvent, stream: string) {
+  async emitEvent(data: StreamEvent) {
     data.id =  this.getNextId();
     this.records.push(data)
-    await publishToStream(stream, data)
+    await publishToStream(data)
     // await this.dump()
   }
 }

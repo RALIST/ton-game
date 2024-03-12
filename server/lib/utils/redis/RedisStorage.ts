@@ -42,23 +42,27 @@ export default class RedisStorage {
     return RedisStorage.CacheClient;
   };
 
+  async getRedisInstance() {
+    return (await RedisStorage.getInstance()).getClient();
+  }
+
   async dump(model: string, data: any)  {
-    const redis = await (await RedisStorage.getInstance()).getClient()
+    const redis = await this.getRedisInstance()
     await redis.json.set(model, "$", data)
   }
 
   async load(model: string): Promise<any> {
-    const redis = await (await RedisStorage.getInstance()).getClient()
+    const redis = await this.getRedisInstance()
     return await redis.json.get(model)
   }
 
   async update(model: string, data: any) {
-    const redis = await (await RedisStorage.getInstance()).getClient()
+    const redis = await this.getRedisInstance()
     await redis.json.merge(model, "$", data)
   }
 
   async append(model: string, arr: string, item: any) {
-    const redis = await (await RedisStorage.getInstance()).getClient()
+    const redis = await this.getRedisInstance()
     await redis.json.arrAppend(model, `$.${arr}`, item)
   }
 }
