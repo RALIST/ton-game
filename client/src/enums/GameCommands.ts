@@ -54,5 +54,6 @@ export const gameCommandLabels = {
   [GameCommands.WAREHOUSE_SCENE]: "Хранилище",
   [GameCommands.START_DUNGEON_SCENE]: "Вылазка",
   [GameCommands.BANK_SCENE]: "Банк",
-  [GameCommands.STOP_DUNGEON]: "Закончить вылазку"
+  [GameCommands.STOP_DUNGEON]: "Закончить вылазку",
+  [GameCommands.INVENTORY_SCENE]: "Инвентарь"
 };

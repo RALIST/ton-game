@@ -41,8 +41,11 @@ const Game = () => {
     case "inventory_scene": {
       return <InventoryScene game={game}/>
     }
+    case "shop_scene": {
+      return <div><h1>SHOP</h1></div>
+    }
     default: {
-      return <div>Broken scene</div>
+      return <div>Invalid scene</div>
     }
   }
 }
