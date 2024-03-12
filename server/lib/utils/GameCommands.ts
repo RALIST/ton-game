@@ -1,15 +1,21 @@
-export enum SceneCommands {
+export enum MainScenes {
+  VILLAGE_SCENE = "village_scene",
+  DUNGEON_SCENE = "dungeon_scene",
+}
+
+export enum DungeonScenes {
+  END_DUNGEON_SCENE = "end_dungeon_scene"
+}
+
+export enum VillageScenes {
   BAR_SCENE = "bar_scene",
   SHOP_SCENE = "shop_scene",
   WAREHOUSE_SCENE = "warehouse_scene",
   HOME_SCENE = "home_scene",
   BANK_SCENE = "bank_scene",
   START_DUNGEON_SCENE = "start_dungeon_scene",
-  END_DUNGEON_SCENE = "end_dungeon_scene",
-  VILLAGE_SCENE = "village_scene",
-  DUNGEON_SCENE = "dungeon_scene",
   CHARACTER_SCENE = "character_scene",
-  INVENTORY_SCENE = "inventory_scene"
+  INVENTORY_SCENE = "inventory_scene",
 }
 
 export enum ActionCommands {
@@ -25,7 +31,6 @@ export enum ActionCommands {
   TALK = "talk",
   TRADE = "trade",
   LEARN = "learn",
-  CHANGE_SCREEN = "change_screen",
   CRAFT_ITEM = "craft_item",
   CRAFT_MEDICINE ="craft_medicine",
   ACCEPT_QUEST = "accept_quest",
@@ -33,11 +38,14 @@ export enum ActionCommands {
   START_DUNGEON = "start_dungeon",
   STOP_DUNGEON = "stop_dungeon",
   BUY_ITEM = "buy_item",
-  UNEQUIP_ITEM = "unequip_item"
+  UNEQUIP_ITEM = "unequip_item",
+  CHANGE_SCENE = "change_scene"
 }
 
 export const GameCommands = {
-  ...SceneCommands,
+  ...MainScenes,
+  ...VillageScenes,
+  ...DungeonScenes,
   ...ActionCommands
 }
 

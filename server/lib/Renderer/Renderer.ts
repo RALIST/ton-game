@@ -1,12 +1,11 @@
 import LoggerModel from "@/lib/Logger/LoggerModel";
 import {WebSocket, WebSocketServer} from "ws";
 import InventoryModel from "@/lib/Inventory/InventoryModel";
-import {SceneCommands} from "@/lib/utils/GameCommands";
+import {MainScenes, VillageScenes} from "@/lib/utils/GameCommands";
 import GameMap from "@/lib/Dungeon/GameMap";
 import ShopModel from "@/lib/Shop/ShopModel";
 import CharacterModel from "@/lib/Character/CharacterModel";
 import {GameplayData} from "@/lib/Gameplay/types";
-import CharacterState from "@/lib/Character/state/CharacterState";
 
 // collect game data and push data to ws socket
 export default class Renderer {
@@ -19,15 +18,16 @@ export default class Renderer {
   async render(payload: any) {
     // const logger  = await new GameLogger(this.userId).load()
     const character = await CharacterModel.initialize(this.userId)
-    const characterState = await new CharacterState(this.userId).load()
-    const availableActions = characterState.availableActions
-    const availableScenes = characterState.availableScenes
-    const currentScene = payload?.scene ?? (characterState.status == "IN_VILLAGE" ? SceneCommands.VILLAGE_SCENE : SceneCommands.DUNGEON_SCENE)
+    const availableActions = character.state.availableActions
+    const availableScenes = character.state.availableScenes
+    const inVillage = character.state.status === "IN_VILLAGE"
+    const currentScene = payload?.scene ?? (inVillage ? MainScenes.VILLAGE_SCENE : MainScenes.DUNGEON_SCENE)
     let data;
-    const sceneData: Partial<GameplayData> = { currentScene: currentScene };
+
+    const sceneData = { currentScene: currentScene };
 
     switch(currentScene) {
-      case SceneCommands.VILLAGE_SCENE: {
+      case MainScenes.VILLAGE_SCENE: {
         data = {
           character: {
             currentHealth: character.currentHealth,
@@ -43,24 +43,24 @@ export default class Renderer {
         break;
       }
 
-      case SceneCommands.INVENTORY_SCENE: {
+      case VillageScenes.INVENTORY_SCENE: {
         const inventory = await InventoryModel.initialize(this.userId)
         data = { inventory: inventory, ...sceneData }
         break
       }
 
-      case SceneCommands.CHARACTER_SCENE: {
+      case VillageScenes.CHARACTER_SCENE: {
         data = { character: character, ...sceneData }
         break;
       }
 
-      case SceneCommands.SHOP_SCENE: {
+      case VillageScenes.SHOP_SCENE: {
         const shop = new ShopModel()
         data = { character: { balance: character.balance }, shop: shop, ...sceneData }
         break;
       }
 
-      case SceneCommands.DUNGEON_SCENE: {
+      case MainScenes.DUNGEON_SCENE: {
         const logger  = await new LoggerModel(this.userId).load()
         const map = await new GameMap().load()
         const currentLocation = await character.getCurrentLocation()

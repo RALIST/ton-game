@@ -1,6 +1,6 @@
 import InventoryModel from "@/lib/Inventory/InventoryModel";
 import {InventoryEvents} from "@/lib/utils/GameEvents";
-import {SceneCommands} from "@/lib/utils/GameCommands";
+import {VillageScenes} from "@/lib/utils/GameCommands";
 import BaseService from "@/lib/utils/services/BaseService";
 import {InventoryItem} from "@/lib/Inventory/types";
 
@@ -20,12 +20,12 @@ export default class InventoryService extends BaseService{
 
     [InventoryEvents.ITEM_EQUIPPED]: async ({itemId}: {itemId: number}) => {
       await this.model.equip(itemId)
-      await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.INVENTORY_SCENE}).send()
+      await this.streamEvent.actionCompleted(this.model.userId, {scene: VillageScenes.INVENTORY_SCENE}).send()
     },
 
     [InventoryEvents.ITEM_UNEQUIPPED]: async ({itemId}: {itemId: number}) => {
       await this.model.unequip(itemId)
-      await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.INVENTORY_SCENE}).send()
+      await this.streamEvent.actionCompleted(this.model.userId, {scene: VillageScenes.INVENTORY_SCENE}).send()
     }
   }
 }

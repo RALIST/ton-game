@@ -23,11 +23,6 @@ export default class GameplayService extends BaseService {
       if (Math.random() < 0.3) {
         const newPayload = {enemy: this.randomEnemy()}
         await this.streamEvent.enemiesFound(this.model.userId, newPayload).send()
-      // } else if(Math.random() < 0.2) {
-      //   const newPayload = {event: this.randomEvent()}
-      //   await this.streamEvent.randomEventFound(this.model.userId, newPayload).send()
-      // } else {
-      //   await this.streamEvent.actionCompleted(this.model.userId, {}).send()
       } else {
         await this.streamEvent.actionCompleted(this.model.userId, {}).send()
       }

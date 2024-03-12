@@ -1,6 +1,6 @@
 import {CharacterEvents} from "@/lib/utils/GameEvents";
 import GameMap from "@/lib/Dungeon/GameMap";
-import {SceneCommands} from "@/lib/utils/GameCommands";
+import {DungeonScenes, VillageScenes} from "@/lib/utils/GameCommands";
 import BaseService from "@/lib/utils/services/BaseService";
 import CharacterModel from "@/lib/Character/CharacterModel";
 import {Character} from "@/lib/Character/types";
@@ -42,7 +42,7 @@ export default class CharacterService extends BaseService {
   private async completeDungeon() {
     await this.model.repo.update({currentLocationId: 0, balance: this.model.balance + 1000})
     await this.model.state.setStatus("IN_VILLAGE")
-    await this.streamEvent.actionCompleted(this.model.userId, {scene: SceneCommands.END_DUNGEON_SCENE}).send()
+    await this.streamEvent.actionCompleted(this.model.userId, {scene: DungeonScenes.END_DUNGEON_SCENE}).send()
   }
 
   private async startDungeon() {
@@ -84,7 +84,7 @@ export default class CharacterService extends BaseService {
     const shopItem: ShopItem = payload.item
     const newBalance = this.model.balance - shopItem.price
     if (newBalance < 0) {
-      return await this.sendActionCompletedEvent(SceneCommands.SHOP_SCENE)
+      return await this.sendActionCompletedEvent(VillageScenes.SHOP_SCENE)
     }
 
     await this.updateBalanceAndNotify(newBalance, shopItem)
@@ -94,6 +94,6 @@ export default class CharacterService extends BaseService {
     await this.model.repo.update({balance: newBalance})
     const newPayload: InventoryItem = { item: shopItem.item, count: 1 }
     await this.streamEvent.itemAdded(this.model.userId, newPayload).send()
-    await this.sendActionCompletedEvent(SceneCommands.SHOP_SCENE)
+    await this.sendActionCompletedEvent(VillageScenes.SHOP_SCENE)
   }
 }

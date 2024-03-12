@@ -1,4 +1,4 @@
-import {GameCommands, SceneCommands} from "@/lib/utils/GameCommands";
+import {DungeonScenes, GameCommands, VillageScenes} from "@/lib/utils/GameCommands";
 import CharacterStateRepository from "@/lib/Character/state/CharacterStateRepository";
 
 enum CharacterStatuses {
@@ -67,6 +67,7 @@ export default class CharacterState {
     },
     IN_VILLAGE: {
       default: [
+        GameCommands.CHANGE_SCENE
       ]
     },
   };
@@ -79,10 +80,13 @@ export default class CharacterState {
 
   get availableScenes(): string[] {
     if (this.status === "IN_VILLAGE") {
-      return Object.values(SceneCommands)
-    } else {
-      return [];
+      return Object.values(VillageScenes)
     }
 
+    if (this.status === "IN_DUNGEON") {
+      return Object.values(DungeonScenes)
+    }
+
+    return [];
   }
 }

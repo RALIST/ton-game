@@ -19,11 +19,6 @@ export default class Performer {
         await performer.performAction(data.action, data.payload)
       }
 
-      if (data.scene) {
-        const renderer = new Renderer(data.userId)
-        await renderer.render({scene: data.scene})
-      }
-
       if (data.initData) {
         // TODO: upsert user here
         const renderer = new Renderer(data.initData.user.id)
@@ -37,7 +32,12 @@ export default class Performer {
     if (!availableCommands.includes(action)) return;
 
     const characterState = await new CharacterState(this.userId).load()
-    if(!characterState.availableActions.includes(action))  return;
+    if(!characterState.availableActions.includes(action)) return;
+
+    if (action === GameCommands.CHANGE_SCENE) {
+      if (!payload.scene) return
+      if (!characterState.availableScenes.includes(payload.scene)) return
+    }
 
     const actionEvent = this.detectEvent(action)
     const availableEvents = Object.values(GameEvents) as string[]
@@ -75,7 +75,7 @@ export default class Performer {
         break;
       }
 
-      case GameCommands.CHANGE_SCREEN: {
+      case GameCommands.CHANGE_SCENE: {
         actionEvent = GameEvents.CHANGE_SCREEN_STARTED
         break;
       }
