@@ -1,25 +1,27 @@
-import RedisStorage from "@/lib/utils/redis/RedisStorage";
-import {Character} from "@/lib/Character/types";
+import Character from "@/lib/Character/Character";
+import RedisStorage from "@/lib/Utils/redis/RedisStorage";
 
 export default class CharacterRepository {
   private storage!: RedisStorage
-  userId: number
+  id: number
+  key: string
 
-  constructor(userId: number) {
+  constructor(id: number, isPlayer: boolean) {
     this.storage = new RedisStorage();
-    this.userId = userId
+    this.id = id
+    this.key = !isPlayer ? `characters:${id}` : `characters:players:${id}`
   }
 
   async load() {
-    const data = await this.storage.load(`character:${this.userId}`)
+    const data = await this.storage.load(this.key)
     return data || null;
   }
 
-  async dump(characterData: Character) {
-    await this.storage.dump(`character:${this.userId}`, characterData)
+  async save(characterData: Character) {
+    await this.storage.dump(this.key, characterData)
   }
 
   async update(data: Partial<Character>) {
-    await this.storage.update(`character:${this.userId}`, data)
+    await this.storage.update(this.key, data)
   }
 }

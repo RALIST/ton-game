@@ -37,11 +37,13 @@ const App = () => {
   const hostname = window.location.hostname
   let wsUrl: string;
 
-  if (hostname === "localhost") {
-    wsUrl = `ws://localhost:80/socket?userId=${initData.user?.id}`
-  } else {
-    wsUrl = `wss://${hostname}/socket?userId=${initData.user?.id}`;
-  }
+  // if (hostname === "localhost") {
+  //   wsUrl = `ws://localhost:80/socket?userId=${initData.user?.id}`
+  // } else {
+  //   wsUrl = `wss://${hostname}/socket?userId=${initData.user?.id}`;
+  // }
+
+  wsUrl = `ws://localhost:3030/socket?userId=${initData.user?.id}`
 
   return (
     // TMA provider for telegram mini apps

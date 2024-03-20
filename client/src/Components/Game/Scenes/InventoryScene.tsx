@@ -7,7 +7,7 @@ import {GameplayData} from "../../../types/gameplay";
 export default function InventoryScene({game}: { game: GameplayData}) {
   return (<>
     <Header character={game.character}/>
-    <Inventory/>
-    <Footer/>
+    <Inventory inventory={game.inventory}/>
+    <Footer game={game}/>
   </>);
 }

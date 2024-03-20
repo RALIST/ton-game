@@ -5,6 +5,8 @@ import InventoryScene from "./Scenes/InventoryScene";
 import Loading from "../shared/Loading/Loading";
 import type {GameplayData} from "../../types/gameplay";
 import {initData} from "../App/App";
+import ShopScene from "./Scenes/ShopScene";
+import PlayerScene from "./Scenes/PlayerScene";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
   if (ws) {
@@ -26,7 +28,7 @@ const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<R
 
 const Game = () => {
   const ws = useWebSocket()
-  const [game, setGame] = useState<GameplayData | null>(null)
+  const [game, setGame] = useState<any | null>(null)
 
   useEffect(() => {
     setupWebSocketListeners(ws, setGame);
@@ -34,6 +36,7 @@ const Game = () => {
 
   if (!game) return <Loading/>
 
+  console.log(game)
   switch (game.currentScene) {
     case "village_scene": {
       return <VillageScene game={game}/>
@@ -42,7 +45,10 @@ const Game = () => {
       return <InventoryScene game={game}/>
     }
     case "shop_scene": {
-      return <div><h1>SHOP</h1></div>
+      return <ShopScene game={game}/>
+    }
+    case "player_scene": {
+      return <PlayerScene player={game.player}/>
     }
     default: {
       return <div>Invalid scene</div>

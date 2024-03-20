@@ -55,5 +55,6 @@ export const gameCommandLabels = {
   [GameCommands.START_DUNGEON_SCENE]: "Вылазка",
   [GameCommands.BANK_SCENE]: "Банк",
   [GameCommands.STOP_DUNGEON]: "Закончить вылазку",
-  [GameCommands.INVENTORY_SCENE]: "Инвентарь"
+  [GameCommands.INVENTORY_SCENE]: "Инвентарь",
+  [GameCommands.CHARACTER_SCENE]: "Персонаж"
 };
