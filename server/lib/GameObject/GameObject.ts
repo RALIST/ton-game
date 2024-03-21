@@ -7,4 +7,12 @@ export default class GameObject {
   sid!: number // related script id
   flags!: number // special flags
   owner!: GameObject // owner
+
+  load() {
+
+  }
+
+  save() {
+
+  }
 }

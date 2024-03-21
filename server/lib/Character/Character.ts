@@ -1,6 +1,6 @@
 import GameObject from "@/lib/GameObject/GameObject";
 import {ObjectTypes} from "@/lib/GameObject/types";
-import {gSkills} from "@/lib/Skill/Skill";
+import {gSkills, SkillType} from "@/lib/Skill/Skill";
 import characters from "./characters.json"
 import {AttributeType} from "@/lib/Attribute/types";
 import {StatType} from "@/lib/Stat/types";
@@ -129,7 +129,16 @@ export default class Character extends GameObject {
       }
     }
 
-    this.save().then(r => {console.log(`Stat ${StatType[stat]} updated by ${value}!`)})
+    this.save().then(_ => {console.log(`Stat ${StatType[stat]} updated by ${value}!`)})
+  }
+
+  getSkill(skill: SkillType) {
+    return this.skills[skill]
+  }
+
+  setSkill(skill: SkillType, value: number) {
+    this.skills[skill] = value;
+    this.save().then(_ => { console.log(`Skill ${SkillType[skill]} updated by ${value}`)})
   }
 
   // get base stat with some modifiers, eg perks or some effects

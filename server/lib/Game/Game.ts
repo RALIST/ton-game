@@ -41,9 +41,12 @@ export default class Game {
   }
 
   private static startGameLoops() {
+    const gameTimeInterval = setInterval(() => {
+    },120) // update internal game time
+
     const hpRecoveryInterval = setInterval(() => {
       gPlayers.forEach(player => player.healOverTime())
-    }, 1000) // hp recovery
+    }, 1000) // hp recovery loop
 
     const edRecoveryInterval = setInterval(() => {
       gPlayers.forEach(player => { player.healOverTime() })
@@ -51,5 +54,6 @@ export default class Game {
 
     gIntervals.add(hpRecoveryInterval)
     gIntervals.add(edRecoveryInterval)
+    gIntervals.add(gameTimeInterval)
   }
 }

@@ -1,5 +1,4 @@
 import {createClient, createCluster} from "redis";
-import * as process from "process";
 
 export type RedisClusterType = ReturnType<typeof createCluster>;
 export type RedisClientType = ReturnType<typeof createClient>;
@@ -10,14 +9,14 @@ export default class RedisPublisher {
 
   private RedisCluster = createCluster({
     rootNodes: [
-      {url: "redis://172.30.0.11:6379" },
-      {url: "redis://172.30.0.12:6379" },
-      {url: "redis://172.30.0.13:6379" },
-      {url: "redis://172.30.0.14:6379" },
-      {url: "redis://172.30.0.15:6379" },
-      {url: "redis://172.30.0.16:6379" },
-      {url: "redis://172.30.0.17:6379" },
-      {url: "redis://172.30.0.18:6379" }
+      { url: "redis://172.30.0.11:6379" },
+      { url: "redis://172.30.0.12:6379" },
+      { url: "redis://172.30.0.13:6379" },
+      { url: "redis://172.30.0.14:6379" },
+      { url: "redis://172.30.0.15:6379" },
+      { url: "redis://172.30.0.16:6379" },
+      { url: "redis://172.30.0.17:6379" },
+      { url: "redis://172.30.0.18:6379" }
     ]
   });
 

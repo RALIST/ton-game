@@ -1,5 +1,4 @@
 import {createClient, createCluster} from "redis";
-import * as process from "process";
 
 export type RedisClusterType = ReturnType<typeof createCluster>;
 export type RedisClientType = ReturnType<typeof createClient>;
