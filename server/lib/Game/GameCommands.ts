@@ -1,10 +1,10 @@
 export enum MainScenes {
   VILLAGE_SCENE = "village_scene",
-  DUNGEON_SCENE = "dungeon_scene",
+  ROUTE_SCENE = "route_scene",
 }
 
 export enum DungeonScenes {
-  END_DUNGEON_SCENE = "end_dungeon_scene"
+  END_ROUTE_SCENE = "end_route_scene"
 }
 
 export enum VillageScenes {
@@ -13,10 +13,9 @@ export enum VillageScenes {
   WAREHOUSE_SCENE = "warehouse_scene",
   HOME_SCENE = "home_scene",
   BANK_SCENE = "bank_scene",
-  START_DUNGEON_SCENE = "start_dungeon_scene",
-  CHARACTER_SCENE = "character_scene",
   PLAYER_SCENE = "player_scene",
   INVENTORY_SCENE = "inventory_scene",
+  ROUTES_SCENE = "routes_scene"
 }
 
 export enum ActionCommands {
@@ -49,19 +48,3 @@ export const GameCommands = {
   ...DungeonScenes,
   ...ActionCommands
 }
-
-export const gameCommandLabels = {
-  [GameCommands.MOVE]: "Идти дальше",
-  [GameCommands.LOOK]: "Осмотреться",
-  [GameCommands.REST]: "Разбить лагерь",
-  [GameCommands.ATTACK]: "Атака",
-  [GameCommands.RUN]: "Убежать",
-  [GameCommands.DEFENCE]: "Защита",
-  [GameCommands.BAR_SCENE]: "Бар",
-  [GameCommands.SHOP_SCENE]: "Магазин",
-  [GameCommands.HOME_SCENE]: "Дом",
-  [GameCommands.WAREHOUSE_SCENE]: "Хранилище",
-  [GameCommands.START_DUNGEON_SCENE]: "Вылазка",
-  [GameCommands.BANK_SCENE]: "Банк",
-  [GameCommands.STOP_ROUTE]: "Закончить вылазку"
-};

@@ -1,5 +1,6 @@
 import {WebSocket, WebSocketServer} from "ws";
 import PlayerRenderer from "@/lib/Game/PlayerRenderer";
+import {VillageScenes} from "@/lib/Game/GameCommands";
 
 export default class Renderer {
   userId: number
@@ -9,10 +10,13 @@ export default class Renderer {
   }
 
   async render(payload: any) {
+    const currenScene = payload.scene || "village_scene"
+    const availableScenes = currenScene === "village_scene" ? Object.values(VillageScenes) : []
+
     const data = {
       currentPlayer: await new PlayerRenderer(this.userId).render(),
-      currentScene: payload.scene || "village_scene",
-      availableScenes: ['shop_scene', 'player_scene', 'routes_scene'],
+      currentScene: currenScene,
+      availableScenes: availableScenes,
       availableActions: []
     }
 

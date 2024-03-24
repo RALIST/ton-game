@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useWebSocket} from "../WebSocketContext";
 import VillageScene from "./Scenes/VillageScene";
 import InventoryScene from "./Scenes/InventoryScene";
@@ -38,36 +38,20 @@ const Game = () => {
   }, []);
 
   if (!game) return <Loading/>
-  let currentScene;
 
+  const sceneComponentsMap: {[key: string]: JSX.Element} = {
+    village_scene: <VillageScene game={game}/>,
+    inventory_scene: <InventoryScene game={game}/>,
+    shop_scene: <ShopScene/>,
+    player_scene: <PlayerScene player={game.currentPlayer}/>,
+    routes_scene: <RoutesScene/>,
+    default: <div>Invalid scene</div>,
+  };
+
+  const currentScene = sceneComponentsMap[game.currentScene] || sceneComponentsMap.default;
   console.log(game)
-  switch (game.currentScene) {
-    case "village_scene": {
-      currentScene = <VillageScene game={game}/>
-      break;
-    }
-    case "inventory_scene": {
-      currentScene =  <InventoryScene game={game}/>
-      break;
-    }
-    case "shop_scene": {
-      currentScene = <ShopScene/>
-      break;
-    }
-    case "player_scene": {
-      currentScene = <PlayerScene player={game.currentPlayer}/>
-      break;
-    }
-    case "routes_scene": {
-      currentScene = <RoutesScene/>;
-      break;
-    }
-    default: {
-      currentScene = <div>Invalid scene</div>
-    }
-  }
 
-  return(
+  return (
     <div className='app'>
       <Header character={game.currentPlayer}/>
       {currentScene}
