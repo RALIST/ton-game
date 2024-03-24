@@ -34,11 +34,6 @@ export enum ActionCommands {
   UNEQUIP_ITEM = "unequip_item"
 }
 
-export const GameCommands = {
-  ...SceneCommands,
-  ...ActionCommands
-}
-
 export const gameSceneLabels: {[key: string]: string} = {
   [SceneCommands.BAR_SCENE]: "Бар",
   [SceneCommands.SHOP_SCENE]: "Магазин",
