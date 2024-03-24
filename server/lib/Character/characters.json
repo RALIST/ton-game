@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "name": "John Snow",
+    "attributes": [5,0,0,0,0,0],
+    "skills": [],
+    "perks": [],
+    "aiCombatPreset": -1
+  }
+]

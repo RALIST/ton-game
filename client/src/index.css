@@ -1,22 +1,58 @@
-html {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding: 0;
   margin: 0;
-  height: var(--tg-viewport-stable-height, 100vh);
+  padding: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100%;
+  font-family: "gramma", system-ui, sans-serif;
 }
 
-#root {
-  min-width: 100vw;
-  height: var(--tg-viewport-stable-height, 100vh);
+@font-face {
+  font-family: "fallout";
+  src: local("fallout"), url("./assets/fonts/fallout.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "gramma";
+  src: local("gramma"), url("./assets/fonts/microgramma.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "fallouty";
+  src: local("fallouty"), url("./assets/fonts/fallouty.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "gothic";
+  src: local("gothic"), url("./assets/fonts/gothic.ttf") format("truetype");
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
 }

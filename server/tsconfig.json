@@ -22,6 +22,6 @@
     "skipLibCheck": true
   },
   "paths": {"@/*":  ["./*"]},
-  "include": ["./**/*"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts", "eslint.config.js"],
+  "exclude": ["node_modules", "./OLD_DATA"]
 }

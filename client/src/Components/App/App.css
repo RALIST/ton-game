@@ -1,4 +1,11 @@
 .app {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  min-width: 100vw;
+  min-height: 100vh;
+  flex-direction: column;
+  background-image: url(../../shared/img/settlement.jpg);
+  background-size: cover;
+  gap: 8px;
+  justify-content: space-between;
+
 }

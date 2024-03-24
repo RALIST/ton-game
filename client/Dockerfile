@@ -1,21 +1,3 @@
-FROM node:latest AS base
-
-FROM base AS deps
-WORKDIR /client
-
-#.lock
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn install; \
-  elif [ -f package-lock.json ]; then npm install; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
-FROM base AS builder
-WORKDIR /client
-COPY --from=deps /client/node_modules ./node_modules
-COPY . .
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
@@ -52,8 +34,8 @@ COPY --from=deps /client/node_modules ./node_modules
 COPY . .
 
 CMD \
-  if [ -f yarn.lock ]; then yarn run start; \
-  elif [ -f package-lock.json ]; then npm run start; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run start; \
+  if [ -f yarn.lock ]; then yarn run dev; \
+  elif [ -f package-lock.json ]; then npm run dev; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run dev; \
   else echo "Lockfile not found." && exit 1; \
   fi

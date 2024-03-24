@@ -17,3 +17,5 @@ down-all-including-images:
 
 restart:
 	docker-compose restart $(ARGS)
+start:
+	make up && cd client && yarn start

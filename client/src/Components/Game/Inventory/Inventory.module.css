@@ -1,9 +1,7 @@
 .inventory {
   box-sizing: border-box;
-  border: 2px solid rgb(78, 78, 78);
-  border-radius: 10px;
-  margin: 10px 10px 0 10px;
   background: rgba(78, 78, 78, 0.547);
+  height: 100%;
 }
 .title {
   text-align: center;

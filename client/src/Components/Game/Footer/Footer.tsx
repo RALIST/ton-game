@@ -1,12 +1,13 @@
-import React from 'react';
 
 import style from './Footer.module.css';
+import {gameActionLabels} from "@/shared/enums/GameCommands.ts";
 
-const Footer = () => {
+const Footer = ({game}: {game: any}) => {
   return (
     <footer className={style.footer}>
-      <div className={style.footer}>
-      </div>
+      {game.availableActions.map((action: string) => {
+        return <div>{gameActionLabels[action]}</div>
+      })}
     </footer>
   );
 };
