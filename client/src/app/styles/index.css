@@ -26,22 +26,22 @@ body {
 
 @font-face {
   font-family: "fallout";
-  src: local("fallout"), url("./assets/fonts/fallout.ttf") format("truetype");
+  src: local("fallout"), url("/src/shared/assets/fonts/fallout.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "gramma";
-  src: local("gramma"), url("./assets/fonts/microgramma.ttf") format("truetype");
+  src: local("gramma"), url("/src/shared/assets/fonts/microgramma.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "fallouty";
-  src: local("fallouty"), url("./assets/fonts/fallouty.ttf") format("truetype");
+  src: local("fallouty"), url("/src/shared/assets/fonts/fallouty.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "gothic";
-  src: local("gothic"), url("./assets/fonts/gothic.ttf") format("truetype");
+  src: local("gothic"), url("/src/shared/assets/fonts/gothic.ttf") format("truetype");
 }
 
 @media (prefers-color-scheme: light) {
@@ -55,4 +55,14 @@ body {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.app {
+  display: flex;
+  min-width: 100vw;
+  min-height: 100vh;
+  flex-direction: column;
+  background-size: cover;
+  gap: 8px;
+  justify-content: space-between;
 }

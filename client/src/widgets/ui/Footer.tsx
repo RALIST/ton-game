@@ -1,6 +1,5 @@
-
-import style from './Footer.module.css';
 import {gameActionLabels} from "@/shared/enums/GameCommands.ts";
+import style from '@/widgets/styles/Footer.module.css';
 
 const Footer = ({game}: {game: any}) => {
   return (

@@ -1,5 +1,4 @@
-
-export default function ShopScene() {
+export default function ShopPage() {
   return(
     <main>
       <h1>Shop</h1>

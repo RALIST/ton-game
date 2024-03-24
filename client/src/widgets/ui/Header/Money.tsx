@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './Money.module.css';
+import style from '../../../styles/Money.module.css';
 
 interface MoneyProps {
   value: number;

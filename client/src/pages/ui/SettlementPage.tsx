@@ -1,9 +1,9 @@
-import {useWebSocket} from "@/Components/WebSocketContext";
-import {initData} from "@/Components/App/App";
+import {useWebSocket} from "@/shared";
+import {initData} from "@/shared";
 import {gameSceneLabels} from "@/shared/enums/GameCommands";
-import style from "../Game.module.css";
+import style from "@/pages/styles/SettlementPage.module.css";
 
-export default function VillageScene({game}: { game: any}) {
+export default function SettlementPage({game}: { game: any}) {
   const ws = useWebSocket()
   const callback = (scene: string) => {
     return () => {

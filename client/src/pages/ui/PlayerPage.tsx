@@ -1,4 +1,4 @@
-export default function PlayerScene({player}: { player: any}) {
+export default function PlayerPage({player}: { player: any}) {
   return(
     <main>
       <div>

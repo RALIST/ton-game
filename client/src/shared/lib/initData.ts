@@ -1,7 +1,5 @@
-import Game from '../Game/Game';
-import './App.css';
-import {WebSocketProvider} from "../WebSocketContext";
 import {InitData} from "@tma.js/sdk";
+// mock for init data, do not use in production
 
 export const initData = new InitData({
   authDate: new Date(),
@@ -31,28 +29,3 @@ export const initData = new InitData({
     username: 'johnybravo',
   },
 });
-
-const App = () => {
-  // const hostname = window.location.hostname
-  let wsUrl: string;
-
-  // if (hostname === "localhost") {
-  //   wsUrl = `ws://localhost:80/socket?userId=${initData.user?.id}`
-  // } else {
-  //   wsUrl = `wss://${hostname}/socket?userId=${initData.user?.id}`;
-  // }
-
-  wsUrl = `ws://localhost:3030/socket?userId=${initData.user?.id}`
-
-  return (
-    // TMA provider for telegram mini apps
-    // <TmaSDKLoader>
-      <WebSocketProvider url={wsUrl}>
-        <Game/>
-      </WebSocketProvider>
-    // </TmaSDKLoader>
-
-  );
-};
-
-export default App;

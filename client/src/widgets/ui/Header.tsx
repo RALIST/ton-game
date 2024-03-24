@@ -1,5 +1,5 @@
-import style from "./Header.module.css";
-import Energy from "./Energy/Energy";
+import style from "@/widgets/styles/Header.module.css";
+import Energy from "./Header/Energy";
 
 export default function Header({character}: { character: any}) {
   const currentHealth = character.stats.find((stat: { name: string; }) => stat.name === "CURRENT_HIT_POINTS").value

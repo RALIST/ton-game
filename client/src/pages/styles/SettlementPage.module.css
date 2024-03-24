@@ -1,0 +1,8 @@
+.button {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: darkorange;
+    padding: 8px 4px;
+    text-align: center;
+    justify-content: center;
+}

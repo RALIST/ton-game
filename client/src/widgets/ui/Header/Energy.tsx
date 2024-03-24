@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './Energy.module.css';
+import style from '@/widgets/styles/Energy.module.css';
 
 interface EnergyProps {
   value: number;

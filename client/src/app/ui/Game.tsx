@@ -1,14 +1,13 @@
 import {useEffect, useState} from 'react';
-import {useWebSocket} from "../WebSocketContext";
-import VillageScene from "./Scenes/VillageScene";
-import InventoryScene from "./Scenes/InventoryScene";
-import Loading from "@/shared/Loading/Loading";
-import {initData} from "@/Components/App/App";
-import ShopScene from "./Scenes/ShopScene";
-import PlayerScene from "./Scenes/PlayerScene";
-import Header from "./Header/Header.tsx";
-import Footer from "./Footer/Footer.tsx";
-import RoutesScene from "@/Components/Game/Scenes/RoutesScene.tsx";
+import {initData, useWebSocket} from "@/shared";
+import SettlementPage from "@/pages/ui/SettlementPage";
+import InventoryPage from "@/pages/ui/InventoryPage";
+import Loading from "@/shared/ui/Loading/Loading";
+import ShopPage from "@/pages/ui/ShopPage";
+import PlayerPage from "@/pages/ui/PlayerPage";
+import Header from "@/widgets/ui/Header";
+import Footer from "@/widgets/ui/Footer";
+import RoutesPage from "@/pages/ui/RoutesPage";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<{} | null>>) => {
   if (!ws) return
@@ -40,11 +39,11 @@ const Game = () => {
   if (!game) return <Loading/>
 
   const sceneComponentsMap: {[key: string]: JSX.Element} = {
-    village_scene: <VillageScene game={game}/>,
-    inventory_scene: <InventoryScene game={game}/>,
-    shop_scene: <ShopScene/>,
-    player_scene: <PlayerScene player={game.currentPlayer}/>,
-    routes_scene: <RoutesScene/>,
+    village_scene: <SettlementPage game={game}/>,
+    inventory_scene: <InventoryPage game={game}/>,
+    shop_scene: <ShopPage/>,
+    player_scene: <PlayerPage player={game.currentPlayer}/>,
+    routes_scene: <RoutesPage/>,
     default: <div>Invalid scene</div>,
   };
 
