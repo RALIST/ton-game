@@ -7,7 +7,7 @@
     "start": "node -r ts-node/register -r tsconfig-paths/register server.ts "
   },
   "dependencies": {
-    "@types/node": "^20.11.25",
+    "@types/node": "^20.11.30",
     "@types/ws": "^8.5.10",
     "eslint": "^8.57.0",
     "redis": "^4.6.13",

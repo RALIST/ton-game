@@ -71,8 +71,8 @@ export default class Performer {
         break;
       }
 
-      case GameCommands.START_DUNGEON: {
-        actionEvent = GameEvents.DUNGEON_STARTED
+      case GameCommands.START_ROUTE: {
+        actionEvent = GameEvents.ROUTE_STARTED
         break;
       }
 
@@ -91,8 +91,8 @@ export default class Performer {
         break;
       }
 
-      case GameCommands.STOP_DUNGEON: {
-        actionEvent = GameEvents.DUNGEON_STOPPED
+      case GameCommands.STOP_ROUTE: {
+        actionEvent = GameEvents.ROUTE_STOPPED
         break
       }
     }

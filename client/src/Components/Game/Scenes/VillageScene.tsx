@@ -1,13 +1,10 @@
 import style from "../Game.module.css";
-import {gameCommandLabels} from "../../../enums/GameCommands";
-import React from "react";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import {GameplayData} from "../../../types/gameplay";
-import {useWebSocket} from "../../WebSocketContext";
-import {initData} from "../../App/App";
 
-export default function VillageScene({game}: { game: GameplayData}) {
+import {useWebSocket} from "@/Components/WebSocketContext";
+import {initData} from "@/Components/App/App";
+import {gameCommandLabels} from "@/shared/enums/GameCommands";
+
+export default function VillageScene({game}: { game: any}) {
   const ws = useWebSocket()
   const callback = (scene: string) => {
     return () => {
@@ -17,16 +14,10 @@ export default function VillageScene({game}: { game: GameplayData}) {
   }
 
   return (
-    <div className={style.game}>
-      <Header character={game.character}/>
-      <main className={style.main}>
-        {game.availableScenes.map((scene, index) => {
-          // @ts-ignore
-          return <div className={style.button} onClick={callback(scene)} key={index}>{gameCommandLabels[scene]}</div>
-        } )}
-
-      </main>
-      <Footer game={game} />
-    </div>
+    <main>
+      {game.availableScenes.map((scene: string, index: number) => {
+        return <div className={style.button} onClick={callback(scene)} key={index}>{gameCommandLabels[scene]}</div>
+      } )}
+    </main>
   );
 }

@@ -94,7 +94,7 @@ export default class Character extends GameObject {
   setAttribute(attr: AttributeType, value: number) {
     this.attributes[attr] = value
     this.updateDerivedStats()
-    this.save().then(_ => {console.log("Attribute saved!")})
+    this.save()
   }
 
   incAttribute(attr: AttributeType) {
@@ -128,8 +128,7 @@ export default class Character extends GameObject {
         return
       }
     }
-
-    this.save().then(_ => {console.log(`Stat ${StatType[stat]} updated by ${value}!`)})
+    this.save()
   }
 
   getSkill(skill: SkillType) {
@@ -138,7 +137,7 @@ export default class Character extends GameObject {
 
   setSkill(skill: SkillType, value: number) {
     this.skills[skill] = value;
-    this.save().then(_ => { console.log(`Skill ${SkillType[skill]} updated by ${value}`)})
+    this.save()
   }
 
   // get base stat with some modifiers, eg perks or some effects
@@ -203,10 +202,6 @@ export default class Character extends GameObject {
     this.adjustHitPoints(hpAfter - hpBefore)
   }
 
-  getTotalMaximumHitPoints() {
-    return this.getStat(StatType.MAXIMUM_HIT_POINTS) + this.getBonusStat(StatType.MAXIMUM_HIT_POINTS)
-  }
-
   private updateDerivedStats() {
     const strength = this.getAttribute(AttributeType.STRENGTH)
     const endurance = this.getAttribute(AttributeType.ENDURANCE);
@@ -223,11 +218,10 @@ export default class Character extends GameObject {
     this.setStat(StatType.SEQUENCE, 2 * perception )
     this.setStat(StatType.CRITICAL_CHANCE, luck)
     this.setStat(StatType.RADIATION_RESISTANCE, 2 * endurance)
-    this.setStat(StatType.POISON_RESISTANCE, 5 * endurance)
   }
 
   adjustHitPoints(hp: number) {
-    const maxHp = this.getTotalMaximumHitPoints()
+    const maxHp = this.getStat(StatType.MAXIMUM_HIT_POINTS)
     const currentHp = this.getStat(StatType.CURRENT_HIT_POINTS)
     const newHp = currentHp + hp
 

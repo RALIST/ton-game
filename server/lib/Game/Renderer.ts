@@ -8,10 +8,12 @@ export default class Renderer {
     this.userId = userId;
   }
 
-  async render(_payload: any) {
+  async render(payload: any) {
     const data = {
-      player: await new PlayerRenderer(this.userId).render(),
-      currentScene: "player_scene",
+      currentPlayer: await new PlayerRenderer(this.userId).render(),
+      currentScene: payload.scene || "village_scene",
+      availableScenes: ['bar_scene', 'shop_scene', 'player_scene'],
+      availableActions: []
     }
 
     this.push(data)

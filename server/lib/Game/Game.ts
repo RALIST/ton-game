@@ -49,7 +49,7 @@ export default class Game {
     }, 1000) // hp recovery loop
 
     const edRecoveryInterval = setInterval(() => {
-      gPlayers.forEach(player => { player.healOverTime() })
+      gPlayers.forEach(player => player.healOverTime())
     }, 1000) // endurance recovery
 
     gIntervals.add(hpRecoveryInterval)

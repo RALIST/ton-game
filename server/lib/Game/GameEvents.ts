@@ -14,6 +14,9 @@ export enum CharacterEvents {
   ITEM_BOUGHT = "item_bought"
 }
 
+export enum PlayerActions {
+
+}
 
 export enum GameplayEvents {
   CHARACTER_MOVED = "character_moved",
@@ -41,8 +44,8 @@ export enum RendererEvents {
   GAME_INIT = "game_init",
   CHARACTER_ACTION_COMPLETED = "character_action_completed",
   CHANGE_SCREEN_STARTED = "change_screen_started",
-  DUNGEON_STARTED = "dungeon_started",
-  DUNGEON_STOPPED = "dungeon_stopped"
+  ROUTE_STARTED = "route_started",
+  ROUTE_STOPPED = "route_stopped"
 }
 
 export enum OtherEvents {

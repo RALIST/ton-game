@@ -36,8 +36,8 @@ export enum ActionCommands {
   CRAFT_MEDICINE ="craft_medicine",
   ACCEPT_QUEST = "accept_quest",
   COMPLETE_QUEST = "complete_quest",
-  START_DUNGEON = "start_dungeon",
-  STOP_DUNGEON = "stop_dungeon",
+  START_ROUTE = "start_route",
+  STOP_ROUTE = "stop_route",
   BUY_ITEM = "buy_item",
   UNEQUIP_ITEM = "unequip_item",
   CHANGE_SCENE = "change_scene"
@@ -63,5 +63,5 @@ export const gameCommandLabels = {
   [GameCommands.WAREHOUSE_SCENE]: "Хранилище",
   [GameCommands.START_DUNGEON_SCENE]: "Вылазка",
   [GameCommands.BANK_SCENE]: "Банк",
-  [GameCommands.STOP_DUNGEON]: "Закончить вылазку"
+  [GameCommands.STOP_ROUTE]: "Закончить вылазку"
 };

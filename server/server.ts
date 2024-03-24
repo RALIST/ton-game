@@ -9,13 +9,14 @@ async function start() {
     await initStreams()
     await Game.initialize()
     await startWsServer()
-    console.log(gIntervals)
-  } catch (error) { console.log("Internal server error:", error) }
+  } catch (error) {
+    await stop()
+    console.log("Internal server error:", error)
+  }
 }
 
 async function stop() {
   gIntervals.forEach(interval => clearInterval(interval))
-
   gPlayers.forEach(async (player) => await player.save())
   gPlayers.clear()
 
@@ -25,11 +26,13 @@ async function stop() {
 
 start()
   .then(() => { console.log("Game Server Started!") })
-  .catch(error => { console.error("Internal server error:", error) })
-
-process.on("SIGINT", ()=> {
-  stop().then(() => {
-    console.log("Server closed!");
-    process.exitCode = 1
+  .catch(async error => {
+    console.error("Internal server error:", error);
+    await stop()
   })
+
+process.on("SIGINT", async ()=> {
+  await stop()
+  process.exitCode = 1
+  console.log("Server closed!");
 })

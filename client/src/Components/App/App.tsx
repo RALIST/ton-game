@@ -1,4 +1,3 @@
-import React from 'react';
 import Game from '../Game/Game';
 import './App.css';
 import {WebSocketProvider} from "../WebSocketContext";
@@ -34,7 +33,7 @@ export const initData = new InitData({
 });
 
 const App = () => {
-  const hostname = window.location.hostname
+  // const hostname = window.location.hostname
   let wsUrl: string;
 
   // if (hostname === "localhost") {
@@ -49,9 +48,7 @@ const App = () => {
     // TMA provider for telegram mini apps
     // <TmaSDKLoader>
       <WebSocketProvider url={wsUrl}>
-        <div className='app'>
-          <Game/>
-        </div>
+        <Game/>
       </WebSocketProvider>
     // </TmaSDKLoader>
 

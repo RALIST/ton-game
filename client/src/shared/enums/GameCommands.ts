@@ -8,7 +8,7 @@ export enum SceneCommands {
   END_DUNGEON_SCENE = "end_dungeon_scene",
   VILLAGE_SCENE = "village_scene",
   DUNGEON_SCENE = "dungeon_scene",
-  CHARACTER_SCENE = "character_scene",
+  PLAYER_SCENE = "player_scene",
   INVENTORY_SCENE = "inventory_scene"
 }
 
@@ -41,7 +41,7 @@ export const GameCommands = {
   ...ActionCommands
 }
 
-export const gameCommandLabels = {
+export const gameCommandLabels: {[key: string]: string} = {
   [GameCommands.MOVE]: "Идти дальше",
   [GameCommands.LOOK]: "Осмотреться",
   [GameCommands.REST]: "Разбить лагерь",
@@ -56,5 +56,5 @@ export const gameCommandLabels = {
   [GameCommands.BANK_SCENE]: "Банк",
   [GameCommands.STOP_DUNGEON]: "Закончить вылазку",
   [GameCommands.INVENTORY_SCENE]: "Инвентарь",
-  [GameCommands.CHARACTER_SCENE]: "Персонаж"
+  [GameCommands.PLAYER_SCENE]: "Персонаж"
 };

@@ -206,7 +206,7 @@ export default class Event {
   dungeonStopped(userId: number, payload: any) {
     this.userId = userId
     this.payload = payload
-    this.event = GameEvents.DUNGEON_STOPPED
+    this.event = GameEvents.ROUTE_STOPPED
     return this
   }
 }

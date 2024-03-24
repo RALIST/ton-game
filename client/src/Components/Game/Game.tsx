@@ -2,14 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {useWebSocket} from "../WebSocketContext";
 import VillageScene from "./Scenes/VillageScene";
 import InventoryScene from "./Scenes/InventoryScene";
-import Loading from "../shared/Loading/Loading";
-import type {GameplayData} from "../../types/gameplay";
-import {initData} from "../App/App";
+import Loading from "@/shared/Loading/Loading";
+import {initData} from "@/Components/App/App";
 import ShopScene from "./Scenes/ShopScene";
 import PlayerScene from "./Scenes/PlayerScene";
+import Header from "./Header/Header.tsx";
+import Footer from "./Footer/Footer.tsx";
 
-const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<GameplayData | null>>) => {
-  if (ws) {
+const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<{} | null>>) => {
+  if (!ws) return
+
     ws.onopen = () => {
       ws.send(JSON.stringify(initData)); // send init user data
     }
@@ -24,7 +26,7 @@ const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<R
       // close mini app
     }
   }
-}
+
 
 const Game = () => {
   const ws = useWebSocket()
@@ -32,28 +34,41 @@ const Game = () => {
 
   useEffect(() => {
     setupWebSocketListeners(ws, setGame);
-  }, [ws]);
+  }, []);
 
   if (!game) return <Loading/>
+  let currentScene;
 
   console.log(game)
   switch (game.currentScene) {
     case "village_scene": {
-      return <VillageScene game={game}/>
+      currentScene = <VillageScene game={game}/>
+      break;
     }
     case "inventory_scene": {
-      return <InventoryScene game={game}/>
+      currentScene =  <InventoryScene game={game}/>
+      break;
     }
     case "shop_scene": {
-      return <ShopScene game={game}/>
+      currentScene = <ShopScene/>
+      break;
     }
     case "player_scene": {
-      return <PlayerScene player={game.player}/>
+      currentScene = <PlayerScene player={game.currentPlayer}/>
+      break;
     }
     default: {
-      return <div>Invalid scene</div>
+      currentScene = <div>Invalid scene</div>
     }
   }
+
+  return(
+    <div className='app'>
+      <Header character={game.currentPlayer}/>
+      {currentScene}
+      <Footer game={game}/>
+    </div>
+  )
 }
 
 export default Game;
