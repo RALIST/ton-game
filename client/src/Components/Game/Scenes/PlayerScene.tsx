@@ -1,9 +1,6 @@
-import style from "../Game.module.css";
-
 export default function PlayerScene({player}: { player: any}) {
   return(
-    <div className={style.game}>
-      <h1 className={""}>{player.name}</h1>
+    <main>
       <div>
         {player.attributes.map((attr: { name: string; value: number }, index: number) => {
           return <div key={index}><span>{attr.name}</span> <span>{attr.value}</span></div>
@@ -14,6 +11,6 @@ export default function PlayerScene({player}: { player: any}) {
           return <div key={index}><span>{attr.name}</span> <span>{attr.value}</span></div>
         })}
       </div>
-    </div>
+    </main>
   )
 }

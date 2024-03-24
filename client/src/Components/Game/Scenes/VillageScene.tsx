@@ -1,8 +1,7 @@
-import style from "../Game.module.css";
-
 import {useWebSocket} from "@/Components/WebSocketContext";
 import {initData} from "@/Components/App/App";
 import {gameCommandLabels} from "@/shared/enums/GameCommands";
+import style from "../Game.module.css";
 
 export default function VillageScene({game}: { game: any}) {
   const ws = useWebSocket()
@@ -15,9 +14,10 @@ export default function VillageScene({game}: { game: any}) {
 
   return (
     <main>
+      <h1>Settlement</h1>
       {game.availableScenes.map((scene: string, index: number) => {
         return <div className={style.button} onClick={callback(scene)} key={index}>{gameCommandLabels[scene]}</div>
-      } )}
+      })}
     </main>
   );
 }

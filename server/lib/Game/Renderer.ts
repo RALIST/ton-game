@@ -12,7 +12,7 @@ export default class Renderer {
     const data = {
       currentPlayer: await new PlayerRenderer(this.userId).render(),
       currentScene: payload.scene || "village_scene",
-      availableScenes: ['bar_scene', 'shop_scene', 'player_scene'],
+      availableScenes: ['shop_scene', 'player_scene', 'routes_scene'],
       availableActions: []
     }
 

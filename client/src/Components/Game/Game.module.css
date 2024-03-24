@@ -1,8 +1,17 @@
 main {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  justify-content: center;
+  padding: 0 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: floralwhite;
+  h1 {
+    text-align: center;
+    color: goldenrod;
+    margin: 0;
+    font-size: 2rem;
+  }
 }
 
 .img {
@@ -11,8 +20,10 @@ main {
 }
 
 .button {
-  display: inline-flex;
-  padding: 6px 10px;
+  display: flex;
   background-color: rgba(0, 0, 0, 0.5);
   color: darkorange;
+  padding: 8px 4px;
+  text-align: center;
+  justify-content: center;
 }

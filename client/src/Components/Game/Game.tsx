@@ -8,6 +8,7 @@ import ShopScene from "./Scenes/ShopScene";
 import PlayerScene from "./Scenes/PlayerScene";
 import Header from "./Header/Header.tsx";
 import Footer from "./Footer/Footer.tsx";
+import RoutesScene from "@/Components/Game/Scenes/RoutesScene.tsx";
 
 const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<{} | null>>) => {
   if (!ws) return
@@ -55,6 +56,10 @@ const Game = () => {
     }
     case "player_scene": {
       currentScene = <PlayerScene player={game.currentPlayer}/>
+      break;
+    }
+    case "routes_scene": {
+      currentScene = <RoutesScene/>;
       break;
     }
     default: {

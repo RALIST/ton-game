@@ -21,6 +21,27 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
+  font-family: "gramma", system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: "fallout";
+  src: local("fallout"), url("./assets/fonts/fallout.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "gramma";
+  src: local("gramma"), url("./assets/fonts/microgramma.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "fallouty";
+  src: local("fallouty"), url("./assets/fonts/fallouty.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "gothic";
+  src: local("gothic"), url("./assets/fonts/gothic.ttf") format("truetype");
 }
 
 @media (prefers-color-scheme: light) {

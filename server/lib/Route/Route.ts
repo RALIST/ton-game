@@ -16,6 +16,7 @@ export default class Route extends GameObject {
   public static async initialize() {
     console.log("Routes initialize")
     const _route = new Route()
+    _route.name = "Basic"
     _route.difficulty = 1
 
     gRoutes[0] = _route
@@ -31,6 +32,8 @@ export default class Route extends GameObject {
   start() {
     const success = Math.random() > 0.5;
     if (success) this.stop()
+
+    this.start()
   }
 
   addParticipant(player: Player) {

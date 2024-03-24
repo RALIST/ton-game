@@ -17,7 +17,6 @@ const SP_PER_LEVEL = 5
 const BASE_HP_PER_LEVEL = 20
 
 export default class Character extends GameObject {
-  name!: string;
   attributes!: number[];
   stats!: number[];
   bonusStats!: number[] // some stats that can be changed by environment

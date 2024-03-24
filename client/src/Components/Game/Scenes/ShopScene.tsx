@@ -2,7 +2,7 @@
 export default function ShopScene() {
   return(
     <main>
-      <h2>Shop</h2>
+      <h1>Shop</h1>
     </main>
   )
 }

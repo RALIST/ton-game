@@ -4,12 +4,12 @@ export enum SceneCommands {
   WAREHOUSE_SCENE = "warehouse_scene",
   HOME_SCENE = "home_scene",
   BANK_SCENE = "bank_scene",
-  START_DUNGEON_SCENE = "start_dungeon_scene",
-  END_DUNGEON_SCENE = "end_dungeon_scene",
+  START_ROUTE_SCENE = "start_dungeon_scene",
+  END_ROUTE_SCENE = "end_dungeon_scene",
   VILLAGE_SCENE = "village_scene",
-  DUNGEON_SCENE = "dungeon_scene",
   PLAYER_SCENE = "player_scene",
-  INVENTORY_SCENE = "inventory_scene"
+  INVENTORY_SCENE = "inventory_scene",
+  ROUTES_SCENE = "routes_scene"
 }
 
 export enum ActionCommands {
@@ -52,9 +52,10 @@ export const gameCommandLabels: {[key: string]: string} = {
   [GameCommands.SHOP_SCENE]: "Магазин",
   [GameCommands.HOME_SCENE]: "Дом",
   [GameCommands.WAREHOUSE_SCENE]: "Хранилище",
-  [GameCommands.START_DUNGEON_SCENE]: "Вылазка",
+  [GameCommands.START_ROUTE_SCENE]: "Вылазка",
   [GameCommands.BANK_SCENE]: "Банк",
   [GameCommands.STOP_DUNGEON]: "Закончить вылазку",
   [GameCommands.INVENTORY_SCENE]: "Инвентарь",
-  [GameCommands.PLAYER_SCENE]: "Персонаж"
+  [GameCommands.PLAYER_SCENE]: "Персонаж",
+  [GameCommands.ROUTES_SCENE]: "Вылазки",
 };
