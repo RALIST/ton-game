@@ -1,5 +1,4 @@
-
-import Inventory from "@/widgets/ui/Inventory";
+import Inventory from "@entities/Inventory/ui/Inventory";
 
 export default function InventoryPage({game}: { game: any}) {
   return (

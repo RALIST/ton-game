@@ -1,4 +1,4 @@
-import style from '@/widgets/styles/Inventory.module.css';
+import style from './Inventory.module.css';
 
 const Inventory = ({inventory}: {inventory: any}) => {
   return (

@@ -1,9 +1,9 @@
-import {useWebSocket} from "@/shared";
-import {initData} from "@/shared";
-import {gameSceneLabels} from "@/shared/enums/GameCommands";
-import style from "@/pages/styles/SettlementPage.module.css";
+import {useWebSocket} from "@shared/index.ts";
+import {initData} from "@shared/index.ts";
+import {gameSceneLabels} from "@shared/enums/GameCommands";
+import style from "./SettlementPage.module.css";
 
-export default function SettlementPage({game}: { game: any}) {
+export default function SettlementPage({game}: { game: { availableScenes: string[] } }) {
   const ws = useWebSocket()
   const callback = (scene: string) => {
     return () => {

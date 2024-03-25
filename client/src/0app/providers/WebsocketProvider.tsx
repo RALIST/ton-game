@@ -1,5 +1,5 @@
 import {ReactNode, useEffect, useMemo} from "react";
-import { WebSocketContext } from "@/shared";
+import { WebSocketContext } from "@shared/index.ts";
 
 export function WebSocketProvider({url, children}: { children: ReactNode; url: string }) {
   const isBrowser = typeof window !== 'undefined';
@@ -17,6 +17,5 @@ export function WebSocketProvider({url, children}: { children: ReactNode; url: s
     return () => instance.close()
   }, [instance]);
 
-  // @ts-ignore
   return <WebSocketContext.Provider value={instance}>{children}</WebSocketContext.Provider>
 }

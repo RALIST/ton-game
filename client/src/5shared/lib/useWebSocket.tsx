@@ -1,6 +1,6 @@
-import {createContext, useContext} from "react";
+import {useContext} from "react";
+import {WebSocketContext} from "@shared/lib/WebSocketContext";
 
-export const WebSocketContext = createContext<WebSocket| null>(null)
 
 export function useWebSocket(): WebSocket | null {
   const context = useContext(WebSocketContext);

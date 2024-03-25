@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react';
-import {initData, useWebSocket} from "@/shared";
-import SettlementPage from "@/pages/ui/SettlementPage";
-import InventoryPage from "@/pages/ui/InventoryPage";
-import Loading from "@/shared/ui/Loading/Loading";
-import ShopPage from "@/pages/ui/ShopPage";
-import PlayerPage from "@/pages/ui/PlayerPage";
-import Header from "@/widgets/ui/Header";
-import Footer from "@/widgets/ui/Footer";
-import RoutesPage from "@/pages/ui/RoutesPage";
+import SettlementPage from "@pages/ui/SettlementPage/SettlementPage.tsx";
+import InventoryPage from "@pages/ui/InventoryPage/InventoryPage.tsx";
+import Loading from "@shared/ui/Loading.tsx";
+import ShopPage from "@pages/ui/ShopPage";
+import PlayerPage from "@pages/ui/PlayerPage/PlayerPage.tsx";
+import Header from "@widgets/ui/Header/Header.tsx";
+import Footer from "@widgets/ui/Footer/Footer.tsx";
+import RoutesPage from "@pages/ui/RoutesPage/RoutesPage.tsx";
+import {initData, useWebSocket} from "@shared/index.ts";
 
-const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<{} | null>>) => {
+const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<React.SetStateAction<any | null>>) => {
   if (!ws) return
 
     ws.onopen = () => {
@@ -34,7 +34,7 @@ const Game = () => {
 
   useEffect(() => {
     setupWebSocketListeners(ws, setGame);
-  }, []);
+  }, [ws]);
 
   if (!game) return <Loading/>
 
