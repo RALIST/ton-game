@@ -1,7 +1,7 @@
 import {useWebSocket} from "@shared/index.ts";
 import {initData} from "@shared/index.ts";
 import {gameSceneLabels} from "@shared/enums/GameCommands";
-import style from "./SettlementPage.module.css";
+import Button from "@shared/ui/Button/Button.tsx";
 
 export default function SettlementPage({game}: { game: { availableScenes: string[] } }) {
   const ws = useWebSocket()
@@ -16,7 +16,7 @@ export default function SettlementPage({game}: { game: { availableScenes: string
     <main>
       <h1>Settlement</h1>
       {game.availableScenes.map((scene: string, index: number) => {
-        return <div className={style.button} onClick={callback(scene)} key={index}>{gameSceneLabels[scene]}</div>
+        return <Button key={index} text={gameSceneLabels[scene]} size={'md'} callback={callback(scene)}/>
       })}
     </main>
   );

@@ -14,7 +14,7 @@ RUN \
 
 FROM base AS builder
 WORKDIR /server
-COPY --from=deps /server/node_modules ./node_modules
+COPY --from=deps /cache/node_modules /node_modules
 COPY . .
 
 RUN \
@@ -29,14 +29,9 @@ FROM base AS production
 WORKDIR /server
 
 ENV NODE_ENV production
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-USER nextjs
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /server/node_modules ./node_modules
+COPY --from=deps /cache/node_modules /node_modules
 COPY --from=builder /server/package.json ./package.json
-COPY --from=builder /server/public ./public
 
 CMD \
   if [ -f yarn.lock ]; then yarn run start; \
@@ -49,8 +44,8 @@ FROM base AS dev
 WORKDIR /server
 ENV NODE_ENV=development
 
-COPY --from=deps /cache/node_modules ./node_modules
 COPY . .
+COPY --from=deps /cache/node_modules /node_modules
 
 CMD \
   if [ -f yarn.lock ]; then yarn start; \

@@ -25,6 +25,7 @@ const Energy: React.FC<EnergyProps> = ({ value, max, color, icon }) => {
       >
         <div style={{
             width: `${percentage}%`,
+            maxWidth: "100%",
             backgroundColor: color,
             borderRadius: '15px',
             height: "18px"
