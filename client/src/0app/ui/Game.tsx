@@ -23,7 +23,7 @@ const setupWebSocketListeners = (ws: WebSocket | null, setGame: React.Dispatch<R
 
     ws.onclose = () => {
       ws.close()
-      // close mini app
+      // close mini main
     }
   }
 
@@ -51,7 +51,7 @@ const Game = () => {
   console.log(game)
 
   return (
-    <div className='app'>
+    <div className='main'>
       <Header character={game.currentPlayer}/>
       {currentScene}
       <Footer game={game}/>

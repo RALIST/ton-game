@@ -30,14 +30,13 @@ export default class RedisPublisher {
   async initialize() {
     try {
       if (process.env.NODE_ENV === 'docker') {
-        console.log("Redis started in cluster mode!")
         RedisPublisher.CacheClient = this.RedisCluster
       } else {
-        console.log("Redis started in single mode!")
         RedisPublisher.CacheClient = this.RedisClient
       }
 
       await RedisPublisher.CacheClient.connect();
+      console.log("Started", this.constructor.name)
     } catch (err) {
       console.log("❌ Could not connect to Redis\n%o", err);
     }

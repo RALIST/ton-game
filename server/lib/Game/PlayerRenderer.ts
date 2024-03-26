@@ -1,4 +1,3 @@
-import Game from "@/lib/Game/Game";
 import Player from "@/lib/Player/Player";
 import {gAttributes} from "@/lib/Attribute/Attribute";
 import {gStats} from "@/lib/Stat/Stat";
@@ -11,12 +10,7 @@ export default class PlayerRenderer {
   }
 
   async render() {
-    const player = await Game.getCurrentPlayer(this.userId)
-
     return {
-      name: player.name || "John Snow",
-      attributes: this.renderPlayerAttributes(player),
-      stats: this.renderPlayerStats(player),
       traits: [],
       perks: [],
       skills: [],

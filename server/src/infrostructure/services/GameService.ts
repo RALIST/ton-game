@@ -7,14 +7,16 @@ import Item from "@/lib/Item/Item";
 import Route from "@/lib/Route/Route";
 import Character from "@/lib/Character/Character";
 import Player from "@/lib/Player/Player";
+import {IService} from "@/src/infrostructure/services/types";
 
 export const gPlayers = new Map<number, Player>();
 export const gIntervals = new Set<NodeJS.Timeout>()
 
-export default class Game {
-  public static async initialize() {
-    console.log("Game is initializing...")
-    // global objects initializer
+export default class GameService implements IService {
+
+  public async start() {
+    console.log("Game service is starting..")
+
     await Stat.initialize()
     await Attribute.initialize()
     await Skill.initialize()
@@ -26,7 +28,17 @@ export default class Game {
 
     this.startGameLoops()
 
-    console.log("Game initialized!")
+    console.log("Game service started!")
+  }
+
+  public async stop() {
+    gIntervals.forEach(interval => clearInterval(interval))
+    gIntervals.clear()
+
+    gPlayers.forEach(async (player) => await player.save())
+    gPlayers.clear()
+
+    console.log("Game service stopped!")
   }
 
   public static async getCurrentPlayer(userId: number) {
@@ -40,7 +52,7 @@ export default class Game {
     return player
   }
 
-  private static startGameLoops() {
+  private startGameLoops() {
     const gameTimeInterval = setInterval(() => {
     },120) // update internal game time
 

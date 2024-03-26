@@ -12,6 +12,7 @@ export default class Performer {
 
   public static async handleIncomingMessage(message: RawData) {
     const data = JSON.parse(message.toString())
+
     if (data) {
       if (data.action) {
         const performer = new Performer(data.userId)

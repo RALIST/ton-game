@@ -25,14 +25,13 @@ export default class RedisStorage {
   async initialize() {
     try {
       if (process.env.NODE_ENV === 'docker') {
-        console.log("Redis started in cluster mode!")
         RedisStorage.CacheClient = this.RedisCluster
       } else {
-        console.log("Redis started in single mode!")
         RedisStorage.CacheClient = this.RedisClient
       }
 
       await RedisStorage.CacheClient.connect();
+      console.log("Started", this.constructor.name)
     } catch (err) {
       console.log("❌ Could not connect to Redis\n%o", err);
     }
