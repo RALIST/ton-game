@@ -7,7 +7,6 @@ export default function Header({character}: { character: any}) {
   const fatique = character.stats.find((stat: { name: string; }) => stat.name === "FATIQUE").value
 
   return <header className={style.header}>
-    <div>{character.name}</div>
     <Energy icon={'❤️'} color={'red'} value={currentHealth} max={maxHealth}/>
     <Energy icon={'⚡'} color={'darkorange'} value={100 - fatique} max={100}/>
   </header>
