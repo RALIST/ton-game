@@ -3,7 +3,7 @@ import Route from "@/src/domain/entities/Route/Route";
 import Player from "@/src/domain/entities/Player/Player";
 import {CharacterStates} from "@/src/domain/entities/Character/types";
 
-export default class StartRoute {
+export default class RouteStart {
   player: Player
   protoRoute: Route
 

@@ -28,6 +28,7 @@ export default class WebSocketService implements IService {
 
     this.webSocketServer.on("close", () => {
       clearInterval(interval)
+      this.webSocketServer.clients.forEach(client => client.close())
     });
 
     this.webSocketServer.on("error", (error) => {
@@ -38,8 +39,8 @@ export default class WebSocketService implements IService {
   }
 
   public async stop() {
-    this.webSocketServer.close(() => {
-      console.log("WebSocket server closed!")
+    this.webSocketServer.close((error) => {
+      if (error) console.log(error)
     })
   }
 

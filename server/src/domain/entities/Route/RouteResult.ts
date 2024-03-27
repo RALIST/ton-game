@@ -16,11 +16,13 @@ interface Location {
 export default class RouteResult {
   locations: Location[]
   status: RouteResultStatus
+  currentLocationId: number
   readonly maxLocationsCount: number = 10
 
   constructor() {
     this.status = RouteResultStatus.STARTED
     this.locations = this.generateLocations()
+    this.currentLocationId = 0
   }
 
   generateLocations(): Location[] {

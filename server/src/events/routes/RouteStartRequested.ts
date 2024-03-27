@@ -6,6 +6,6 @@ export default class RouteStartRequested extends GameEvent {
   }
 
   isValid(): boolean {
-    return !(!this.payload && !this.payload?.routeId);
+    return !(!this.userId && !this.payload && !this.payload?.routeId);
   }
 }

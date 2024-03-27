@@ -2,6 +2,7 @@ import {IService} from "@/src/infrostructure/services/types";
 import RedisStream, {RedisClientType, RedisClusterType} from "@/src/infrostructure/streams/RedisStream";
 import RedisPublisher from "@/src/infrostructure/streams/RedisPublisher";
 import ErrorRaised from "@/src/events/renderer/ErrorRaised";
+import GameEvent from "@/src/events/GameEvent";
 
 const STREAM: string = "gameplay"
 const CONSUMER_GROUP_NAME: string = "gameplay_group";
@@ -47,9 +48,13 @@ export default class EventBus implements IService {
     this.handlers[eventName].push(callback)
   }
 
-  dispatch(event: any) {
-    const eventName = event.constructor.name;
-    this.publisher.xAdd(STREAM, "*", { type: eventName, event: JSON.stringify(event) });
+  dispatch(event: GameEvent) {
+    if (event.isValid()) {
+      const eventName = event.constructor.name;
+      this.publisher.xAdd(STREAM, "*", { type: eventName, event: JSON.stringify(event) });
+    } else {
+      this.dispatchErrorEvent(event.userId, {details: "Incorrect params for event"})
+    }
   }
 
   private async  handleMessages() {
@@ -85,7 +90,7 @@ export default class EventBus implements IService {
     }
   }
 
-  dispatchErrorEvent(userId: number, payload: any) {
+  dispatchErrorEvent(userId?: number, payload?: any) {
     const event = new ErrorRaised(userId, payload)
     this.dispatch(event)
   }

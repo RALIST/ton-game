@@ -14,10 +14,6 @@ export default class PlayerHandler extends BaseHandler{
     })
   }
 
-  async handleMove() {
-    console.log("Move requested!")
-  }
-
   async handleLook() {
     console.log("Look requested")
   }
@@ -28,7 +24,6 @@ export default class PlayerHandler extends BaseHandler{
 
   get events() {
     const events: Map<typeof GameEvent, (event: GameEvent) => Promise<void>> = new Map()
-    events.set(MoveRequested, this.handleMove)
     events.set(LookRequested, this.handleLook)
     events.set(AttackRequested, this.handleAttack)
 

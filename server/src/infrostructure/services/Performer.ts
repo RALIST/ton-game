@@ -2,13 +2,12 @@ import {RawData} from "ws";
 import {ActionCommands} from "@/src/domain/entities/Game/GameCommands";
 import EventBus from "@/src/infrostructure/services/EventBus";
 import MoveRequested from "@/src/events/player/MoveRequested";
-import GameEvent, {EventStatus} from "@/src/events/GameEvent";
+import GameEvent from "@/src/events/GameEvent";
 import AttackRequested from "@/src/events/player/AttackRequested";
 import RunRequested from "@/src/events/player/RunRequested";
 import LookRequested from "@/src/events/player/LookRequested";
 import TalkRequested from "@/src/events/player/TalkRequested";
 import RouteStartRequested from "@/src/events/routes/RouteStartRequested";
-import ActionCompleted from "@/src/events/renderer/ActionCompleted";
 
 type IncomingMessage = {
   action: string,
@@ -40,16 +39,7 @@ export default class Performer {
     actionEvent.userId = data.userId
     actionEvent.payload = data.payload
 
-    if (actionEvent.isValid()) {
-      this.eventBus.dispatch(actionEvent)
-    } else {
-      const completed = new ActionCompleted(
-        data.userId,
-        { details: "Incorrect params" },
-        EventStatus.OK)
-      console.log(completed)
-      this.eventBus.dispatch(completed)
-    }
+    this.eventBus.dispatch(actionEvent)
   }
 
   getEvent(action: string) {
