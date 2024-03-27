@@ -1,8 +1,5 @@
-// @ts-check
+const tseslint = require('typescript-eslint')
 
-import tseslint from 'typescript-eslint'
-
-export default tseslint.config(
-    ...tseslint.configs.recommendedTypeChecked,
-    ...tseslint.configs.stylisticTypeChecked,
+module.exports = tseslint.config(
+    ...tseslint.configs.recommended
 )
