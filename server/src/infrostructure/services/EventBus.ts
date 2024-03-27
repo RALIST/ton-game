@@ -62,6 +62,7 @@ export default class EventBus implements IService {
     if (dataArr) {
       for (const data of dataArr) {
         for (const messageItem of data.messages) {
+          console.log("Received:", messageItem.message)
           await this.handleEvent(messageItem.message)
           await this.subscriber.xAck(STREAM, CONSUMER_GROUP_NAME, messageItem.id);
         }
@@ -70,8 +71,15 @@ export default class EventBus implements IService {
   }
 
   private async handleEvent(message: { [x: string]: string; }) {
+    if (!this.handlers[message.type]) return
+
     for (const handler of this.handlers[message.type]) {
-      await handler(message.event)
+      try {
+        const event = JSON.parse(message.event)
+        await handler(event)
+      } catch {
+        console.log("Error while handling event:", message)
+      }
     }
   }
 

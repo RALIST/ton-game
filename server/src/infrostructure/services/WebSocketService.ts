@@ -1,7 +1,7 @@
 import {WebSocket, WebSocketServer} from "ws";
 import {IncomingMessage} from "http";
 import {IService} from "@/src/infrostructure/services/types";
-import Performer from "@/src/domain/entities/Game/Performer";
+import Performer from "@/src/infrostructure/services/Performer";
 
 export default class WebSocketService implements IService {
   static defaultPort = 3030;
@@ -9,9 +9,11 @@ export default class WebSocketService implements IService {
 
   port: number;
   clientsPingInterval: number;
-  webSocketServer: WebSocketServer;
+  webSocketServer!: WebSocketServer;
+  performer: Performer
 
-  constructor(port?: number, clientsPingInterval?: number) {
+  constructor(performer: Performer, port?: number, clientsPingInterval?: number) {
+    this.performer = performer
     this.port = port || WebSocketService.defaultPort;
     this.clientsPingInterval = clientsPingInterval || WebSocketService.defaultClientsPingInterval;
     this.webSocketServer = new WebSocketServer({port: this.port});
@@ -22,7 +24,7 @@ export default class WebSocketService implements IService {
     console.log("Websocket service is starting...");
 
     const interval = this.pingClients()
-    this.webSocketServer.on("connection", this.handleClient);
+    this.webSocketServer.on("connection", this.handleClient.bind(this));
 
     this.webSocketServer.on("close", () => {
       clearInterval(interval)
@@ -55,7 +57,7 @@ export default class WebSocketService implements IService {
     if (existingClient) existingClient.terminate();
 
     client.on('message', async (message) => {
-      await Performer.handleIncomingMessage(message)
+      await this.performer.handleIncomingMessage(message)
     });
 
     client.on('error', (error) => {

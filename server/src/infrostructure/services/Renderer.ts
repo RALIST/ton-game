@@ -10,21 +10,25 @@ export default class Renderer {
   }
 
   async render(payload: any) {
-    const currenScene = payload.scene || "village_scene"
-    const availableScenes = currenScene === "village_scene" ? Object.values(VillageScenes) : []
+    if (payload.result) {
+      const currenScene = payload.scene || "village_scene"
+      const availableScenes = currenScene === "village_scene" ? Object.values(VillageScenes) : []
 
-    const data = {
-      currentPlayer: await new PlayerRenderer(this.userId).render(),
-      currentScene: currenScene,
-      availableScenes: availableScenes,
-      availableActions: []
+      const data = {
+        currentPlayer: await new PlayerRenderer(this.userId).render(),
+        currentScene: currenScene,
+        availableScenes: availableScenes,
+        availableActions: []
+      }
+
+      this.push(data)
+    } else {
+      this.push(payload)
     }
-
-    this.push(data)
   }
 
   private push(data: any){
-    const webSocket = (global as never)?.["wsServer"] as WebSocketServer;
+    const webSocket = (global as never)?.["wss"] as WebSocketServer;
     if (!webSocket) return
 
     const clients: Array<WebSocket> = Array.from(webSocket.clients as Set<WebSocket>);
