@@ -6,6 +6,7 @@ import {ObjectTypes} from "@/src/domain/entities/GameObject/types";
 import {gSkills, SkillType} from "@/src/domain/entities/Skill/Skill";
 import {gStats} from "@/src/domain/entities/Stat/Stat";
 import {StatType} from "@/src/domain/entities/Stat/types";
+import {CharacterStates} from "@/src/domain/entities/Character/types";
 
 interface Characters {
   [key: number]: Character
@@ -26,6 +27,7 @@ export default class Character extends GameObject {
   aiCombatPreset!: number
   experience!: number // exp for killing character
   repo!: CharacterRepository
+  state!: CharacterStates
 
   public static async initialize() {
     console.log("Characters loading...")
@@ -41,6 +43,7 @@ export default class Character extends GameObject {
 
   async load() {
     const data = await this.repo.load()
+
     if (data) {
       this.name = data.name
       this.attributes = data.attributes
@@ -53,6 +56,7 @@ export default class Character extends GameObject {
       this.id = data.id
       this.aiCombatPreset = data.aiCombatPreset
       this.experience = data.experience
+      this.state = data.state
       this.updateDerivedStats()
     } else {
       this.reset()
@@ -72,6 +76,7 @@ export default class Character extends GameObject {
     this.skills = Object.values(gSkills).map(skill => skill.defaultValue)
     this.traits = []
     this.perks = []
+    this.state = CharacterStates.SETTLEMENT
     this.updateDerivedStats()
   }
 

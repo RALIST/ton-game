@@ -2,7 +2,7 @@ import {RawData} from "ws";
 import {ActionCommands} from "@/src/domain/entities/Game/GameCommands";
 import EventBus from "@/src/infrostructure/services/EventBus";
 import MoveRequested from "@/src/events/player/MoveRequested";
-import GameEvent from "@/src/events/GameEvent";
+import GameEvent, {EventStatus} from "@/src/events/GameEvent";
 import AttackRequested from "@/src/events/player/AttackRequested";
 import RunRequested from "@/src/events/player/RunRequested";
 import LookRequested from "@/src/events/player/LookRequested";
@@ -35,11 +35,19 @@ export default class Performer {
   async performAction(data: IncomingMessage) {
     const eventClass = this.getEvent(data.action)
     if (!eventClass) return
-    const actionEvent = new eventClass(data.userId, data.payload)
+
+    const actionEvent = new eventClass()
+    actionEvent.userId = data.userId
+    actionEvent.payload = data.payload
+
     if (actionEvent.isValid()) {
       this.eventBus.dispatch(actionEvent)
     } else {
-      const completed = new ActionCompleted(data.userId, { result: false, error: "Incorrect params" })
+      const completed = new ActionCompleted(
+        data.userId,
+        { details: "Incorrect params" },
+        EventStatus.OK)
+      console.log(completed)
       this.eventBus.dispatch(completed)
     }
   }

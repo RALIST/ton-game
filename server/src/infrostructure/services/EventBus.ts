@@ -1,6 +1,7 @@
 import {IService} from "@/src/infrostructure/services/types";
 import RedisStream, {RedisClientType, RedisClusterType} from "@/src/infrostructure/streams/RedisStream";
 import RedisPublisher from "@/src/infrostructure/streams/RedisPublisher";
+import ErrorRaised from "@/src/events/renderer/ErrorRaised";
 
 const STREAM: string = "gameplay"
 const CONSUMER_GROUP_NAME: string = "gameplay_group";
@@ -73,14 +74,20 @@ export default class EventBus implements IService {
   private async handleEvent(message: { [x: string]: string; }) {
     if (!this.handlers[message.type]) return
 
+    const event = JSON.parse(message.event)
+
     for (const handler of this.handlers[message.type]) {
       try {
-        const event = JSON.parse(message.event)
         await handler(event)
-      } catch {
-        console.log("Error while handling event:", message)
+      } catch (error) {
+        this.dispatchErrorEvent(event.userId, { details: error })
       }
     }
+  }
+
+  dispatchErrorEvent(userId: number, payload: any) {
+    const event = new ErrorRaised(userId, payload)
+    this.dispatch(event)
   }
 
   private async initGroup() {

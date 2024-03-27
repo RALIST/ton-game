@@ -14,9 +14,11 @@ export const gPlayers = new Map<number, Player>();
 export const gIntervals = new Set<NodeJS.Timeout>()
 
 export default class GameService implements IService {
+  globalIntervals!: Set<NodeJS.Timeout>
 
   public async start() {
     console.log("Game service is starting..")
+
 
     await Stat.initialize()
     await Attribute.initialize()
@@ -27,14 +29,15 @@ export default class GameService implements IService {
     await Route.initialize()
     await Character.initialize()
 
+    this.globalIntervals = new Set()
     this.startGameLoops()
 
     console.log("Game service started!")
   }
 
   public async stop() {
-    gIntervals.forEach(interval => clearInterval(interval))
-    gIntervals.clear()
+    this.globalIntervals.forEach(interval => clearInterval(interval))
+    this.globalIntervals.clear()
 
     for (const player of gPlayers.values()) { await player.save() }
     gPlayers.clear()
@@ -50,12 +53,7 @@ export default class GameService implements IService {
       gPlayers.forEach(player => player.healOverTime())
     }, 1000) // hp recovery loop
 
-    const edRecoveryInterval = setInterval(() => {
-      gPlayers.forEach(player => player.healOverTime())
-    }, 1000) // endurance recovery
-
-    gIntervals.add(hpRecoveryInterval)
-    gIntervals.add(edRecoveryInterval)
-    gIntervals.add(gameTimeInterval)
+    this.globalIntervals.add(hpRecoveryInterval)
+    this.globalIntervals.add(gameTimeInterval)
   }
 }

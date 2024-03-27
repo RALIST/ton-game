@@ -11,3 +11,9 @@ export enum CharacterFlags {
   LONG_LIMBS = 0x2000,
   NO_KNOCKBACK = 0x4000,
 }
+
+export enum CharacterStates {
+  ROUTE,
+  SETTLEMENT,
+  REST
+}

@@ -12,8 +12,6 @@ export default class PlayerHandler extends BaseHandler{
     handler.events.forEach((value, key) => {
       handler.eventBus.on(key.name, value)
     })
-
-    handler.eventBus.on("MoveRequested", handler.handleMove)
   }
 
   async handleMove() {

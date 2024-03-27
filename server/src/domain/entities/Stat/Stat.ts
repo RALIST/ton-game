@@ -37,7 +37,7 @@ export default class Stat {
 
     switch(this.id) {
       case StatType.CURRENT_HIT_POINTS: {
-        this.defaultValue = 100
+        this.defaultValue = 1
         break;
       }
       case StatType.LEVEL: {

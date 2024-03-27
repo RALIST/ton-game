@@ -9,21 +9,17 @@ export default class Renderer {
     this.userId = userId;
   }
 
-  async render(payload: any) {
-    if (payload.result) {
-      const currenScene = payload.scene || "village_scene"
-      const availableScenes = currenScene === "village_scene" ? Object.values(VillageScenes) : []
-
+  async render(payload: any, ok?: boolean ) {
+    if (ok) {
       const data = {
+        status: "ok",
         currentPlayer: await new PlayerRenderer(this.userId).render(),
-        currentScene: currenScene,
-        availableScenes: availableScenes,
-        availableActions: []
+        ...payload
       }
 
       this.push(data)
     } else {
-      this.push(payload)
+      this.push({ status: "error", ...payload })
     }
   }
 
