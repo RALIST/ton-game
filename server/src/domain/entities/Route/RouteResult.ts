@@ -1,3 +1,5 @@
+import GameObject from "@/src/domain/entities/GameObject/GameObject";
+
 export enum RouteResultStatus {
   STARTED,
   INPROGRESS,
@@ -13,13 +15,14 @@ interface Location {
 }
 
 // handles specific route progress
-export default class RouteResult {
+export default class RouteResult extends GameObject {
   locations: Location[]
   status: RouteResultStatus
   currentLocationId: number
   readonly maxLocationsCount: number = 10
 
   constructor() {
+    super()
     this.status = RouteResultStatus.STARTED
     this.locations = this.generateLocations()
     this.currentLocationId = 0

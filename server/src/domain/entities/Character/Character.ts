@@ -8,11 +8,7 @@ import {gStats} from "@/src/domain/entities/Stat/Stat";
 import {StatType} from "@/src/domain/entities/Stat/types";
 import {CharacterStates} from "@/src/domain/entities/Character/types";
 
-interface Characters {
-  [key: number]: Character
-}
-
-export const gCharacters: Characters = {}
+export const gCharacters = new Map<number, Character>()
 const SP_PER_LEVEL = 5
 const BASE_HP_PER_LEVEL = 20
 
@@ -26,24 +22,21 @@ export default class Character extends GameObject {
   isPlayer!: boolean
   aiCombatPreset!: number
   experience!: number // exp for killing character
-  repo!: CharacterRepository
   state!: CharacterStates
 
   public static async initialize() {
     console.log("Characters loading...")
-    gCharacters[0] = await new Character().load()
+    gCharacters.set(gCharacters.size + 1, await new Character().load())
   }
 
   constructor() {
     super();
     this.pid = ObjectTypes.OBJ_TYPE_CHARACTER
-    this.id = 1
+    this.id = gCharacters.size + 1
     this.repo = new CharacterRepository(this.id, false)
   }
 
-  async load() {
-    const data = await this.repo.load()
-
+  fromData(data: any) {
     if (data) {
       this.name = data.name
       this.attributes = data.attributes
@@ -63,10 +56,6 @@ export default class Character extends GameObject {
     }
 
     return this
-  }
-
-  async save() {
-    await this.repo.save(this)
   }
 
   reset() {

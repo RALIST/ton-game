@@ -4,6 +4,7 @@ import RouteResult from "@/src/domain/entities/Route/RouteResult";
 export default class RouteMove {
   player: Player
   routeResult: RouteResult
+
   constructor(player: Player, routeResult: RouteResult) {
     this.player = player
     this.routeResult = routeResult

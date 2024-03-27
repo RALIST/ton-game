@@ -1,15 +1,13 @@
 import Character from "@/src/domain/entities/Character/Character";
-import CharacterRepository from "@/src/infrostructure/respositories/CharacterRepository";
 import {CharacterStates} from "@/src/domain/entities/Character/types";
 
 export default class Player extends Character {
-  userId: number
+  activeRouteId!: number | null
 
-  constructor(userId: number) {
+  constructor(id: number) {
     super();
-    this.userId = userId
+    this.id = id
     this.isPlayer = true
-    this.repo = new CharacterRepository(this.userId, true)
   }
 
   setState(state: CharacterStates) {

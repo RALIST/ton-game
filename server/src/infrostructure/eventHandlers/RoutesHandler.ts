@@ -23,12 +23,11 @@ export default class RoutesHandler extends BaseHandler {
 
     const player = await new Player(event.userId).load()
     const route = Object.values(gRoutes).find(_route => _route.id == event.payload.routeId)
-    const result = new RouteStart(player, route).call()
+    const result = await new RouteStart(player, route).call()
 
     if (result) {
       const completed = new ActionCompleted(event.userId,  { routeResult: result }, EventStatus.OK)
       this.eventBus.dispatch(completed)
-      await player.save()
     } else {
       this.eventBus.dispatchErrorEvent(event.userId, { details: "Can't start route!" })
     }

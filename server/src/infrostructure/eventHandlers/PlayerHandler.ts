@@ -1,6 +1,5 @@
 import EventBus from "@/src/infrostructure/services/EventBus";
 import BaseHandler from "@/src/infrostructure/eventHandlers/BaseHandler";
-import MoveRequested from "@/src/events/player/MoveRequested";
 import LookRequested from "@/src/events/player/LookRequested";
 import AttackRequested from "@/src/events/player/AttackRequested";
 import GameEvent from "@/src/events/GameEvent";

@@ -12,10 +12,17 @@ export default class RouteStart {
     this.protoRoute = protoRoute
   }
 
-  call() {
+  async call() {
     if (this.player.state === CharacterStates.ROUTE) return null
+    if( this.player.activeRouteId !== null) return null
 
+    const result = new RouteResult()
     this.player.setState(CharacterStates.ROUTE)
-    return new RouteResult()
+    this.player.activeRouteId = result.id
+
+    await result.save()
+    await this.player.save()
+
+    return result
   }
 }
