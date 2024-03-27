@@ -1,13 +1,14 @@
-import Stat from "@/lib/Stat/Stat";
-import Attribute from "@/lib/Attribute/Attribute";
-import Skill from "@/lib/Skill/Skill";
-import Perk from "@/lib/Perk/Perk";
-import Trait from "@/lib/Trait/Trait";
-import Item from "@/lib/Item/Item";
-import Route from "@/lib/Route/Route";
-import Character from "@/lib/Character/Character";
-import Player from "@/lib/Player/Player";
+import Player from "@/src/domain/entities/Player/Player";
+import Stat from "@/src/domain/entities/Stat/Stat";
+import Attribute from "@/src/domain/entities/Attribute/Attribute";
+import Skill from "@/src/domain/entities/Skill/Skill";
+import Perk from "@/src/domain/entities/Perk/Perk";
+import Trait from "@/src/domain/entities/Trait/Trait";
+import Item from "@/src/domain/entities/Item/Item";
+import Route from "@/src/domain/entities/Route/Route";
+import Character from "@/src/domain/entities/Character/Character";
 import {IService} from "@/src/infrostructure/services/types";
+
 
 export const gPlayers = new Map<number, Player>();
 export const gIntervals = new Set<NodeJS.Timeout>()
@@ -35,21 +36,10 @@ export default class GameService implements IService {
     gIntervals.forEach(interval => clearInterval(interval))
     gIntervals.clear()
 
-    gPlayers.forEach(async (player) => await player.save())
+    for (const player of gPlayers.values()) { await player.save() }
     gPlayers.clear()
 
     console.log("Game service stopped!")
-  }
-
-  public static async getCurrentPlayer(userId: number) {
-    let player = gPlayers.get(userId)
-
-    if (!player) {
-      player = await new Player(userId).load()
-      gPlayers.set(userId, player)
-    }
-
-    return player
   }
 
   private startGameLoops() {

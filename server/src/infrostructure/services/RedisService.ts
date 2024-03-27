@@ -1,6 +1,6 @@
-import RedisStream from "@/lib/Utils/redis/RedisStream";
-import RedisPublisher from "@/lib/Utils/redis/RedisPublisher";
-import RedisStorage from "@/lib/Utils/redis/RedisStorage";
+import RedisStream from "@/src/infrostructure/streams/RedisStream";
+import RedisPublisher from "@/src/infrostructure/streams/RedisPublisher";
+import RedisStorage from "@/src/infrostructure/databases/redis/RedisStorage";
 import {IService} from "@/src/infrostructure/services/types";
 
 export default class RedisService implements IService {
@@ -11,7 +11,7 @@ export default class RedisService implements IService {
       RedisStream.getInstance(),
       RedisPublisher.getInstance(),
       RedisStorage.getInstance(),
-    ])
+    ]).catch(async (error) => { await this.stop(); throw error })
 
     console.log("Redis started!")
   }
